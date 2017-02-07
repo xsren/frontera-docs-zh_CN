@@ -1,0 +1,432 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Backends &mdash; Frontera 0.6.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Frontera 0.6.0 documentation" href="../index.html"/>
+        <link rel="next" title="Message bus" href="message_bus.html"/>
+        <link rel="prev" title="Canonical URL Solver" href="frontier-canonicalsolvers.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Frontera
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Frontera at a glance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run-modes.html">Run modes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick-start-single.html">Quick start single process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick-start-distributed.html">Quick start distributed mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cluster-setup.html">Cluster setup guide</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontier-objects.html">Frontier objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontier-middlewares.html">Middlewares</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontier-canonicalsolvers.html">Canonical URL Solver</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Backends</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#activating-a-backend">Activating a backend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#writing-your-own-backend">Writing your own backend</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#metadata">Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#queue">Queue</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#states">States</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#built-in-backend-reference">Built-in backend reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#basic-algorithms">Basic algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#memory-backends">Memory backends</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sqlalchemy-backends">SQLAlchemy backends</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#revisiting-backend">Revisiting backend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hbase-backend">HBase backend</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="message_bus.html">Message bus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="own_crawling_strategy.html">Crawling strategy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scrapy-integration.html">Using the Frontier with Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontera-settings.html">Settings</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="what-is-cf.html">What is a Crawl Frontier?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph-manager.html">Graph Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scrapy-recorder.html">Recording a Scrapy crawl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fine-tuning.html">Fine tuning of Frontera cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dns-service.html">DNS Service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontier-api.html">Frontera API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="requests-integration.html">Using the Frontier with Requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loggers.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontier-tester.html">Testing a Frontier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">F.A.Q.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contribution guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Frontera</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Backends</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/topics/frontier-backends.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="backends">
+<h1>Backends<a class="headerlink" href="#backends" title="Permalink to this headline">¶</a></h1>
+<p>Frontier <code class="xref py py-class docutils literal"><span class="pre">Backend</span></code> is where the crawling logic/policies lies, essentially a
+brain of your crawler. <code class="xref py py-class docutils literal"><span class="pre">Queue</span></code>,
+<code class="xref py py-class docutils literal"><span class="pre">Metadata</span></code> and <code class="xref py py-class docutils literal"><span class="pre">States</span></code> are classes
+where all low level code is meant to be placed, and
+Backend opposite, operates on a higher levels. Frontera is bundled with database and in-memory implementations of
+Queue, Metadata and States which can be combined in your custom backends or used standalone by directly
+instantiating <code class="xref py py-class docutils literal"><span class="pre">FrontierManager</span></code> and Backend.</p>
+<p>Backend methods are called by the FrontierManager after
+<code class="xref py py-class docutils literal"><span class="pre">Middleware</span></code>, using hooks for
+<code class="xref py py-class docutils literal"><span class="pre">Request</span></code> and <code class="xref py py-class docutils literal"><span class="pre">Response</span></code> processing
+according to <a class="reference internal" href="architecture.html#frontier-data-flow"><span class="std std-ref">frontier data flow</span></a>.</p>
+<p>Unlike Middleware, that can have many different instances activated, only one Backend can be used per
+frontier.</p>
+<div class="section" id="activating-a-backend">
+<span id="frontier-activating-backend"></span><h2>Activating a backend<a class="headerlink" href="#activating-a-backend" title="Permalink to this headline">¶</a></h2>
+<p>To activate the frontier backend component, set it through the <a class="reference internal" href="frontera-settings.html#std:setting-BACKEND"><code class="xref std std-setting docutils literal"><span class="pre">BACKEND</span></code></a> setting.</p>
+<p>Here’s an example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">BACKEND</span> <span class="o">=</span> <span class="s1">&#39;frontera.contrib.backends.memory.FIFO&#39;</span>
+</pre></div>
+</div>
+<p>Keep in mind that some backends may need to be additionally configured through a particular setting. See
+<a class="reference internal" href="#frontier-built-in-backend"><span class="std std-ref">backends documentation</span></a> for more info.</p>
+</div>
+<div class="section" id="writing-your-own-backend">
+<span id="frontier-writing-backend"></span><h2>Writing your own backend<a class="headerlink" href="#writing-your-own-backend" title="Permalink to this headline">¶</a></h2>
+<p>Each backend component is a single Python class inherited from <code class="xref py py-class docutils literal"><span class="pre">Backend</span></code> or
+<code class="xref py py-class docutils literal"><span class="pre">DistributedBackend</span></code> and using one or all of
+<code class="xref py py-class docutils literal"><span class="pre">Queue</span></code>, <code class="xref py py-class docutils literal"><span class="pre">Metadata</span></code> and <code class="xref py py-class docutils literal"><span class="pre">States</span></code>.</p>
+<p><code class="xref py py-class docutils literal"><span class="pre">FrontierManager</span></code> will communicate with active backend through the methods described below.</p>
+<p>Inherits all methods of Backend, and has two more class methods, which are called during strategy and db worker
+instantiation.</p>
+<blockquote>
+<div></div></blockquote>
+<p>Backend should communicate with low-level storage by means of these classes:</p>
+<div class="section" id="metadata">
+<h3>Metadata<a class="headerlink" href="#metadata" title="Permalink to this headline">¶</a></h3>
+<p>Known implementations are: <code class="xref py py-class docutils literal"><span class="pre">MemoryMetadata</span></code> and <code class="xref py py-class docutils literal"><span class="pre">sqlalchemy.components.Metadata</span></code>.</p>
+</div>
+<div class="section" id="queue">
+<h3>Queue<a class="headerlink" href="#queue" title="Permalink to this headline">¶</a></h3>
+<p>Known implementations are: <code class="xref py py-class docutils literal"><span class="pre">MemoryQueue</span></code> and <code class="xref py py-class docutils literal"><span class="pre">sqlalchemy.components.Queue</span></code>.</p>
+</div>
+<div class="section" id="states">
+<h3>States<a class="headerlink" href="#states" title="Permalink to this headline">¶</a></h3>
+<p>Known implementations are: <code class="xref py py-class docutils literal"><span class="pre">MemoryStates</span></code> and <code class="xref py py-class docutils literal"><span class="pre">sqlalchemy.components.States</span></code>.</p>
+</div>
+</div>
+<div class="section" id="built-in-backend-reference">
+<span id="frontier-built-in-backend"></span><h2>Built-in backend reference<a class="headerlink" href="#built-in-backend-reference" title="Permalink to this headline">¶</a></h2>
+<p>This article describes all backend components that come bundled with Frontera.</p>
+<p>To know the default activated <code class="xref py py-class docutils literal"><span class="pre">Backend</span></code> check the
+<a class="reference internal" href="frontera-settings.html#std:setting-BACKEND"><code class="xref std std-setting docutils literal"><span class="pre">BACKEND</span></code></a> setting.</p>
+<div class="section" id="basic-algorithms">
+<span id="frontier-backends-basic-algorithms"></span><h3>Basic algorithms<a class="headerlink" href="#basic-algorithms" title="Permalink to this headline">¶</a></h3>
+<p>Some of the built-in <code class="xref py py-class docutils literal"><span class="pre">Backend</span></code> objects implement basic algorithms as
+as <a class="reference external" href="http://en.wikipedia.org/wiki/FIFO">FIFO</a>/<a class="reference external" href="http://en.wikipedia.org/wiki/LIFO_(computing)">LIFO</a> or <a class="reference external" href="http://en.wikipedia.org/wiki/Depth-first_search">DFS</a>/<a class="reference external" href="http://en.wikipedia.org/wiki/Breadth-first_search">BFS</a> for page visit ordering.</p>
+<p>Differences between them will be on storage engine used. For instance,
+<a class="reference internal" href="#frontera.contrib.backends.memory.FIFO" title="frontera.contrib.backends.memory.FIFO"><code class="xref py py-class docutils literal"><span class="pre">memory.FIFO</span></code></a> and
+<a class="reference internal" href="#frontera.contrib.backends.sqlalchemy.FIFO" title="frontera.contrib.backends.sqlalchemy.FIFO"><code class="xref py py-class docutils literal"><span class="pre">sqlalchemy.FIFO</span></code></a> will use the same logic but with different
+storage engines.</p>
+<p>All these backend variations are using the same <code class="xref py py-class docutils literal"><span class="pre">CommonBackend</span></code> class
+implementing one-time visit crawling policy with priority queue.</p>
+</div>
+<div class="section" id="memory-backends">
+<span id="frontier-backends-memory"></span><h3>Memory backends<a class="headerlink" href="#memory-backends" title="Permalink to this headline">¶</a></h3>
+<p>This set of <code class="xref py py-class docutils literal"><span class="pre">Backend</span></code> objects will use an <a class="reference external" href="https://docs.python.org/2/library/heapq.html">heapq</a> module as queue and native
+dictionaries as storage for <a class="reference internal" href="#frontier-backends-basic-algorithms"><span class="std std-ref">basic algorithms</span></a>.</p>
+<dl class="class">
+<dt id="frontera.contrib.backends.memory.BASE">
+<em class="property">class </em><code class="descclassname">frontera.contrib.backends.memory.</code><code class="descname">BASE</code><a class="headerlink" href="#frontera.contrib.backends.memory.BASE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for in-memory <code class="xref py py-class docutils literal"><span class="pre">Backend</span></code> objects.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="frontera.contrib.backends.memory.FIFO">
+<em class="property">class </em><code class="descclassname">frontera.contrib.backends.memory.</code><code class="descname">FIFO</code><a class="headerlink" href="#frontera.contrib.backends.memory.FIFO" title="Permalink to this definition">¶</a></dt>
+<dd><p>In-memory <code class="xref py py-class docutils literal"><span class="pre">Backend</span></code> implementation of <a class="reference external" href="http://en.wikipedia.org/wiki/FIFO">FIFO</a> algorithm.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="frontera.contrib.backends.memory.LIFO">
+<em class="property">class </em><code class="descclassname">frontera.contrib.backends.memory.</code><code class="descname">LIFO</code><a class="headerlink" href="#frontera.contrib.backends.memory.LIFO" title="Permalink to this definition">¶</a></dt>
+<dd><p>In-memory <code class="xref py py-class docutils literal"><span class="pre">Backend</span></code> implementation of <a class="reference external" href="http://en.wikipedia.org/wiki/LIFO_(computing)">LIFO</a> algorithm.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="frontera.contrib.backends.memory.BFS">
+<em class="property">class </em><code class="descclassname">frontera.contrib.backends.memory.</code><code class="descname">BFS</code><a class="headerlink" href="#frontera.contrib.backends.memory.BFS" title="Permalink to this definition">¶</a></dt>
+<dd><p>In-memory <code class="xref py py-class docutils literal"><span class="pre">Backend</span></code> implementation of <a class="reference external" href="http://en.wikipedia.org/wiki/Breadth-first_search">BFS</a> algorithm.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="frontera.contrib.backends.memory.DFS">
+<em class="property">class </em><code class="descclassname">frontera.contrib.backends.memory.</code><code class="descname">DFS</code><a class="headerlink" href="#frontera.contrib.backends.memory.DFS" title="Permalink to this definition">¶</a></dt>
+<dd><p>In-memory <code class="xref py py-class docutils literal"><span class="pre">Backend</span></code> implementation of <a class="reference external" href="http://en.wikipedia.org/wiki/Depth-first_search">DFS</a> algorithm.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="frontera.contrib.backends.memory.RANDOM">
+<em class="property">class </em><code class="descclassname">frontera.contrib.backends.memory.</code><code class="descname">RANDOM</code><a class="headerlink" href="#frontera.contrib.backends.memory.RANDOM" title="Permalink to this definition">¶</a></dt>
+<dd><p>In-memory <code class="xref py py-class docutils literal"><span class="pre">Backend</span></code> implementation of a random selection
+algorithm.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="sqlalchemy-backends">
+<span id="frontier-backends-sqlalchemy"></span><h3>SQLAlchemy backends<a class="headerlink" href="#sqlalchemy-backends" title="Permalink to this headline">¶</a></h3>
+<p>This set of <code class="xref py py-class docutils literal"><span class="pre">Backend</span></code> objects will use <a class="reference external" href="http://www.sqlalchemy.org/">SQLAlchemy</a> as storage for
+<a class="reference internal" href="#frontier-backends-basic-algorithms"><span class="std std-ref">basic algorithms</span></a>.</p>
+<p>By default it uses an in-memory SQLite database as a storage engine, but <a class="reference external" href="http://docs.sqlalchemy.org/en/latest/dialects/index.html">any databases supported by SQLAlchemy</a> can
+be used.</p>
+<p>If you need to use your own <a class="reference external" href="http://docs.sqlalchemy.org/en/latest/orm/extensions/declarative/index.html">declarative sqlalchemy models</a>, you can do it by using the
+<a class="reference internal" href="frontera-settings.html#std:setting-SQLALCHEMYBACKEND_MODELS"><code class="xref std std-setting docutils literal"><span class="pre">SQLALCHEMYBACKEND_MODELS</span></code></a> setting.</p>
+<p>This setting uses a dictionary where <code class="docutils literal"><span class="pre">key</span></code> represents the name of the model to define and <code class="docutils literal"><span class="pre">value</span></code> the model to use.</p>
+<p>For a complete list of all settings used for SQLAlchemy backends check the <a class="reference internal" href="frontera-settings.html"><span class="doc">settings</span></a> section.</p>
+<dl class="class">
+<dt id="frontera.contrib.backends.sqlalchemy.BASE">
+<em class="property">class </em><code class="descclassname">frontera.contrib.backends.sqlalchemy.</code><code class="descname">BASE</code><a class="headerlink" href="#frontera.contrib.backends.sqlalchemy.BASE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for SQLAlchemy <code class="xref py py-class docutils literal"><span class="pre">Backend</span></code> objects.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="frontera.contrib.backends.sqlalchemy.FIFO">
+<em class="property">class </em><code class="descclassname">frontera.contrib.backends.sqlalchemy.</code><code class="descname">FIFO</code><a class="headerlink" href="#frontera.contrib.backends.sqlalchemy.FIFO" title="Permalink to this definition">¶</a></dt>
+<dd><p>SQLAlchemy <code class="xref py py-class docutils literal"><span class="pre">Backend</span></code> implementation of <a class="reference external" href="http://en.wikipedia.org/wiki/FIFO">FIFO</a> algorithm.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="frontera.contrib.backends.sqlalchemy.LIFO">
+<em class="property">class </em><code class="descclassname">frontera.contrib.backends.sqlalchemy.</code><code class="descname">LIFO</code><a class="headerlink" href="#frontera.contrib.backends.sqlalchemy.LIFO" title="Permalink to this definition">¶</a></dt>
+<dd><p>SQLAlchemy <code class="xref py py-class docutils literal"><span class="pre">Backend</span></code> implementation of <a class="reference external" href="http://en.wikipedia.org/wiki/LIFO_(computing)">LIFO</a> algorithm.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="frontera.contrib.backends.sqlalchemy.BFS">
+<em class="property">class </em><code class="descclassname">frontera.contrib.backends.sqlalchemy.</code><code class="descname">BFS</code><a class="headerlink" href="#frontera.contrib.backends.sqlalchemy.BFS" title="Permalink to this definition">¶</a></dt>
+<dd><p>SQLAlchemy <code class="xref py py-class docutils literal"><span class="pre">Backend</span></code> implementation of <a class="reference external" href="http://en.wikipedia.org/wiki/Breadth-first_search">BFS</a> algorithm.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="frontera.contrib.backends.sqlalchemy.DFS">
+<em class="property">class </em><code class="descclassname">frontera.contrib.backends.sqlalchemy.</code><code class="descname">DFS</code><a class="headerlink" href="#frontera.contrib.backends.sqlalchemy.DFS" title="Permalink to this definition">¶</a></dt>
+<dd><p>SQLAlchemy <code class="xref py py-class docutils literal"><span class="pre">Backend</span></code> implementation of <a class="reference external" href="http://en.wikipedia.org/wiki/Depth-first_search">DFS</a> algorithm.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="frontera.contrib.backends.sqlalchemy.RANDOM">
+<em class="property">class </em><code class="descclassname">frontera.contrib.backends.sqlalchemy.</code><code class="descname">RANDOM</code><a class="headerlink" href="#frontera.contrib.backends.sqlalchemy.RANDOM" title="Permalink to this definition">¶</a></dt>
+<dd><p>SQLAlchemy <code class="xref py py-class docutils literal"><span class="pre">Backend</span></code> implementation of a random selection
+algorithm.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="revisiting-backend">
+<h3>Revisiting backend<a class="headerlink" href="#revisiting-backend" title="Permalink to this headline">¶</a></h3>
+<p>Based on custom SQLAlchemy backend, and queue. Crawling starts with seeds. After seeds are crawled, every new
+document will be scheduled for immediate crawling. On fetching every new document will be scheduled for recrawling
+after fixed interval set by <a class="reference internal" href="frontera-settings.html#std:setting-SQLALCHEMYBACKEND_REVISIT_INTERVAL"><code class="xref std std-setting docutils literal"><span class="pre">SQLALCHEMYBACKEND_REVISIT_INTERVAL</span></code></a>.</p>
+<p>Current implementation of revisiting backend has no prioritization. During long term runs spider could go idle, because
+there are no documents available for crawling, but there are documents waiting for their scheduled revisit time.</p>
+<dl class="class">
+<dt id="frontera.contrib.backends.sqlalchemy.revisiting.Backend">
+<em class="property">class </em><code class="descclassname">frontera.contrib.backends.sqlalchemy.revisiting.</code><code class="descname">Backend</code><a class="headerlink" href="#frontera.contrib.backends.sqlalchemy.revisiting.Backend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for SQLAlchemy <code class="xref py py-class docutils literal"><span class="pre">Backend</span></code> implementation of revisiting back-end.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="hbase-backend">
+<h3>HBase backend<a class="headerlink" href="#hbase-backend" title="Permalink to this headline">¶</a></h3>
+<p>Is more suitable for large scale web crawlers. Settings reference can be found here <a class="reference internal" href="frontera-settings.html#hbase-settings"><span class="std std-ref">HBase backend</span></a>. Consider
+tunning a block cache to fit states within one block for average size website. To achieve this it&#8217;s recommended to use
+<code class="xref py py-attr docutils literal"><span class="pre">hostname_local_fingerprint</span></code></p>
+<p>to achieve documents closeness within the same host. This function can be selected with <a class="reference internal" href="frontera-settings.html#std:setting-URL_FINGERPRINT_FUNCTION"><code class="xref std std-setting docutils literal"><span class="pre">URL_FINGERPRINT_FUNCTION</span></code></a>
+setting.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="message_bus.html" class="btn btn-neutral float-right" title="Message bus" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="frontier-canonicalsolvers.html" class="btn btn-neutral" title="Canonical URL Solver" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2016, Frontera authors.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.6.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

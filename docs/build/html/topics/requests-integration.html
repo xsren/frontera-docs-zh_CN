@@ -1,0 +1,291 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Using the Frontier with Requests &mdash; Frontera 0.6.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Frontera 0.6.0 documentation" href="../index.html"/>
+        <link rel="next" title="Examples" href="examples.html"/>
+        <link rel="prev" title="Frontera API" href="frontier-api.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Frontera
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Frontera at a glance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run-modes.html">Run modes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick-start-single.html">Quick start single process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick-start-distributed.html">Quick start distributed mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cluster-setup.html">Cluster setup guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontier-objects.html">Frontier objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontier-middlewares.html">Middlewares</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontier-canonicalsolvers.html">Canonical URL Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontier-backends.html">Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="message_bus.html">Message bus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="own_crawling_strategy.html">Crawling strategy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scrapy-integration.html">Using the Frontier with Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontera-settings.html">Settings</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="what-is-cf.html">What is a Crawl Frontier?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph-manager.html">Graph Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scrapy-recorder.html">Recording a Scrapy crawl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fine-tuning.html">Fine tuning of Frontera cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dns-service.html">DNS Service</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontier-api.html">Frontera API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Using the Frontier with Requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loggers.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontier-tester.html">Testing a Frontier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">F.A.Q.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contribution guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Frontera</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Using the Frontier with Requests</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/topics/requests-integration.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="using-the-frontier-with-requests">
+<h1>Using the Frontier with Requests<a class="headerlink" href="#using-the-frontier-with-requests" title="Permalink to this headline">¶</a></h1>
+<p>To integrate frontier with <a class="reference external" href="http://docs.python-requests.org/en/latest/">Requests</a> library, there is a <code class="docutils literal"><span class="pre">RequestsFrontierManager</span></code> class available.</p>
+<p>This class is just a simple <code class="xref py py-class docutils literal"><span class="pre">FrontierManager</span></code> wrapper that uses
+<a class="reference external" href="http://docs.python-requests.org/en/latest/">Requests</a> objects (<code class="docutils literal"><span class="pre">Request</span></code>/<code class="docutils literal"><span class="pre">Response</span></code>) and converts them from and to frontier ones for you.</p>
+<p>Use it in the same way that <code class="xref py py-class docutils literal"><span class="pre">FrontierManager</span></code>, initialize it with
+your settings and use <a class="reference external" href="http://docs.python-requests.org/en/latest/">Requests</a> <code class="docutils literal"><span class="pre">Request</span></code> and <code class="docutils literal"><span class="pre">Response</span></code> objects.
+<code class="docutils literal"><span class="pre">get_next_requests</span></code> method will return a <a class="reference external" href="http://docs.python-requests.org/en/latest/">Requests</a> <code class="docutils literal"><span class="pre">Request</span></code> object.</p>
+<p>An example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="kn">from</span> <span class="nn">urlparse</span> <span class="k">import</span> <span class="n">urljoin</span>
+
+<span class="kn">from</span> <span class="nn">frontera.contrib.requests.manager</span> <span class="k">import</span> <span class="n">RequestsFrontierManager</span>
+<span class="kn">from</span> <span class="nn">frontera</span> <span class="k">import</span> <span class="n">Settings</span>
+
+<span class="n">SETTINGS</span> <span class="o">=</span> <span class="n">Settings</span><span class="p">()</span>
+<span class="n">SETTINGS</span><span class="o">.</span><span class="n">BACKEND</span> <span class="o">=</span> <span class="s1">&#39;frontera.contrib.backends.memory.FIFO&#39;</span>
+<span class="n">SETTINGS</span><span class="o">.</span><span class="n">LOGGING_MANAGER_ENABLED</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">SETTINGS</span><span class="o">.</span><span class="n">LOGGING_BACKEND_ENABLED</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">SETTINGS</span><span class="o">.</span><span class="n">MAX_REQUESTS</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">SETTINGS</span><span class="o">.</span><span class="n">MAX_NEXT_REQUESTS</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="n">SEEDS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;http://www.imdb.com&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">LINK_RE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">r&#39;href=&quot;(.*?)&quot;&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">extract_page_links</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">urljoin</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">link</span><span class="p">)</span> <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">LINK_RE</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)]</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+
+    <span class="n">frontier</span> <span class="o">=</span> <span class="n">RequestsFrontierManager</span><span class="p">(</span><span class="n">SETTINGS</span><span class="p">)</span>
+    <span class="n">frontier</span><span class="o">.</span><span class="n">add_seeds</span><span class="p">([</span><span class="n">requests</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">)</span> <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">SEEDS</span><span class="p">])</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">next_requests</span> <span class="o">=</span> <span class="n">frontier</span><span class="o">.</span><span class="n">get_next_requests</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">next_requests</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">for</span> <span class="n">request</span> <span class="ow">in</span> <span class="n">next_requests</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+                    <span class="n">links</span> <span class="o">=</span> <span class="p">[</span><span class="n">requests</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">)</span> <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">extract_page_links</span><span class="p">(</span><span class="n">response</span><span class="p">)]</span>
+                    <span class="n">frontier</span><span class="o">.</span><span class="n">page_crawled</span><span class="p">(</span><span class="n">response</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
+                    <span class="n">frontier</span><span class="o">.</span><span class="n">links_extracted</span><span class="p">(</span><span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">,</span> <span class="n">links</span><span class="o">=</span><span class="n">links</span><span class="p">)</span>
+                <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">RequestException</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">error_code</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span>
+                    <span class="n">frontier</span><span class="o">.</span><span class="n">request_error</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">error_code</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="examples.html" class="btn btn-neutral float-right" title="Examples" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="frontier-api.html" class="btn btn-neutral" title="Frontera API" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2016, Frontera authors.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.6.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

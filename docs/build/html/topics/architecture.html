@@ -1,0 +1,359 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Architecture overview &mdash; Frontera 0.6.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Frontera 0.6.0 documentation" href="../index.html"/>
+        <link rel="next" title="Frontera API" href="frontier-api.html"/>
+        <link rel="prev" title="DNS Service" href="dns-service.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Frontera
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Frontera at a glance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run-modes.html">Run modes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick-start-single.html">Quick start single process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick-start-distributed.html">Quick start distributed mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cluster-setup.html">Cluster setup guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontier-objects.html">Frontier objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontier-middlewares.html">Middlewares</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontier-canonicalsolvers.html">Canonical URL Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontier-backends.html">Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="message_bus.html">Message bus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="own_crawling_strategy.html">Crawling strategy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scrapy-integration.html">Using the Frontier with Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontera-settings.html">Settings</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="what-is-cf.html">What is a Crawl Frontier?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph-manager.html">Graph Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scrapy-recorder.html">Recording a Scrapy crawl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fine-tuning.html">Fine tuning of Frontera cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dns-service.html">DNS Service</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Architecture overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#single-process">Single process</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#components">Components</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fetcher">Fetcher</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frontera-api-manager">Frontera API / Manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#middlewares">Middlewares</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#backend">Backend</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#data-flow">Data Flow</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#distributed">Distributed</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Data flow</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="frontier-api.html">Frontera API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="requests-integration.html">Using the Frontier with Requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loggers.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontier-tester.html">Testing a Frontier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">F.A.Q.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contribution guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Frontera</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Architecture overview</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/topics/architecture.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="architecture-overview">
+<h1>Architecture overview<a class="headerlink" href="#architecture-overview" title="Permalink to this headline">¶</a></h1>
+<p>This document describes the Frontera Manager pipeline, distributed components and how they interact.</p>
+<div class="section" id="single-process">
+<h2>Single process<a class="headerlink" href="#single-process" title="Permalink to this headline">¶</a></h2>
+<p>The following diagram shows an architecture of the Frontera pipeline with its components (referenced by numbers)
+and an outline of the data flow that takes place inside the system. A brief description of the components is included
+below with links for more detailed information about them. The data flow is also described below.</p>
+<a class="reference internal image-reference" href="../_images/frontier_02.png"><img alt="../_images/frontier_02.png" src="../_images/frontier_02.png" style="width: 793px; height: 280px;" /></a>
+<div class="section" id="components">
+<h3>Components<a class="headerlink" href="#components" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="fetcher">
+<h4>Fetcher<a class="headerlink" href="#fetcher" title="Permalink to this headline">¶</a></h4>
+<p>The Fetcher (2) is responsible for fetching web pages from the sites (1) and feeding them to the frontier which manages
+what pages should be crawled next.</p>
+<p>Fetcher can be implemented using <a class="reference external" href="http://scrapy.org/">Scrapy</a> or any other crawling framework/system as the framework offers a generic
+frontier functionality.</p>
+<p>In distributed run mode Fetcher is replaced with message bus producer from Frontera Manager side and consumer from
+Fetcher side.</p>
+</div>
+<div class="section" id="frontera-api-manager">
+<h4>Frontera API / Manager<a class="headerlink" href="#frontera-api-manager" title="Permalink to this headline">¶</a></h4>
+<p>The main entry point to Frontera API (3) is the <code class="xref py py-class docutils literal"><span class="pre">FrontierManager</span></code> object.
+Frontier users, in our case the Fetcher (2), will communicate with the frontier through it.</p>
+<p>For more information see <a class="reference internal" href="frontier-api.html"><span class="doc">Frontera API</span></a>.</p>
+</div>
+<div class="section" id="middlewares">
+<h4>Middlewares<a class="headerlink" href="#middlewares" title="Permalink to this headline">¶</a></h4>
+<p>Frontier middlewares (4) are specific hooks that sit between the Manager (3) and the Backend (5). These middlewares
+process <code class="xref py py-class docutils literal"><span class="pre">Request</span></code> and <code class="xref py py-class docutils literal"><span class="pre">Response</span></code>
+objects when they pass to and from the Frontier and the Backend. They provide a convenient mechanism for extending
+functionality by plugging custom code. Canonical URL solver is a specific case of middleware responsible for
+substituting non-canonical document URLs wiht canonical ones.</p>
+<p>For more information see <a class="reference internal" href="frontier-middlewares.html"><span class="doc">Middlewares</span></a> and <a class="reference internal" href="frontier-canonicalsolvers.html"><span class="doc">Canonical URL Solver</span></a></p>
+</div>
+<div class="section" id="backend">
+<h4>Backend<a class="headerlink" href="#backend" title="Permalink to this headline">¶</a></h4>
+<p>The frontier Backend (5) is where the crawling logic/policies lies. It&#8217;s responsible for receiving all the crawl info
+and selecting the next pages to be crawled. Backend is meant to be operating on higher level, and
+<code class="xref py py-class docutils literal"><span class="pre">Queue</span></code>, <code class="xref py py-class docutils literal"><span class="pre">Metadata</span></code> and
+<code class="xref py py-class docutils literal"><span class="pre">States</span></code> objects are responsible for low-level storage communication code.</p>
+<p>May require, depending on the logic implemented, a persistent storage (6) to manage
+<code class="xref py py-class docutils literal"><span class="pre">Request</span></code> and <code class="xref py py-class docutils literal"><span class="pre">Response</span></code>
+objects info.</p>
+<p>For more information see <a class="reference internal" href="frontier-backends.html"><span class="doc">Backends</span></a>.</p>
+</div>
+</div>
+<div class="section" id="data-flow">
+<span id="frontier-data-flow"></span><h3>Data Flow<a class="headerlink" href="#data-flow" title="Permalink to this headline">¶</a></h3>
+<p>The data flow in Frontera is controlled by the Frontier Manager, all data passes through the
+manager-middlewares-backend scheme and goes like this:</p>
+<ol class="arabic simple">
+<li>The frontier is initialized with a list of seed requests (seed URLs) as entry point for the crawl.</li>
+<li>The fetcher asks for a list of requests to crawl.</li>
+<li>Each url is fetched and the frontier is notified back of the crawl result as well of the extracted data the page
+contains. If anything went wrong during the crawl, the frontier is also informed of it.</li>
+</ol>
+<p>Once all urls have been crawled, steps 2-3 are repeated until crawl of frontier end condition is reached.
+Each loop (steps 2-3) repetition is called a <a class="reference internal" href="frontier-api.html#frontier-iterations"><span class="std std-ref">frontier iteration</span></a>.</p>
+</div>
+</div>
+<div class="section" id="distributed">
+<h2>Distributed<a class="headerlink" href="#distributed" title="Permalink to this headline">¶</a></h2>
+<p>The same Frontera Manager pipeline is used in all Frontera processes when running in distributed mode.</p>
+<p>Overall system forms a closed circle and all the components are working as daemons in infinite cycles.
+There is a <a class="reference internal" href="glossary.html#term-message-bus"><span class="xref std std-term">message bus</span></a> responsible for transmitting messages between components, persistent storage and
+fetchers (when combined with extraction these processes called spiders). There is a transport and storage layer
+abstractions, so one can plug it&#8217;s own transport. Distributed backend run mode has instances of three types:</p>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt><strong>Spiders</strong> or fetchers, implemented using Scrapy (sharded).</dt>
+<dd>Responsible for resolving DNS queries, getting content from the Internet and doing link (or other data) extraction
+from content.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>Strategy workers</strong> (sharded).</dt>
+<dd>Run the crawling strategy code: scoring the links, deciding if link needs to be scheduled and when to stop crawling.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>DB workers</strong> (sharded).</dt>
+<dd>Store all the metadata, including scores and content, and generating new batches for downloading by spiders.</dd>
+</dl>
+</li>
+</ul>
+<p>Where <em>sharded</em> means component consumes messages of assigned partition only, e.g. processes certain share of the
+stream, and <em>replicated</em> is when components consume stream regardless of partitioning.</p>
+<p>Such design allows to operate online. Crawling strategy can be changed without having to stop the crawl. Also
+<a class="reference internal" href="own_crawling_strategy.html"><span class="doc">crawling strategy</span></a> can be implemented as a separate module; containing logic
+for checking the crawling stopping condition, URL ordering, and scoring model.</p>
+<p>Frontera is polite to web hosts by design and each host is downloaded by no more than one spider process.
+This is achieved by stream partitioning.</p>
+<img alt="../_images/frontera-design.png" src="../_images/frontera-design.png" />
+<div class="section" id="id1">
+<h3>Data flow<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>Let’s start with spiders. The seed URLs defined by the user inside spiders are propagated to strategy workers and DB
+workers by means of <a class="reference internal" href="glossary.html#term-spider-log"><span class="xref std std-term">spider log</span></a> stream. Strategy workers decide which pages to crawl using state
+cache, assigns a score to each page and sends the results to the <a class="reference internal" href="glossary.html#term-scoring-log"><span class="xref std std-term">scoring log</span></a> stream.</p>
+<p>DB Worker stores all kinds of metadata, including content and scores. Also DB worker checks for the spider’s consumers
+offsets and generates new batches if needed and sends them to <a class="reference internal" href="glossary.html#term-spider-feed"><span class="xref std std-term">spider feed</span></a> stream. Spiders consume these batches,
+downloading each page and extracting links from them. The links are then sent to the ‘Spider Log’ stream where they are
+stored and scored. That way the flow repeats indefinitely.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="frontier-api.html" class="btn btn-neutral float-right" title="Frontera API" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="dns-service.html" class="btn btn-neutral" title="DNS Service" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2016, Frontera authors.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.6.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

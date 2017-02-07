@@ -1,0 +1,554 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Graph Manager &mdash; Frontera 0.6.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Frontera 0.6.0 documentation" href="../index.html"/>
+        <link rel="next" title="Recording a Scrapy crawl" href="scrapy-recorder.html"/>
+        <link rel="prev" title="What is a Crawl Frontier?" href="what-is-cf.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Frontera
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Frontera at a glance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run-modes.html">Run modes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick-start-single.html">Quick start single process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick-start-distributed.html">Quick start distributed mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cluster-setup.html">Cluster setup guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontier-objects.html">Frontier objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontier-middlewares.html">Middlewares</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontier-canonicalsolvers.html">Canonical URL Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontier-backends.html">Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="message_bus.html">Message bus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="own_crawling_strategy.html">Crawling strategy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scrapy-integration.html">Using the Frontier with Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontera-settings.html">Settings</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="what-is-cf.html">What is a Crawl Frontier?</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Graph Manager</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#defining-a-site-graph">Defining a Site Graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-the-graph-manager">Using the Graph Manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#crawlpage-objects">CrawlPage objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-pages-and-links">Adding pages and Links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-multiple-sites">Adding multiple sites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#graphs-database">Graphs Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-graphs-with-status-codes">Using graphs with status codes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#a-simple-crawl-faking-example">A simple crawl faking example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rendering-graphs">Rendering graphs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-use-it">How to use it</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scrapy-recorder.html">Recording a Scrapy crawl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fine-tuning.html">Fine tuning of Frontera cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dns-service.html">DNS Service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontier-api.html">Frontera API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="requests-integration.html">Using the Frontier with Requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loggers.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontier-tester.html">Testing a Frontier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">F.A.Q.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contribution guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Frontera</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Graph Manager</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/topics/graph-manager.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="graph-manager">
+<h1>Graph Manager<a class="headerlink" href="#graph-manager" title="Permalink to this headline">¶</a></h1>
+<p>The Graph Manager is a tool to represent web sitemaps as a graph.</p>
+<p>It can easily be used to test frontiers. We can &#8220;fake&#8221; crawler request/responses by querying pages to the graph manager,
+and also know the links extracted for each one without using a crawler at all. You can make your own fake tests or use
+the <a class="reference internal" href="frontier-tester.html"><span class="doc">Frontier Tester tool</span></a>.</p>
+<p>You can use it by defining your own sites for testing or use the  <a class="reference internal" href="scrapy-recorder.html"><span class="doc">Scrapy Recorder</span></a> to record
+crawlings that can be reproduced later.</p>
+<div class="section" id="defining-a-site-graph">
+<h2>Defining a Site Graph<a class="headerlink" href="#defining-a-site-graph" title="Permalink to this headline">¶</a></h2>
+<p>Pages from a web site and its links can be easily defined as a directed graph, where each node represents a page and
+the edges the links between them.</p>
+<p>Let&#8217;s use a really simple site representation with a starting page <cite>A</cite> that have links inside to tree pages <cite>B, C, D</cite>.
+We can represent the site with this graph:</p>
+<a class="reference internal image-reference" href="../_images/site_01.png"><img alt="../_images/site_01.png" src="../_images/site_01.png" style="width: 200px; height: 179px;" /></a>
+<p>We use a list to represent the different site pages and one tuple to define the page and its links, for the previous
+example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">site</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">]),</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Note that we don&#8217;t need to define pages without links, but we can also use it as a valid representation:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">site</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="p">[]),</span>
+    <span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="p">[]),</span>
+    <span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="p">[]),</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>A more complex site:</p>
+<a class="reference internal image-reference" href="../_images/site_02.png"><img alt="../_images/site_02.png" src="../_images/site_02.png" style="width: 220px; height: 272px;" /></a>
+<p>Can be represented as:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">site</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">]),</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Note that <cite>D</cite> is linking to itself and to his parent <cite>A</cite>.</p>
+<p>In the same way, a page can have several parents:</p>
+<a class="reference internal image-reference" href="../_images/site_03.png"><img alt="../_images/site_03.png" src="../_images/site_03.png" style="width: 160px; height: 310px;" /></a>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">site</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">]),</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>In order to simplify examples we&#8217;re not using urls for page representation, but of course urls are the intended use
+for site graphs:</p>
+<a class="reference internal image-reference" href="../_images/site_04.png"><img alt="../_images/site_04.png" src="../_images/site_04.png" style="width: 400px; height: 120px;" /></a>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">site</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;http://example.com&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;http://example.com/anotherpage&#39;</span><span class="p">,</span> <span class="s1">&#39;http://othersite.com&#39;</span><span class="p">]),</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-the-graph-manager">
+<h2>Using the Graph Manager<a class="headerlink" href="#using-the-graph-manager" title="Permalink to this headline">¶</a></h2>
+<p>Once we have defined our site represented as a graph, we can start using it with the Graph Manager.</p>
+<p>We must first create our graph manager:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">frontera.utils</span> <span class="k">import</span> <span class="n">graphs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">Manager</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>And add the site using the <cite>add_site</cite> method:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">site</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">])]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">add_site</span><span class="p">(</span><span class="n">site</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The manager is now initialized and ready to be used.</p>
+<p>We can get all the pages in the graph:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">pages</span>
+<span class="go">[&lt;1:A*&gt;, &lt;2:B&gt;, &lt;3:C&gt;, &lt;4:D&gt;]</span>
+</pre></div>
+</div>
+<p>Asterisk represents that the page is a seed, if we want to get just the seeds of the site graph:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">seeds</span>
+<span class="go">[&lt;1:A*&gt;]</span>
+</pre></div>
+</div>
+<p>We can get individual pages using <cite>get_page</cite>, if a page does not exists None is returned</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">get_page</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">)</span>
+<span class="go">&lt;1:A*&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">get_page</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
+<span class="go">None</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="crawlpage-objects">
+<h2>CrawlPage objects<a class="headerlink" href="#crawlpage-objects" title="Permalink to this headline">¶</a></h2>
+<p>Pages are represented as a <a class="reference internal" href="#CrawlPage" title="CrawlPage"><code class="xref py py-class docutils literal"><span class="pre">CrawlPage</span></code></a> object:</p>
+<dl class="class">
+<dt id="CrawlPage">
+<em class="property">class </em><code class="descname">CrawlPage</code><a class="headerlink" href="#CrawlPage" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="#CrawlPage" title="CrawlPage"><code class="xref py py-class docutils literal"><span class="pre">CrawlPage</span></code></a> object represents an Graph Manager page, which is usually generated in the Graph Manager.</p>
+<dl class="attribute">
+<dt id="CrawlPage.id">
+<code class="descname">id</code><a class="headerlink" href="#CrawlPage.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Autonumeric page id.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="CrawlPage.url">
+<code class="descname">url</code><a class="headerlink" href="#CrawlPage.url" title="Permalink to this definition">¶</a></dt>
+<dd><p>The url of the page.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="CrawlPage.status">
+<code class="descname">status</code><a class="headerlink" href="#CrawlPage.status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents the HTTP code status of the page.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="CrawlPage.is_seed">
+<code class="descname">is_seed</code><a class="headerlink" href="#CrawlPage.is_seed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Boolean value indicating if the page is seed or not.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="CrawlPage.links">
+<code class="descname">links</code><a class="headerlink" href="#CrawlPage.links" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of pages the current page links to.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="CrawlPage.referers">
+<code class="descname">referers</code><a class="headerlink" href="#CrawlPage.referers" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of pages that link to the current page.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>In our example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_page</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">id</span>
+<span class="go">1</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">url</span>
+<span class="go">u&#39;A&#39;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">status</span>  <span class="c1"># defaults to 200</span>
+<span class="go">u&#39;200&#39;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">is_seed</span>
+<span class="go">True</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">links</span>
+<span class="go">[&lt;2:B&gt;, &lt;3:C&gt;, &lt;4:D&gt;]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">referers</span>  <span class="c1"># No referers for A</span>
+<span class="go">[]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">get_page</span><span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">referers</span>  <span class="c1"># referers for B</span>
+<span class="go">[&lt;1:A*&gt;]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="adding-pages-and-links">
+<h2>Adding pages and Links<a class="headerlink" href="#adding-pages-and-links" title="Permalink to this headline">¶</a></h2>
+<p>Site graphs can be also defined adding pages and links individually, the same graph from our example can be defined
+this way:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">Manager</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">add_page</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="n">is_seed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">add_link</span><span class="p">(</span><span class="n">page</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;B&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">add_link</span><span class="p">(</span><span class="n">page</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;C&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">add_link</span><span class="p">(</span><span class="n">page</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><cite>add_page</cite> and <cite>add_link</cite> can be combined with <cite>add_site</cite> and used anytime:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">site</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">])]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">Manager</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">add_site</span><span class="p">(</span><span class="n">site</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_page</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">add_link</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="adding-multiple-sites">
+<h2>Adding multiple sites<a class="headerlink" href="#adding-multiple-sites" title="Permalink to this headline">¶</a></h2>
+<p>Multiple sites can be added to the manager:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">site1</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;A1&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;B1&#39;</span><span class="p">,</span> <span class="s1">&#39;C1&#39;</span><span class="p">,</span> <span class="s1">&#39;D1&#39;</span><span class="p">])]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">site2</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;A2&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;B2&#39;</span><span class="p">,</span> <span class="s1">&#39;C2&#39;</span><span class="p">,</span> <span class="s1">&#39;D2&#39;</span><span class="p">])]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">Manager</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">add_site</span><span class="p">(</span><span class="n">site1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">add_site</span><span class="p">(</span><span class="n">site2</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">pages</span>
+<span class="go">[&lt;1:A1*&gt;, &lt;2:B1&gt;, &lt;3:C1&gt;, &lt;4:D1&gt;, &lt;5:A2*&gt;, &lt;6:B2&gt;, &lt;7:C2&gt;, &lt;8:D2&gt;]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">seeds</span>
+<span class="go">[&lt;1:A1*&gt;, &lt;5:A2*&gt;]</span>
+</pre></div>
+</div>
+<p>Or as a list of sites with <cite>add_site_list</cite> method:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">site_list</span> <span class="o">=</span> <span class="p">[</span>
+<span class="go">    [(&#39;A1&#39;, [&#39;B1&#39;, &#39;C1&#39;, &#39;D1&#39;])],</span>
+<span class="go">    [(&#39;A2&#39;, [&#39;B2&#39;, &#39;C2&#39;, &#39;D2&#39;])],</span>
+<span class="go">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">Manager</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">add_site_list</span><span class="p">(</span><span class="n">site_list</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="graphs-database">
+<span id="graph-manager-database"></span><h2>Graphs Database<a class="headerlink" href="#graphs-database" title="Permalink to this headline">¶</a></h2>
+<p>Graph Manager uses <a class="reference external" href="http://www.sqlalchemy.org/">SQLAlchemy</a> to store and represent graphs.</p>
+<p>By default it uses an in-memory SQLite database as a storage engine, but <a class="reference external" href="http://docs.sqlalchemy.org/en/rel_0_9/dialects/index.html">any databases supported by SQLAlchemy</a> can
+be used.</p>
+<p>An example using SQLite:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">Manager</span><span class="p">(</span><span class="n">engine</span><span class="o">=</span><span class="s1">&#39;sqlite:///graph.db&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Changes are committed with every new add by default, graphs can be loaded later:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">graph</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">Manager</span><span class="p">(</span><span class="n">engine</span><span class="o">=</span><span class="s1">&#39;sqlite:///graph.db&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">graph</span><span class="o">.</span><span class="n">add_site</span><span class="p">((</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="p">[]))</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">another_graph</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">Manager</span><span class="p">(</span><span class="n">engine</span><span class="o">=</span><span class="s1">&#39;sqlite:///graph.db&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">another_graph</span><span class="o">.</span><span class="n">pages</span>
+<span class="go">[&lt;1:A1*&gt;]</span>
+</pre></div>
+</div>
+<p>A database content reset can be done using <cite>clear_content</cite> parameter:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">Manager</span><span class="p">(</span><span class="n">engine</span><span class="o">=</span><span class="s1">&#39;sqlite:///graph.db&#39;</span><span class="p">,</span> <span class="n">clear_content</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-graphs-with-status-codes">
+<h2>Using graphs with status codes<a class="headerlink" href="#using-graphs-with-status-codes" title="Permalink to this headline">¶</a></h2>
+<p>In order to recreate/simulate crawling using graphs, HTTP response codes can be defined for each page.</p>
+<p>Example for a 404 error:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">Manager</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">add_page</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="mi">404</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Status codes can be defined for sites in the following way using a list of tuples:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">site_with_status_codes</span> <span class="o">=</span> <span class="p">[</span>
+<span class="go">    ((200, &quot;A&quot;), [&quot;B&quot;, &quot;C&quot;]),</span>
+<span class="go">    ((404, &quot;B&quot;), [&quot;D&quot;, &quot;E&quot;]),</span>
+<span class="go">    ((500, &quot;C&quot;), [&quot;F&quot;, &quot;G&quot;]),</span>
+<span class="go">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">Manager</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">add_site</span><span class="p">(</span><span class="n">site_with_status_codes</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Default status code value is 200 for new pages.</p>
+</div>
+<div class="section" id="a-simple-crawl-faking-example">
+<h2>A simple crawl faking example<a class="headerlink" href="#a-simple-crawl-faking-example" title="Permalink to this headline">¶</a></h2>
+<p>Frontier tests can better be done using the <a class="reference internal" href="frontier-tester.html"><span class="doc">Frontier Tester tool</span></a>, but here&#8217;s an example of
+how fake a crawl with a frontier:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">frontera</span> <span class="k">import</span> <span class="n">FrontierManager</span><span class="p">,</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
+<span class="kn">from</span> <span class="nn">frontera.utils</span> <span class="k">import</span> <span class="n">graphs</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="c1"># Load graph from existing database</span>
+    <span class="n">graph</span> <span class="o">=</span> <span class="n">graphs</span><span class="o">.</span><span class="n">Manager</span><span class="p">(</span><span class="s1">&#39;sqlite:///graph.db&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Create frontier from default settings</span>
+    <span class="n">frontier</span> <span class="o">=</span> <span class="n">FrontierManager</span><span class="o">.</span><span class="n">from_settings</span><span class="p">()</span>
+
+    <span class="c1"># Create and add seeds</span>
+    <span class="n">seeds</span> <span class="o">=</span> <span class="p">[</span><span class="n">Request</span><span class="p">(</span><span class="n">seed</span><span class="o">.</span><span class="n">url</span><span class="p">)</span> <span class="k">for</span> <span class="n">seed</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">seeds</span><span class="p">]</span>
+    <span class="n">frontier</span><span class="o">.</span><span class="n">add_seeds</span><span class="p">(</span><span class="n">seeds</span><span class="p">)</span>
+
+    <span class="c1"># Get next requests</span>
+    <span class="n">next_requets</span> <span class="o">=</span> <span class="n">frontier</span><span class="o">.</span><span class="n">get_next_requests</span><span class="p">()</span>
+
+    <span class="c1"># Crawl pages</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">next_requests</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">request</span> <span class="ow">in</span> <span class="n">next_requests</span><span class="p">:</span>
+
+            <span class="c1"># Fake page crawling</span>
+            <span class="n">crawled_page</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">get_page</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+
+            <span class="c1"># Create response</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">Response</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">crawled_page</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="n">crawled_page</span><span class="o">.</span><span class="n">status</span><span class="p">)</span>
+
+            <span class="c1"># Update Page</span>
+            <span class="n">page</span> <span class="o">=</span> <span class="n">frontier</span><span class="o">.</span><span class="n">page_crawled</span><span class="p">(</span><span class="n">response</span><span class="o">=</span><span class="n">response</span>
+                                         <span class="n">links</span><span class="o">=</span><span class="p">[</span><span class="n">link</span><span class="o">.</span><span class="n">url</span> <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">crawled_page</span><span class="o">.</span><span class="n">links</span><span class="p">])</span>
+            <span class="c1"># Get next requests</span>
+            <span class="n">next_requets</span> <span class="o">=</span> <span class="n">frontier</span><span class="o">.</span><span class="n">get_next_requests</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="rendering-graphs">
+<h2>Rendering graphs<a class="headerlink" href="#rendering-graphs" title="Permalink to this headline">¶</a></h2>
+<p>Graphs can be rendered to png files:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;graph.png&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;A simple Graph&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Rendering graphs uses <a class="reference external" href="https://code.google.com/p/pydot/">pydot</a>, a Python interface to <a class="reference external" href="http://www.graphviz.org/">Graphviz</a>&#8216;s Dot language.</p>
+</div>
+<div class="section" id="how-to-use-it">
+<h2>How to use it<a class="headerlink" href="#how-to-use-it" title="Permalink to this headline">¶</a></h2>
+<p>Graph Manager can be used to test frontiers in conjunction with <a class="reference internal" href="frontier-tester.html"><span class="doc">Frontier Tester</span></a> and also
+with <a class="reference internal" href="scrapy-recorder.html"><span class="doc">Scrapy Recordings</span></a>.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="scrapy-recorder.html" class="btn btn-neutral float-right" title="Recording a Scrapy crawl" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="what-is-cf.html" class="btn btn-neutral" title="What is a Crawl Frontier?" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2016, Frontera authors.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.6.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,438 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Using the Frontier with Scrapy &mdash; Frontera 0.6.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Frontera 0.6.0 documentation" href="../index.html"/>
+        <link rel="next" title="Settings" href="frontera-settings.html"/>
+        <link rel="prev" title="Crawling strategy" href="own_crawling_strategy.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Frontera
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Frontera at a glance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run-modes.html">Run modes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick-start-single.html">Quick start single process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick-start-distributed.html">Quick start distributed mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cluster-setup.html">Cluster setup guide</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontier-objects.html">Frontier objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontier-middlewares.html">Middlewares</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontier-canonicalsolvers.html">Canonical URL Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontier-backends.html">Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="message_bus.html">Message bus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="own_crawling_strategy.html">Crawling strategy</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Using the Frontier with Scrapy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#activating-the-frontier">Activating the frontier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#organizing-files">Organizing files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-the-rawl">Running the сrawl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#frontier-scrapy-settings">Frontier Scrapy settings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#defining-frontier-settings-via-scrapy-settings">Defining frontier settings via Scrapy settings</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#writing-scrapy-spider">Writing Scrapy spider</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spider-logic">Spider logic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configuration-guidelines">Configuration guidelines</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#scrapy-seed-loaders">Scrapy Seed Loaders</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#activating-a-seed-loader">Activating a Seed loader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fileseedloader">FileSeedLoader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#s3seedloader">S3SeedLoader</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="frontera-settings.html">Settings</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="what-is-cf.html">What is a Crawl Frontier?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph-manager.html">Graph Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scrapy-recorder.html">Recording a Scrapy crawl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fine-tuning.html">Fine tuning of Frontera cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dns-service.html">DNS Service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontier-api.html">Frontera API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="requests-integration.html">Using the Frontier with Requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loggers.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontier-tester.html">Testing a Frontier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">F.A.Q.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contribution guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Frontera</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Using the Frontier with Scrapy</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/topics/scrapy-integration.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="using-the-frontier-with-scrapy">
+<h1>Using the Frontier with Scrapy<a class="headerlink" href="#using-the-frontier-with-scrapy" title="Permalink to this headline">¶</a></h1>
+<p>Using Frontera is quite easy, it includes a set of <a class="reference external" href="http://doc.scrapy.org/en/latest/topics/downloader-middleware.html">Scrapy middlewares</a> and Scrapy scheduler that encapsulates
+Frontera usage and can be easily configured using <a class="reference external" href="http://doc.scrapy.org/en/latest/topics/settings.html">Scrapy settings</a>.</p>
+<div class="section" id="activating-the-frontier">
+<h2>Activating the frontier<a class="headerlink" href="#activating-the-frontier" title="Permalink to this headline">¶</a></h2>
+<p>The Frontera uses 2 different middlewares: <code class="docutils literal"><span class="pre">SchedulerSpiderMiddleware</span></code> and <code class="docutils literal"><span class="pre">SchedulerDownloaderMiddleware</span></code>, and it&#8217;s
+own scheduler <code class="docutils literal"><span class="pre">FronteraScheduler</span></code>.</p>
+<p>To activate the Frontera in your Scrapy project, just add them to the <a class="reference external" href="http://doc.scrapy.org/en/latest/topics/settings.html#std:setting-SPIDER_MIDDLEWARES">SPIDER_MIDDLEWARES</a>,
+<a class="reference external" href="http://doc.scrapy.org/en/latest/topics/settings.html#std:setting-DOWNLOADER_MIDDLEWARES">DOWNLOADER_MIDDLEWARES</a> and <a class="reference external" href="http://doc.scrapy.org/en/latest/topics/settings.html#std:setting-SCHEDULER">SCHEDULER</a> settings:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">SPIDER_MIDDLEWARES</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+    <span class="s1">&#39;frontera.contrib.scrapy.middlewares.schedulers.SchedulerSpiderMiddleware&#39;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+<span class="p">})</span>
+
+<span class="n">DOWNLOADER_MIDDLEWARES</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+    <span class="s1">&#39;frontera.contrib.scrapy.middlewares.schedulers.SchedulerDownloaderMiddleware&#39;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+<span class="p">})</span>
+
+<span class="n">SCHEDULER</span> <span class="o">=</span> <span class="s1">&#39;frontera.contrib.scrapy.schedulers.frontier.FronteraScheduler&#39;</span>
+</pre></div>
+</div>
+<p>Create a Frontera <code class="docutils literal"><span class="pre">settings.py</span></code> file and add it to your Scrapy settings:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">FRONTERA_SETTINGS</span> <span class="o">=</span> <span class="s1">&#39;tutorial.frontera.settings&#39;</span>
+</pre></div>
+</div>
+<p>Another option is to put these settings right into Scrapy settings module.</p>
+</div>
+<div class="section" id="organizing-files">
+<h2>Organizing files<a class="headerlink" href="#organizing-files" title="Permalink to this headline">¶</a></h2>
+<p>When using frontier with a Scrapy project, we propose the following directory structure:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">my_scrapy_project</span><span class="o">/</span>
+    <span class="n">my_scrapy_project</span><span class="o">/</span>
+        <span class="n">frontera</span><span class="o">/</span>
+            <span class="n">__init__</span><span class="o">.</span><span class="n">py</span>
+            <span class="n">settings</span><span class="o">.</span><span class="n">py</span>
+            <span class="n">middlewares</span><span class="o">.</span><span class="n">py</span>
+            <span class="n">backends</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">spiders</span><span class="o">/</span>
+            <span class="o">...</span>
+        <span class="n">__init__</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">py</span>
+     <span class="n">scrapy</span><span class="o">.</span><span class="n">cfg</span>
+</pre></div>
+</div>
+<p>These are basically:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">my_scrapy_project/frontera/settings.py</span></code>: the Frontera settings file.</li>
+<li><code class="docutils literal"><span class="pre">my_scrapy_project/frontera/middlewares.py</span></code>: the middlewares used by the Frontera.</li>
+<li><code class="docutils literal"><span class="pre">my_scrapy_project/frontera/backends.py</span></code>: the backend(s) used by the Frontera.</li>
+<li><code class="docutils literal"><span class="pre">my_scrapy_project/spiders</span></code>: the Scrapy spiders folder</li>
+<li><code class="docutils literal"><span class="pre">my_scrapy_project/settings.py</span></code>: the Scrapy settings file</li>
+<li><code class="docutils literal"><span class="pre">scrapy.cfg</span></code>: the Scrapy config file</li>
+</ul>
+</div>
+<div class="section" id="running-the-rawl">
+<h2>Running the сrawl<a class="headerlink" href="#running-the-rawl" title="Permalink to this headline">¶</a></h2>
+<p>Just run your Scrapy spider as usual from the command line:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">scrapy</span> <span class="n">crawl</span> <span class="n">myspider</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="frontier-scrapy-settings">
+<h2>Frontier Scrapy settings<a class="headerlink" href="#frontier-scrapy-settings" title="Permalink to this headline">¶</a></h2>
+<p>You can configure your frontier two ways:</p>
+<ul class="simple" id="std:setting-FRONTERA_SETTINGS">
+<li>Using <code class="docutils literal"><span class="pre">FRONTERA_SETTINGS</span></code> parameter, which is a module path pointing to Frontera settings in Scrapy settings file.
+Defaults to <code class="docutils literal"><span class="pre">None</span></code></li>
+<li>Define frontier settings right into Scrapy settings file.</li>
+</ul>
+<div class="section" id="defining-frontier-settings-via-scrapy-settings">
+<h3>Defining frontier settings via Scrapy settings<a class="headerlink" href="#defining-frontier-settings-via-scrapy-settings" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="frontera-settings.html#frontier-built-in-frontier-settings"><span class="std std-ref">Frontier settings</span></a> can also be defined via Scrapy settings.
+In this case, the order of precedence will be the following:</p>
+<ol class="arabic simple">
+<li>Settings defined in the file pointed by <a class="reference internal" href="#std:setting-FRONTERA_SETTINGS"><code class="xref std std-setting docutils literal"><span class="pre">FRONTERA_SETTINGS</span></code></a> (higher precedence)</li>
+<li>Settings defined in the Scrapy settings</li>
+<li>Default frontier settings</li>
+</ol>
+</div>
+</div>
+<div class="section" id="writing-scrapy-spider">
+<h2>Writing Scrapy spider<a class="headerlink" href="#writing-scrapy-spider" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="spider-logic">
+<h3>Spider logic<a class="headerlink" href="#spider-logic" title="Permalink to this headline">¶</a></h3>
+<p>Creation of basic Scrapy spider is described at <a class="reference external" href="http://frontera.readthedocs.org/en/latest/topics/quick-start-single.html">Quick start single process</a> page.</p>
+<p>It&#8217;s also a good practice to prevent spider from closing because of insufficiency of queued requests transport::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nd">@classmethod</span>
+<span class="k">def</span> <span class="nf">from_crawler</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">crawler</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">spider</span> <span class="o">=</span> <span class="n">cls</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">spider</span><span class="o">.</span><span class="n">_set_crawler</span><span class="p">(</span><span class="n">crawler</span><span class="p">)</span>
+    <span class="n">spider</span><span class="o">.</span><span class="n">crawler</span><span class="o">.</span><span class="n">signals</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">spider</span><span class="o">.</span><span class="n">spider_idle</span><span class="p">,</span> <span class="n">signal</span><span class="o">=</span><span class="n">signals</span><span class="o">.</span><span class="n">spider_idle</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">spider</span>
+
+<span class="k">def</span> <span class="nf">spider_idle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Spider idle signal caught.&quot;</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="n">DontCloseSpider</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="configuration-guidelines">
+<h3>Configuration guidelines<a class="headerlink" href="#configuration-guidelines" title="Permalink to this headline">¶</a></h3>
+<p>There several tunings you can make for efficient broad crawling.</p>
+<p>Adding one of seed loaders for bootstrapping of crawling process:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">SPIDER_MIDDLEWARES</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+    <span class="s1">&#39;frontera.contrib.scrapy.middlewares.seeds.file.FileSeedLoader&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<p>Various settings suitable for broad crawling:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">HTTPCACHE_ENABLED</span> <span class="o">=</span> <span class="kc">False</span>   <span class="c1"># Turns off disk cache, which has low hit ratio during broad crawls</span>
+<span class="n">REDIRECT_ENABLED</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">COOKIES_ENABLED</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">DOWNLOAD_TIMEOUT</span> <span class="o">=</span> <span class="mi">120</span>
+<span class="n">RETRY_ENABLED</span> <span class="o">=</span> <span class="kc">False</span>   <span class="c1"># Retries can be handled by Frontera itself, depending on crawling strategy</span>
+<span class="n">DOWNLOAD_MAXSIZE</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span>  <span class="c1"># Maximum document size, causes OOM kills if not set</span>
+<span class="n">LOGSTATS_INTERVAL</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># Print stats every 10 secs to console</span>
+</pre></div>
+</div>
+<p>Auto throttling and concurrency settings for polite and responsible crawling::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># auto throttling</span>
+<span class="n">AUTOTHROTTLE_ENABLED</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">AUTOTHROTTLE_DEBUG</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">AUTOTHROTTLE_MAX_DELAY</span> <span class="o">=</span> <span class="mf">3.0</span>
+<span class="n">AUTOTHROTTLE_START_DELAY</span> <span class="o">=</span> <span class="mf">0.25</span>     <span class="c1"># Any small enough value, it will be adjusted during operation by averaging</span>
+                                    <span class="c1"># with response latencies.</span>
+<span class="n">RANDOMIZE_DOWNLOAD_DELAY</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="c1"># concurrency</span>
+<span class="n">CONCURRENT_REQUESTS</span> <span class="o">=</span> <span class="mi">256</span>           <span class="c1"># Depends on many factors, and should be determined experimentally</span>
+<span class="n">CONCURRENT_REQUESTS_PER_DOMAIN</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">DOWNLOAD_DELAY</span> <span class="o">=</span> <span class="mf">0.0</span>
+</pre></div>
+</div>
+<p>Check also <a class="reference external" href="http://doc.scrapy.org/en/master/topics/broad-crawls.html">Scrapy broad crawling</a> recommendations.</p>
+</div>
+</div>
+<div class="section" id="scrapy-seed-loaders">
+<h2>Scrapy Seed Loaders<a class="headerlink" href="#scrapy-seed-loaders" title="Permalink to this headline">¶</a></h2>
+<p>Frontera has some built-in Scrapy middlewares for seed loading.</p>
+<p>Seed loaders use the <code class="docutils literal"><span class="pre">process_start_requests</span></code> method to generate requests from a source that are added later to the
+<code class="xref py py-class docutils literal"><span class="pre">FrontierManager</span></code>.</p>
+<div class="section" id="activating-a-seed-loader">
+<h3>Activating a Seed loader<a class="headerlink" href="#activating-a-seed-loader" title="Permalink to this headline">¶</a></h3>
+<p>Just add the Seed Loader middleware to the <code class="docutils literal"><span class="pre">SPIDER_MIDDLEWARES</span></code> scrapy settings:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">SPIDER_MIDDLEWARES</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+    <span class="s1">&#39;frontera.contrib.scrapy.middlewares.seeds.FileSeedLoader&#39;</span><span class="p">:</span> <span class="mi">650</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fileseedloader">
+<span id="seed-loader-file"></span><h3>FileSeedLoader<a class="headerlink" href="#fileseedloader" title="Permalink to this headline">¶</a></h3>
+<p>Load seed URLs from a file. The file must be formatted contain one URL per line:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">asite</span><span class="o">.</span><span class="n">com</span>
+<span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">anothersite</span><span class="o">.</span><span class="n">com</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>Yo can disable URLs using the <code class="docutils literal"><span class="pre">#</span></code> character:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">...</span>
+<span class="c1">#http://www.acommentedsite.com</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p><strong>Settings</strong>:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">SEEDS_SOURCE</span></code>: Path to the seeds file</li>
+</ul>
+</div>
+<div class="section" id="s3seedloader">
+<span id="seed-loader-s3"></span><h3>S3SeedLoader<a class="headerlink" href="#s3seedloader" title="Permalink to this headline">¶</a></h3>
+<p>Load seeds from a file stored in an Amazon S3 bucket</p>
+<p>File format should the same one used in <a class="reference internal" href="#seed-loader-file"><span class="std std-ref">FileSeedLoader</span></a>.</p>
+<p>Settings:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">SEEDS_SOURCE</span></code>: Path to S3 bucket file. eg: <code class="docutils literal"><span class="pre">s3://some-project/seed-urls/</span></code></li>
+<li><code class="docutils literal"><span class="pre">SEEDS_AWS_ACCESS_KEY</span></code>: S3 credentials Access Key</li>
+<li><code class="docutils literal"><span class="pre">SEEDS_AWS_SECRET_ACCESS_KEY</span></code>: S3 credentials Secret Access Key</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="frontera-settings.html" class="btn btn-neutral float-right" title="Settings" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="own_crawling_strategy.html" class="btn btn-neutral" title="Crawling strategy" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2016, Frontera authors.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.6.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

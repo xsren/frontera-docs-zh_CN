@@ -1,0 +1,331 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Frontera 0.6 documentation &mdash; Frontera 0.6.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Frontera 0.6.0 documentation" href="#"/>
+        <link rel="next" title="Frontera at a glance" href="topics/overview.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> Frontera
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="topics/overview.html">Frontera at a glance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/run-modes.html">Run modes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/quick-start-single.html">Quick start single process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/quick-start-distributed.html">Quick start distributed mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/cluster-setup.html">Cluster setup guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="topics/installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/frontier-objects.html">Frontier objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/frontier-middlewares.html">Middlewares</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/frontier-canonicalsolvers.html">Canonical URL Solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/frontier-backends.html">Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/message_bus.html">Message bus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/own_crawling_strategy.html">Crawling strategy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/scrapy-integration.html">Using the Frontier with Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/frontera-settings.html">Settings</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="topics/what-is-cf.html">What is a Crawl Frontier?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/graph-manager.html">Graph Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/scrapy-recorder.html">Recording a Scrapy crawl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/fine-tuning.html">Fine tuning of Frontera cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/dns-service.html">DNS Service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="topics/architecture.html">Architecture overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/frontier-api.html">Frontera API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/requests-integration.html">Using the Frontier with Requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/tests.html">Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/loggers.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/frontier-tester.html">Testing a Frontier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/faq.html">F.A.Q.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/contributing.html">Contribution guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/glossary.html">Glossary</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="#">Frontera</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="#">Docs</a> &raquo;</li>
+      
+    <li>Frontera 0.6 documentation</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="frontera-version-documentation">
+<span id="topics-index"></span><h1>Frontera 0.6 documentation<a class="headerlink" href="#frontera-version-documentation" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="http://github.com/scrapinghub/frontera">Frontera</a> is a web crawling tool box, allowing to build crawlers of any scale and purpose.</p>
+<p><a class="reference external" href="http://github.com/scrapinghub/frontera">Frontera</a> provides <a class="reference internal" href="topics/what-is-cf.html#crawl-frontier"><span class="std std-ref">crawl frontier</span></a> framework by managing <em>when</em> and <em>what</em> to crawl next,
+and checking for <em>crawling goal</em> accomplishment.</p>
+<p>Frontera also provides replication, sharding and isolation of all crawler components to scale and distribute it.</p>
+<p>Frontera contain components to allow creation of fully-operational web crawler with <a class="reference external" href="http://scrapy.org/">Scrapy</a>. Even though it was
+originally designed for Scrapy, it can also be used with any other crawling framework/system as the framework offers
+a generic tool box.</p>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>The purpose of this chapter is to introduce you to the concepts behind Frontera so that you can get an idea of
+how it works and decide if it is suited to your needs.</p>
+<div class="toctree-wrapper compound">
+</div>
+<dl class="docutils">
+<dt><a class="reference internal" href="topics/overview.html"><span class="doc">Frontera at a glance</span></a></dt>
+<dd>Understand what Frontera is and how it can help you.</dd>
+<dt><a class="reference internal" href="topics/run-modes.html"><span class="doc">Run modes</span></a></dt>
+<dd>High level architecture and Frontera run modes.</dd>
+<dt><a class="reference internal" href="topics/quick-start-single.html"><span class="doc">Quick start single process</span></a></dt>
+<dd>using Scrapy as a container for running Frontera.</dd>
+<dt><a class="reference internal" href="topics/quick-start-distributed.html"><span class="doc">Quick start distributed mode</span></a></dt>
+<dd>with SQLite and ZeroMQ.</dd>
+<dt><a class="reference internal" href="topics/cluster-setup.html"><span class="doc">Cluster setup guide</span></a></dt>
+<dd>Setting up clustered version of Frontera on multiple machines with HBase and Kafka.</dd>
+</dl>
+</div>
+<div class="section" id="using-frontera">
+<h2>Using Frontera<a class="headerlink" href="#using-frontera" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+<dl class="docutils">
+<dt><a class="reference internal" href="topics/installation.html"><span class="doc">Installation Guide</span></a></dt>
+<dd>HOWTO and Dependencies options.</dd>
+<dt><a class="reference internal" href="topics/frontier-objects.html"><span class="doc">Frontier objects</span></a></dt>
+<dd>Understand the classes used to represent requests and responses.</dd>
+<dt><a class="reference internal" href="topics/frontier-middlewares.html"><span class="doc">Middlewares</span></a></dt>
+<dd>Filter or alter information for links and documents.</dd>
+<dt><a class="reference internal" href="topics/frontier-canonicalsolvers.html"><span class="doc">Canonical URL Solver</span></a></dt>
+<dd>Identify and make use of canonical url of document.</dd>
+<dt><a class="reference internal" href="topics/frontier-backends.html"><span class="doc">Backends</span></a></dt>
+<dd>Define your own crawling policy and custom storage.</dd>
+<dt><a class="reference internal" href="topics/message_bus.html"><span class="doc">Message bus</span></a></dt>
+<dd>Built-in message bus reference.</dd>
+<dt><a class="reference internal" href="topics/own_crawling_strategy.html"><span class="doc">Crawling strategy</span></a></dt>
+<dd>Implementing own crawling strategy for distributed backend.</dd>
+<dt><a class="reference internal" href="topics/scrapy-integration.html"><span class="doc">Using the Frontier with Scrapy</span></a></dt>
+<dd>Learn how to use Frontera with Scrapy.</dd>
+<dt><a class="reference internal" href="topics/frontera-settings.html"><span class="doc">Settings</span></a></dt>
+<dd>Settings reference.</dd>
+</dl>
+</div>
+<div class="section" id="advanced-usage">
+<h2>Advanced usage<a class="headerlink" href="#advanced-usage" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+<dl class="docutils">
+<dt><a class="reference internal" href="topics/what-is-cf.html"><span class="doc">What is a Crawl Frontier?</span></a></dt>
+<dd>Learn Crawl Frontier theory.</dd>
+<dt><a class="reference internal" href="topics/graph-manager.html"><span class="doc">Graph Manager</span></a></dt>
+<dd>Define fake crawlings for websites to test your frontier.</dd>
+<dt><a class="reference internal" href="topics/scrapy-recorder.html"><span class="doc">Recording a Scrapy crawl</span></a></dt>
+<dd>Create Scrapy crawl recordings and reproduce them later.</dd>
+<dt><a class="reference internal" href="topics/fine-tuning.html"><span class="doc">Fine tuning of Frontera cluster</span></a></dt>
+<dd>Cluster deployment and fine tuning information.</dd>
+<dt><a class="reference internal" href="topics/dns-service.html"><span class="doc">DNS Service</span></a></dt>
+<dd>Few words about DNS service setup.</dd>
+</dl>
+</div>
+<div class="section" id="developer-documentation">
+<h2>Developer documentation<a class="headerlink" href="#developer-documentation" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+<dl class="docutils">
+<dt><a class="reference internal" href="topics/architecture.html"><span class="doc">Architecture overview</span></a></dt>
+<dd>See how Frontera works and its different components.</dd>
+<dt><a class="reference internal" href="topics/frontier-api.html"><span class="doc">Frontera API</span></a></dt>
+<dd>Learn how to use the frontier.</dd>
+<dt><a class="reference internal" href="topics/requests-integration.html"><span class="doc">Using the Frontier with Requests</span></a></dt>
+<dd>Learn how to use Frontera with Requests.</dd>
+<dt><a class="reference internal" href="topics/examples.html"><span class="doc">Examples</span></a></dt>
+<dd>Some example projects and scripts using Frontera.</dd>
+<dt><a class="reference internal" href="topics/tests.html"><span class="doc">Tests</span></a></dt>
+<dd>How to run and write Frontera tests.</dd>
+<dt><a class="reference internal" href="topics/loggers.html"><span class="doc">Logging</span></a></dt>
+<dd>A list of loggers for use with python native logging system.</dd>
+<dt><a class="reference internal" href="topics/frontier-tester.html"><span class="doc">Testing a Frontier</span></a></dt>
+<dd>Test your frontier in an easy way.</dd>
+<dt><a class="reference internal" href="topics/faq.html"><span class="doc">F.A.Q.</span></a></dt>
+<dd>Frequently asked questions.</dd>
+<dt><a class="reference internal" href="topics/contributing.html"><span class="doc">Contribution guidelines</span></a></dt>
+<dd>HOWTO contribute.</dd>
+<dt><a class="reference internal" href="topics/glossary.html"><span class="doc">Glossary</span></a></dt>
+<dd>Glossary of terms.</dd>
+</dl>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="topics/overview.html" class="btn btn-neutral float-right" title="Frontera at a glance" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2016, Frontera authors.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.6.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
