@@ -1,13 +1,15 @@
 .. _topics-index:
 
 ================================
-Frontera |version| documentation
+Frontera |version| 文档
 ================================
 
 `Frontera`_ is a web crawling tool box, allowing to build crawlers of any scale and purpose.
+`Frontera`_ 是一个爬虫工具箱，它可以让你构建任何规模和目的的爬虫。
 
 `Frontera`_ provides :ref:`crawl frontier <crawl-frontier>` framework by managing *when* and *what* to crawl next,
 and checking for *crawling goal* accomplishment.
+`Frontera`_ 提供 :ref:`crawl frontier <crawl-frontier>` 框架，这个框架可以帮助管理*何时抓取下一个URL*、*下个抓取的URL是什么*和检查*抓取结果*
 
 Frontera also provides replication, sharding and isolation of all crawler components to scale and distribute it.
 
