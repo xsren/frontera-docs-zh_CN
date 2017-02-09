@@ -12,17 +12,22 @@ and checking for *crawling goal* accomplishment.
 `Frontera`_ 提供 :ref:`crawl frontier <crawl-frontier>` 框架，这个框架可以帮助管理*何时抓取下一个URL*、*下个抓取的URL是什么*和检查*抓取结果*
 
 Frontera also provides replication, sharding and isolation of all crawler components to scale and distribute it.
+Frontera 还为所有的爬虫组件提供了复制、分片、隔离的特性，这可以方便的扩展爬虫规模和将爬虫做成分布式。
 
 Frontera contain components to allow creation of fully-operational web crawler with `Scrapy`_. Even though it was
 originally designed for Scrapy, it can also be used with any other crawling framework/system as the framework offers
 a generic tool box.
+Fronteta 包含完全支持 `Scrapy`_ 的组件，可以使用Scrapy的所有功能创建爬虫。尽管它最初是为Scrapy设计的，但是它也可以完美其他任何的框架或系统，因为它可以作为一个框架提供通用的工具箱。
 
 
 Introduction
+介绍
 ============
 
 The purpose of this chapter is to introduce you to the concepts behind Frontera so that you can get an idea of
 how it works and decide if it is suited to your needs.
+这一章的目的是介绍 Frontera 的概念，通过阅读本章，你可以知道 Frontera 的设计理念和决定它是不是能解决你的需求。
+
 
 .. toctree::
    :hidden:
@@ -34,19 +39,24 @@ how it works and decide if it is suited to your needs.
    topics/cluster-setup
 
 :doc:`topics/overview`
+    明白什么是 Frontera ？它能为你做什么？
     Understand what Frontera is and how it can help you.
 
 :doc:`topics/run-modes`
     High level architecture and Frontera run modes.
+    Frontera的高级结构和运行模式。
 
 :doc:`topics/quick-start-single`
     using Scrapy as a container for running Frontera.
+    使用 Scrapy 作为容器来运行 Frontera。
 
 :doc:`topics/quick-start-distributed`
     with SQLite and ZeroMQ.
+    引入 SQLite 和 ZeroMQ。
 
 :doc:`topics/cluster-setup`
     Setting up clustered version of Frontera on multiple machines with HBase and Kafka.
+    
 
 Using Frontera
 ==============
