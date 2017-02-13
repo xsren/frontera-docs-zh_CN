@@ -2,8 +2,6 @@
 Frontera 概览
 ====================
 
-Frontera is an implementation of crawl frontier, a web crawler component used for accumulating URLs/links before
-downloading them from the web. Main features of Frontera are:
 Frontera 是 crawl frontier 的实现，crawl frontier 是一个用来在抓取网页之前聚合 URLS 的网络组件。 Frontera的主要特征：
 
 * 面向在线处理，
