@@ -1,8 +1,8 @@
 =========
-Run modes
+运行方式
 =========
 
-A diagram showing architecture of running modes:
+下图展示了运行模式的架构图：
 
 .. image:: _images/high-level-arc.png
 
