@@ -8,7 +8,7 @@
 
 
 ====================  =========================================================================  ======================================================  =====================
-Mode                  Parent class                                                               Components needed                                       Available backends
+模式                  父类                                                               所需组件                                       可用的后端
 ====================  =========================================================================  ======================================================  =====================
 Single process        :class:`Backend <frontera.core.components.Backend>`                        single process running the crawler                      Memory, SQLAlchemy
 Distributed spiders   :class:`Backend <frontera.core.components.Backend>`                        spiders and single :term:`db worker`                    Memory, SQLAlchemy
