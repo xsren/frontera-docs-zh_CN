@@ -1,15 +1,16 @@
 ==========================
-Quick start single process
+快速启动单进程模式
 ==========================
 
-1. Create your spider
+1. 创建你的爬虫
 =====================
 
-Create your Scrapy project as you usually do. Enter a directory where you’d like to store your code and then run::
+按照通常的方式创建 Scrapy 项目。输入您要存储代码的目录，然后运行::
 
     scrapy startproject tutorial
 
-This will create a tutorial directory with the following contents::
+这会创建一个 tutorial 目录，包含以下内容::
+
 
     tutorial/
         scrapy.cfg
@@ -23,64 +24,62 @@ This will create a tutorial directory with the following contents::
                 ...
 
 These are basically:
+这些是最基本的：
 
-- **scrapy.cfg**: the project configuration file
-- **tutorial/**: the project’s python module, you’ll later import your code from here.
-- **tutorial/items.py**: the project’s items file.
-- **tutorial/pipelines.py**: the project’s pipelines file.
-- **tutorial/settings.py**: the project’s settings file.
-- **tutorial/spiders/**: a directory where you’ll later put your spiders.
+- **scrapy.cfg**: 项目的配置文件
+- **tutorial/**: 项目的 python 模块，后续你将从这里引用你的代码。
+- **tutorial/items.py**: 项目的 items 文件。
+- **tutorial/pipelines.py**: 项目的 pipelines 文件。
+- **tutorial/settings.py**: 项目的 settings 文件。
+- **tutorial/spiders/**: 放爬虫的目录。
 
-2. Install Frontera
+2. 安装 Frontera
 ===================
 
-See :doc:`installation`.
+请看 :doc:`installation`.
 
-3. Integrate your spider with the Frontera
+3. 集成您的爬虫和 Frontera
 ==========================================
 
-This article about :doc:`integration with Scrapy <scrapy-integration>` explains this step in detail.
+这篇文章 :doc:`integration with Scrapy <scrapy-integration>` 详细介绍了这一步。
 
 
-4. Choose your backend
+4. 选择您的后端
 ======================
 
-Configure frontier settings to use a built-in backend like in-memory BFS::
+为 Frontera 设置内置的后端，比如内存中BFS（广度优先）::
 
     BACKEND = 'frontera.contrib.backends.memory.BFS'
 
-5. Run the spider
+5. 运行爬虫
 =================
 
-Run your Scrapy spider as usual from the command line::
+像往常一样从命令行启动 Scrapy 爬虫::
 
     scrapy crawl myspider
 
-And that's it! You got your spider running integrated with Frontera.
+就是这样! 您成功将您的爬虫与 Frontera 集成了。
 
-What else?
+还有什么？
 ==========
 
-You’ve seen a simple example of how to use Frontera with Scrapy, but this is just the surface.
-Frontera provides many powerful features for making frontier management easy and efficient, such as:
+您已经看到了一个使用 Frontera 集成 Scrapy 的例子，但是这个仅仅是最基本的功能。Frontera 还提供了许多让抓取更加简单、有效率的强大功能，比如：
 
-* Built-in support for :ref:`database storage <frontier-backends-sqlalchemy>` for crawled pages.
+* 内置 :ref:`database storage <frontier-backends-sqlalchemy>` 支持存储抓取数据。
 
-* Easy :doc:`built-in integration with Scrapy <scrapy-integration>` and :doc:`any other crawler <frontier-api>`
-  through its API.
+* 通过 :doc:`API <frontier-api>` 可以方便的 :doc:`与 Scrapy 集成 <scrapy-integration>` 或者与其他爬虫集成。
 
-* :ref:`Two distributed crawling modes <use-cases>` with use of ZeroMQ or Kafka and distributed backends.
+* 通过使用 ZeroMq 或 Kafka 和分布式的后端，实现 :ref:`两种分布式抓取模式 <use-cases>`
 
-* Creating different crawling logic/policies :doc:`defining your own backend <frontier-backends>`.
+* 创建不同抓取策略或者逻辑 :doc:`自定义你的后端 <frontier-backends>`.
 
-* Plugging your own request/response altering logic using :doc:`middlewares <frontier-middlewares>`.
+* 使用 :doc:`middlewares <frontier-middlewares>` 插入你自己的 request/response 修改策略。
 
-* Create fake sitemaps and reproduce crawling without crawler with the :doc:`Graph Manager <graph-manager>`.
+* 使用 :doc:`Graph Manager <graph-manager>` 创建假的网站地图，并可以不用爬虫重现抓取过程。
 
-* :doc:`Record your Scrapy crawls <scrapy-recorder>` and use it later for frontier testing.
+* :doc:`记录你的 Scrapy 抓取结果 <scrapy-recorder>` 后续用它测试 frontier。
 
-* Logging facility that you can hook on to for catching errors and debug your frontiers.
-
+* 您可以用 hook 的方式使用日志工具，捕捉错误和调试您的 frontiers。
 
 
 
