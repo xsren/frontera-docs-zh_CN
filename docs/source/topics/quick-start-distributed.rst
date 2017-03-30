@@ -1,24 +1,23 @@
 ============================
-Quick start distributed mode
+分布式模式快速入门
 ============================
 
-Here is a guide how to quickly setup Frontera for single-machine, multiple process, local hacking. We're going to deploy
-the simpliest possible setup with SQLite and ZeroMQ. Please proceed to :doc:`cluster-setup` article for a
-production setup details for broad crawlers.
+这篇文档教您在本地快速搭建单机、多进程的 Frontera 系统。我们将使用 SQLite 和 ZeroMQ 构建可能最简单的 Frontera 系统。如果要搭建生产环境下的 Frontera 系统，请参考 :doc:`cluster-setup`。
 
 .. _basic_requirements:
 
-Prerequisites
+前提
 =============
 
 Here is what services needs to be installed and configured before running Frontera:
+以下是运行 Frontera 之前需要安装和配置的：
 
-- Python 2.7+ or 3.4+
+- Python 2.7+ 或 3.4+
 - Scrapy
 
-Frontera installation
+安装 Frontera
 ---------------------
-For Ubuntu, type in command line: ::
+Ubuntu 系统, 在命令行中输入： ::
 
     $ pip install frontera[distributed,zeromq,sql]
 
