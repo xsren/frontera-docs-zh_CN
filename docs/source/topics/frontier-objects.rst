@@ -1,47 +1,39 @@
 ================
-Frontier objects
+Frontier 对象
 ================
 
-Frontier uses 2 object types: :class:`Request <frontera.core.models.Request>`
-and :class:`Response <frontera.core.models.Response>`. They are used to represent crawling HTTP requests and
-responses respectively.
+Frontier 使用两种对象类型: :class:`Request <frontera.core.models.Request>`
+and :class:`Response <frontera.core.models.Response>`. 他们各自代表 HTTP 请求和 HTTP 返回.
 
-These classes are used by most Frontier API methods either as a parameter or as a return value depending on the method
-used.
+这两个类会被大多数的 Frontera API 方法调用，根据方法不同可能作为参数也可能作为返回值。
 
-Frontier also uses these objects to internally communicate between different components (middlewares and backend).
+Frontera 同样也会使用这两种对象在内部组件之间传递数据（比如 middlewares 和 backend）。
 
-
-Request objects
+Request 对象
 ===============
 
 .. autoclass:: frontera.core.models.Request
     :members:
 
 
-Response objects
+Response 对象
 ================
 
 .. autoclass:: frontera.core.models.Response
     :members:
 
-Fields ``domain`` and ``fingerprint`` are added by :ref:`built-in middlewares <frontier-built-in-middleware>`
+``domain`` 和 ``fingerprint`` 字段被 :ref:`内置 middlewares <frontier-built-in-middleware>` 添加。
 
-
-Identifying unique objects
+对象唯一识别标志
 ==========================
 
-As frontier objects are shared between the crawler and the frontier, some mechanism to uniquely identify objects is
-needed. This method may vary depending on the frontier logic (in most cases due to the backend used).
+因为 Frontera 对象会在爬虫和服务器之间传递，所以需要一些机制来唯一标示一个对象。这个识别机制会基于 Frontera 逻辑不同而有所变化（大多数情况是根据后端的逻辑）。
 
-By default, Frontera activates the :ref:`fingerprint middleware <frontier-url-fingerprint-middleware>` to
-generate a unique fingerprint calculated from the :attr:`Request.url <frontera.core.models.Request.url>`
-and :attr:`Response.url <frontera.core.models.Response.url>` fields, which is added to the
-:attr:`Request.meta <frontera.core.models.Request.meta>` and
-:attr:`Response.meta <frontera.core.models.Response.meta>` fields respectively. You can use
-this middleware or implement your own method to manage frontier objects identification.
+默认 Frontera 会激活 :ref:`fingerprint middleware <frontier-url-fingerprint-middleware>` ，根据 :attr:`Request.url <frontera.core.models.Request.url>`
+和 :attr:`Response.url <frontera.core.models.Response.url>` 分别生成一个唯一标示，并分别赋值给 :attr:`Request.meta <frontera.core.models.Request.meta>` and
+:attr:`Response.meta <frontera.core.models.Response.meta>`。你可以使用这个中间件或者自己定义。
 
-An example of a generated fingerprint for a :class:`Request <frontera.core.models.Request>` object::
+一个为 :class:`Request <frontera.core.models.Request>` 生成指纹的例子::
 
     >>> request.url
     'http://thehackernews.com'
@@ -53,18 +45,15 @@ An example of a generated fingerprint for a :class:`Request <frontera.core.model
 .. _frontier-objects-additional-data:
 
 
-Adding additional data to objects
+为对象添加其他值
 =================================
 
-In most cases frontier objects can be used to represent the information needed to manage the frontier logic/policy.
+大多数情况下 Frontera 存储了系统运行所需要的参数。
 
-Also, additional data can be stored by components using the
-:attr:`Request.meta <frontera.core.models.Request.meta>` and
-:attr:`Response.meta <frontera.core.models.Response.meta>` fields.
+同样的，其他信息也可以存入 :attr:`Request.meta <frontera.core.models.Request.meta>` 和 :attr:`Response.meta <frontera.core.models.Response.meta>`
 
-For instance the frontier :ref:`domain middleware <frontier-domain-middleware>` adds a ``domain`` info field for every
-:attr:`Request.meta <frontera.core.models.Request.meta>` and
-:attr:`Response.meta <frontera.core.models.Response.meta>` if is activated::
+例如，激活 :ref:`domain middleware <frontier-domain-middleware>` 会为每个 :attr:`Request.meta <frontera.core.models.Request.meta>` 和
+:attr:`Response.meta <frontera.core.models.Response.meta>` 添加 ``domain`` 字段::
 
     >>> request.url
     'http://www.scrapinghub.com'
