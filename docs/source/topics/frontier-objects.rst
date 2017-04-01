@@ -9,6 +9,7 @@ and :class:`Response <frontera.core.models.Response>`. 他们各自代表 HTTP �
 
 Frontera 同样也会使用这两种对象在内部组件之间传递数据（比如 middlewares 和 backend）。
 
+
 Request 对象
 ===============
 
@@ -21,6 +22,7 @@ Response 对象
 
 .. class:: frontera.core.models.Response
     :members:
+
 
 Request objects
 ===============
