@@ -2,8 +2,7 @@
 Frontier 对象
 ================
 
-Frontier 使用两种对象类型: :class:`Request <frontera.core.models.Request>`
-and :class:`Response <frontera.core.models.Response>`. 他们各自代表 HTTP 请求和 HTTP 返回.
+
 
 这两个类会被大多数的 Frontera API 方法调用，根据方法不同可能作为参数也可能作为返回值。
 
@@ -15,7 +14,7 @@ Request 对象
 ===============
 
 
-.. autoclass:: frontera.core.models.Request
+.. class:: frontera.core.models.Request
     :members:
 
 
