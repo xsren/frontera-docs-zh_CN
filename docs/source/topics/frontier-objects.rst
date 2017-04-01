@@ -15,14 +15,14 @@ Frontier also uses these objects to internally communicate between different com
 Request objects
 ===============
 
-.. class:: frontera.core.models.Request
+.. autoclass:: frontera.core.models.Request
     :members:
 
 
 Response objects
 ================
 
-.. class:: frontera.core.models.Response
+.. autoclass:: frontera.core.models.Response
     :members:
 
 Fields ``domain`` and ``fingerprint`` are added by :ref:`built-in middlewares <frontier-built-in-middleware>`
