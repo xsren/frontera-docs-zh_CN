@@ -103,14 +103,12 @@ Middlewares按照它们在列表中定义的相同顺序进行调用，根据你
 
 .. _frontier-built-in-middleware:
 
-Built-in middleware reference
+内置 middleware 参考
 =============================
 
-This page describes all :class:`Middleware <frontera.core.components.Middleware>` components that come with Frontera.
-For information on how to use them and how to write your own middleware, see the
-:ref:`middleware usage guide. <frontier-writing-middleware>`.
+这篇文章描述了 Frontera 所有的 :class:`Middleware <frontera.core.components.Middleware>` 组件。如何使用和写自己的 middleware，请参考 :ref:`middleware usage guide. <frontier-writing-middleware>`。
 
-For a list of the components enabled by default (and their orders) see the :setting:`MIDDLEWARES` setting.
+有关默认启用的组件列表（及其顺序），请参阅 MIDDLEWARES 设置。
 
 
 .. _frontier-domain-middleware:
