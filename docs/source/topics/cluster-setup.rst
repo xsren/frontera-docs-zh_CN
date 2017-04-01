@@ -24,7 +24,7 @@
 
 配置 Kafka
 =================
-Create all topics needed for Kafka message bus
+
 为 Kafka 消息总线创建所有需要的 topic
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
