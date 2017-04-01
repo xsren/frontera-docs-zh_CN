@@ -15,8 +15,9 @@ Request 对象
 ===============
 
 
-.. class:: frontera.core.models.Request
+.. autoclass:: frontera.core.models.Request
     :members:
+
 
 
 
@@ -27,6 +28,8 @@ Response 对象
     :members:
 
 
+
+
 Request objects
 ===============
 
@@ -34,11 +37,15 @@ Request objects
     :members:
 
 
+
+
 Response objects
 ================
 
-.. class:: frontera.core.models.Response
+.. autoclass:: frontera.core.models.Response
     :members:
+
+
 
 
 ``domain`` 和 ``fingerprint`` 字段被 :ref:`内置 middlewares <frontier-built-in-middleware>` 添加。
