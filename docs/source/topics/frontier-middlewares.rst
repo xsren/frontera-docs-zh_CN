@@ -6,7 +6,7 @@ Middlewares（中间件）
 
 Frontier :class:`Middleware <frontera.core.components.Middleware>` 位于
 :class:`FrontierManager <frontera.core.manager.FrontierManager>` 和
-:class:`Backend <frontera.core.components.Backend>` objects 之间, 根据:ref:`frontier data flow <frontier-data-flow>` 的流程，处理 :class:`Request <frontera.core.models.Request>` 和 :class:`Response <frontera.core.models.Response>`。
+:class:`Backend <frontera.core.components.Backend>` objects 之间, 根据 :ref:`frontier data flow <frontier-data-flow>` 的流程，处理 :class:`Request <frontera.core.models.Request>` 和 :class:`Response <frontera.core.models.Response>`。
 
 Middlewares 是一个轻量级、低层次的系统，可以用来过滤和更改 Frontier 的 requests 和 responses。
 
