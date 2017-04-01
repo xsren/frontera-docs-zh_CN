@@ -2,50 +2,25 @@
 Frontier 对象
 ================
 
-
+Frontier 使用两种对象类型: :autoclass:`Request <frontera.core.models.Request>`
+and :autoclass:`Response <frontera.core.models.Response>`. 他们各自代表 HTTP 请求和 HTTP 返回.
 
 这两个类会被大多数的 Frontera API 方法调用，根据方法不同可能作为参数也可能作为返回值。
 
-Frontera 同样也会使用这两种对象在内部组件之间传递数据（比如 middlewares 和 backend）.
-
-
+Frontera 同样也会使用这两种对象在内部组件之间传递数据（比如 middlewares 和 backend）。
 
 Request 对象
 ===============
 
-
-.. class:: frontera.core.models.Request
+.. autoclass:: frontera.core.models.Request
     :members:
-
-
 
 
 Response 对象
 ================
 
-.. class:: frontera.core.models.Response
-    :members:
-
-
-
-
-Request objects
-===============
-
-.. class:: frontera.core.models.Request
-    :members:
-
-
-
-
-Response objects
-================
-
 .. autoclass:: frontera.core.models.Response
     :members:
-
-
-
 
 ``domain`` 和 ``fingerprint`` 字段被 :ref:`内置 middlewares <frontier-built-in-middleware>` 添加。
 
