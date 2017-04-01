@@ -22,6 +22,20 @@ Response 对象
 .. class:: frontera.core.models.Response
     :members:
 
+Request objects
+===============
+
+.. class:: frontera.core.models.Request
+    :members:
+
+
+Response objects
+================
+
+.. class:: frontera.core.models.Response
+    :members:
+
+
 ``domain`` 和 ``fingerprint`` 字段被 :ref:`内置 middlewares <frontier-built-in-middleware>` 添加。
 
 对象唯一识别标志
