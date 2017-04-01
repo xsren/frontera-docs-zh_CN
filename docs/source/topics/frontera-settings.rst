@@ -58,7 +58,7 @@ In other words, settings can be accessed as attributes of the
 Settings class
 ==============
 
-.. autoclass:: frontera.settings.Settings
+.. class:: frontera.settings.Settings
 
 .. _frontier-built-in-frontier-settings:
 

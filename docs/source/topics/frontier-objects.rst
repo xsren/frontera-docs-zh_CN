@@ -12,14 +12,14 @@ Frontera 同样也会使用这两种对象在内部组件之间传递数据（�
 Request 对象
 ===============
 
-.. autoclass:: frontera.core.models.Request
+.. class:: frontera.core.models.Request
     :members:
 
 
 Response 对象
 ================
 
-.. autoclass:: frontera.core.models.Response
+.. class:: frontera.core.models.Response
     :members:
 
 ``domain`` 和 ``fingerprint`` 字段被 :ref:`内置 middlewares <frontier-built-in-middleware>` 添加。
