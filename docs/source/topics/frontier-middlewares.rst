@@ -40,13 +40,13 @@ Middlewares按照它们在列表中定义的相同顺序进行调用，根据你
 :class:`FrontierManager <frontera.core.manager.FrontierManager>` 会通过下面的方法和所有激活的 middlewares 通信。
 
 
-.. autoclass:: frontera.core.components.Middleware
+.. class:: frontera.core.components.Middleware
 
     **Methods**
 
-    .. automethod:: frontera.core.components.Middleware.frontier_start
-    .. automethod:: frontera.core.components.Middleware.frontier_stop
-    .. automethod:: frontera.core.components.Middleware.add_seeds
+    .. method:: frontera.core.components.Middleware.frontier_start
+    .. method:: frontera.core.components.Middleware.frontier_stop
+    .. method:: frontera.core.components.Middleware.add_seeds
 
         :return: :class:`Request <frontera.core.models.Request>` object list or ``None``
 
