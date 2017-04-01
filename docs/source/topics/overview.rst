@@ -1,79 +1,96 @@
 ====================
-Frontera 概览
+Frontera at a glance
 ====================
 
-Frontera 是 crawl frontier 的实现，用于在从网络下载之前累积URL /链接的网络爬虫组件。 Frontera的主要特征：
+Frontera is an implementation of crawl frontier, a web crawler component used for accumulating URLs/links before
+downloading them from the web. Main features of Frontera are:
 
-* 面向在线处理，
-* 分布式爬虫和后端架构，
-* 可定制抓取策略，
-* Scrapy易于集成，
-* 集成 `SQLAlchemy`_ 支持关系型数据库（Mysql， PostgreSQL， sqlite 等等）， 集成 `HBase`_ 非常好得支持键值对数据库，
-* 使用 `ZeroMQ`_ and `Kafka`_ 为分布式爬虫实现消息总线，
-* 使用 :doc:`Graph Manager <graph-manager>` 创建伪站点地图和模拟抓取，进行精确抓取逻辑调优。
+* Online processing oriented,
+* distributed spiders and backends architecture,
+* customizable crawling policy,
+* easy integration with Scrapy,
+* relational databases support (MySQL, PostgreSQL, sqlite, and more) with `SQLAlchemy`_ and `HBase`_ key-value database
+  out of the box,
+* `ZeroMQ`_ and `Kafka`_ message bus implementations for distributed crawlers,
+* precise crawling logic tuning with crawling emulation using fake sitemaps with the
+  :doc:`Graph Manager <graph-manager>`.
+* transparent transport layer concept (:term:`message bus`) and communication protocol,
+* pure Python implementation.
+* Python 3 support.
 
-* 透明的传输层概念(:term:`message bus`)和通信协议，
-* 纯 Python 实现 。
-* 支持 Python 3 。
 
+.. _use-cases:
 
-使用案例
+Use cases
 ---------
 
-下面是一些 crawl frontier 适用的案例：
+Here are few cases, external crawl frontier can be suitable for:
 
-* 与爬虫的 URL 排序/排队隔离（例如，需要远端服务器管理排序/排队的分布式爬虫集群），
-* 需要存储 URL 的元信息（在一些地方验证它的内容），
-* 需要高级的 URL 排序逻辑，但在爬虫或者抓取器中很难维护。
+* URL ordering/queueing isolation from the spider (e.g. distributed cluster of spiders, need of remote management of
+  ordering/queueing),
+* URL (meta)data storage is needed (e.g. to demonstrate it's contents somewhere),
+* advanced URL ordering logic is needed, when it's hard to maintain code within spider/fetcher.
 
-一次抓取，少量网站
+
+One-time crawl, few websites
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-这种情况下使用单线程可能是最好的选择。 Frontier 提供以下现成的优先级模型：
+For such use case probably single process mode would be the most appropriate. Frontera can offer these prioritization
+models out of the box:
 
 * FIFO,
 * LIFO,
-* 广度优先 (BFS),
-* 深度优先 (DFS),
-* 基于提供的得分，从 0.0 映射到 1.0。
+* Breadth-first (BFS),
+* Depth-first (DFS),
+* based on provided score, mapped from 0.0 to 1.0.
 
-如果网站很大，抓取所有网页太浪费， Frontera 可以控制爬虫抓取最重要的网页。
+If website is big, and it's expensive to crawl the whole website, Frontera can be suitable for pointing the crawler to
+the most important documents.
 
 
-分布式抓取, 少量网站
+Distributed load, few websites
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-如果考虑提高抓取速度可以使用分布式爬虫模式。在这种模式下，Frontera 为爬虫进程分发任务，并且只有一个后端实例。请求任务通过你选择的 :term:`message bus` 进行分发，通过自定义分区调整任务分发策略。默认情况下请求任务是随机分发给爬虫的，抓取速度可以在爬虫中设置。
+If website needs to be crawled faster than single spider one could use distributed spiders mode. In this mode Frontera
+is distributing spider processes and using one instance of backend worker. Requests are distributed using
+:term:`message bus` of your choice and distribution logic can be adjusted using custom partitioning. By default requests
+are distributed to spiders randomly, and desired request rate can be set in spiders.
 
-也考虑一下代理服务，比如 `Crawlera`_。
+Consider also using proxy services, such as `Crawlera`_.
 
 
-重新抓取
+Revisiting
 ^^^^^^^^^^
 
-有一组网站，并且需要以及时（或其他）方式重新抓取它们。Frontera 提供了简单的重新抓取后端，根据设置的时间间隔定期抓取已经抓取的网页。这个后端使用关系系数据库持久化数据，并可以应用在单机和分布式中。
+There is a set of websites and one need to re-crawl them on timely (or other) manner. Frontera provides simple
+revisiting backend, scheduling already visited documents for next visit using time interval set by option. This
+backend is using general relational database for persistence and can be used in single process or distributed
+spiders modes.
 
-看门狗案例 - 当需要通知文档变化时，也可以使用这样的后端和少量的自定义。
+Watchdog use case - when one needs to be notified about document changes, also could be addressed with such a backend
+and minor customization.
 
-广度抓取
+
+Broad crawling
 ^^^^^^^^^^^^^^
 
-这种使用案例要求完全的分布式：爬虫和后端都是分布式。除了运行 spiders，还应该运行 :term:`strategy worker` (s) 和 :term:`db worker` (s)，这取决于选择的分区策略。
+This use case requires full distribution: spiders and backend. In addition to spiders process one should be running
+:term:`strategy worker` (s) and :term:`db worker` (s), depending on chosen partitioning scheme.
 
-Frontera可用于与大规模网络抓取相关的一系列广泛任务：
+Frontera can be used for broad set of tasks related to large scale web crawling:
 
-* 广泛的网页抓取，任意数量的网站和页面（我们在45M文档卷和100K网站上做过测试），
-* 以主机为中心的抓取：当您有超过100个网站时，
-* 聚焦抓取：
+* Broad web crawling, arbitrary number of websites and pages (we tested it on 45M documents volume and 100K websites),
+* Host-focused crawls: when you have more than 100 websites,
+* Focused crawling:
 
-    * 主题：您搜索关于某个预定义主题的页面，
-    * PageRank，HITS或其他链接图算法指导。
+    * Topical: you search for a pages about some predefined topic,
+    * PageRank, HITS or other link graph algorithm guided.
 
-下面是一些真实世界的问题：
+Here are some of the real world problems:
 
-* 抓取网络中的内容检索构建搜索引擎。
-* 网络图的各种研究工作：收集链接，统计，图结构，跟踪域名计数等。
-* 更普遍的集中抓取任务：比如，您搜索的是大中心的网页，并且频繁更改时间。
+* Building a search engine with content retrieval from the web.
+* All kinds of research work on web graph: gathering links, statistics, structure of graph, tracking domain count, etc.
+* More general focused crawling tasks: e.g. you search for pages that are big hubs, and frequently changing in time.
 
 .. _`Frontera`: http://github.com/scrapinghub/frontera
 .. _`Crawlera`: http://crawlera.com/

@@ -1,50 +1,63 @@
 =========
-运行模式
+Run modes
 =========
 
-下图展示了运行模式的架构图：
+A diagram showing architecture of running modes:
 
 .. image:: _images/high-level-arc.png
 
 
 ====================  =========================================================================  ======================================================  =====================
-模式                  父类                                                               所需组件                                       可用的后端
+Mode                  Parent class                                                               Components needed                                       Available backends
 ====================  =========================================================================  ======================================================  =====================
-单进程        :class:`Backend <frontera.core.components.Backend>`                        单进程运行爬虫                      内存, SQLAlchemy
-分布式爬虫  :class:`Backend <frontera.core.components.Backend>`                        多个爬虫和单个 :term:`db worker`                    内存, SQLAlchemy
-分布式后端  :class:`DistributedBackend <frontera.core.components.DistributedBackend>`  多个爬虫, 多个 :term:`strategy worker` (s) 和多个 db worker(s).  SQLAlchemy, HBase
+Single process        :class:`Backend <frontera.core.components.Backend>`                        single process running the crawler                      Memory, SQLAlchemy
+Distributed spiders   :class:`Backend <frontera.core.components.Backend>`                        spiders and single :term:`db worker`                    Memory, SQLAlchemy
+Distributed backends  :class:`DistributedBackend <frontera.core.components.DistributedBackend>`  spiders, :term:`strategy worker` (s) and db worker(s).  SQLAlchemy, HBase
 ====================  =========================================================================  ======================================================  =====================
 
 
-单进程
+Single process
 ==============
 
-Frontera 与 fetcherz 在相同的过程中实例化（例如在 Scrapy 中）。要实现这个，需要设置 :setting:`BACKEND` 为 :class:`Backend <frontera.core.components.Backend>` 的子类。这种模式适合那种少量文档并且时间要求不紧的应用。
+Frontera is instantiated in the same process as fetcher (for example in Scrapy). To achieve that use :setting:`BACKEND`
+setting set to storage backend subclass of :class:`Backend <frontera.core.components.Backend>`. This run mode is
+suitable for small number of documents and time non-critical applications.
 
-分布式爬虫
+Distributed spiders
 ===================
 
-爬虫是分布式的，但后端不是。后端运行在 :term:`db worker` 中，并通过 :term:`message bus` 与爬虫通信。
+Spiders are distributed and backend isn't. Backend is running in :term:`db worker` and it's communicating with
+spiders using :term:`message bus`.
 
-1. 将爬虫进程中的 :setting:`BACKEND` 设置为 :class:`MessageBusBackend <frontera.contrib.backends.remote.messgebus.MessageBusBackend>`
-2. 在 DB worker 中 :setting:`BACKEND` 应该指向 :class:`Backend <frontera.core.components.Backend>` 的子类。
-3. 每个爬虫进程应该有它自己的 :setting:`SPIDER_PARTITION_ID`，值为从0到 :setting:`SPIDER_FEED_PARTITIONS`。
-4. 爬虫和 DB worker 都应该将 :setting:`MESSAGE_BUS` 设置为你选择的消息总线类或者其他你自定义的实现。
+1. Use :setting:`BACKEND` in spider processes set to
+   :class:`MessageBusBackend <frontera.contrib.backends.remote.messgebus.MessageBusBackend>`
+2. In DB worker :setting:`BACKEND` should point to :class:`Backend <frontera.core.components.Backend>` subclass.
+3. Every spider process should have it's own :setting:`SPIDER_PARTITION_ID`, starting from 0 to
+   :setting:`SPIDER_FEED_PARTITIONS`.
+4. Both spiders and workers should have it's :setting:`MESSAGE_BUS` setting set to the message bus class of your choice,
+   and other implementation depending settings.
 
-此模式适用于需要快速获取文档，同时文档的数量相对较小的应用。
+This mode is suitable for applications where it's critical to fetch documents fast, at the same time amount of them
+is relatively small.
 
 
-分布式爬虫和后端
+Distributed spiders and backend
 ===============================
 
-爬虫和后端都是分布式的。后端分成了两部分： :term:`strategy worker` 和 :term:`db worker`。strategy worker 实例被分配给他们自己的 :term:`spider log` 部分。
+Spiders and backend are distributed. Backend is divided on two parts: :term:`strategy worker` and :term:`db worker`.
+Strategy worker instances are assigned to their own part of :term:`spider log`.
 
-1. 将爬虫进程中的 :setting:`BACKEND` 设置为 :class:`MessageBusBackend <frontera.contrib.backends.remote.messgebus.MessageBusBackend>`
-2. DB workers 和 SW workers 的 :setting:`BACKEND` 应该指向 :class:`DistributedBackend <frontera.core.components.DistributedBackend>` 的子类。同时还需要配置您选择的后端。
-3. 每个爬虫进程应该有它自己的 :setting:`SPIDER_PARTITION_ID`，值为从0到 :setting:`SPIDER_FEED_PARTITIONS`。最后一个必须可以被所有 DB worker 实例访问。
-4. 每个 SW worker 应该有自己的 :setting:`SCORING_PARTITION_ID`，值为从0到 :setting:`SPIDER_LOG_PARTITIONS`。最后一个必须可以被所有 SW worker 实例访问。
-5. 爬虫和所有的 worker 都应该将 :setting:`MESSAGE_BUS` 设置为你选择的消息总线类或者其他你自定义的实现。
+1. Use :setting:`BACKEND` in spider processes set to
+   :class:`MessageBusBackend <frontera.contrib.backends.remote.messgebus.MessageBusBackend>`
+2. In DB and SW workers :setting:`BACKEND` should point to :class:`DistributedBackend <frontera.core.components.DistributedBackend>` subclasses.
+   And selected backend have to be configured.
+3. Every spider process should have it's own :setting:`SPIDER_PARTITION_ID`, starting from 0 to
+   :setting:`SPIDER_FEED_PARTITIONS`. Last must be accessible also to all DB worker instances.
+4. Every SW worker process should have it's own :setting:`SCORING_PARTITION_ID`, starting from 0 to
+   :setting:`SPIDER_LOG_PARTITIONS`. Last must be accessible to all SW worker instances.
+5. Both spiders and workers should have it's :setting:`MESSAGE_BUS` setting set to the message bus class of your choice
+   and selected message bus have to be configured.
 
-在这种模式下，只有 Kafka 消息总线、SqlAlchemy 和 Habse 后端是默认支持的。
+Only Kafka message bus can be used in this mode out of the box and SQLAlchemy and HBase distributed backends.
 
-此模式适用于广度优先抓取和网页数量巨大的情况。
+This mode is suitable for broad crawling and large amount of pages.

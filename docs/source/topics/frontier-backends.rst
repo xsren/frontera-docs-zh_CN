@@ -45,69 +45,69 @@ Each backend component is a single Python class inherited from :class:`Backend <
 :class:`FrontierManager` will communicate with active backend through the methods described below.
 
 
-.. class:: frontera.core.components.Backend
+.. autoclass:: frontera.core.components.Backend
 
     **Methods**
 
-    .. method:: frontera.core.components.Backend.frontier_start
+    .. automethod:: frontera.core.components.Backend.frontier_start
 
         :return: None.
 
-    .. method:: frontera.core.components.Backend.frontier_stop
+    .. automethod:: frontera.core.components.Backend.frontier_stop
 
         :return: None.
 
-    .. method:: frontera.core.components.Backend.finished
+    .. automethod:: frontera.core.components.Backend.finished
 
-    .. method:: frontera.core.components.Backend.add_seeds
-
-        :return: None.
-
-    .. method:: frontera.core.components.Backend.page_crawled
+    .. automethod:: frontera.core.components.Backend.add_seeds
 
         :return: None.
 
-    .. method:: frontera.core.components.Backend.request_error
+    .. automethod:: frontera.core.components.Backend.page_crawled
 
         :return: None.
 
-    .. method:: frontera.core.components.Backend.get_next_requests
+    .. automethod:: frontera.core.components.Backend.request_error
+
+        :return: None.
+
+    .. automethod:: frontera.core.components.Backend.get_next_requests
 
     **Class Methods**
 
-    .. method:: frontera.core.components.Backend.from_manager
+    .. automethod:: frontera.core.components.Backend.from_manager
 
     **Properties**
 
-    .. attribute:: frontera.core.components.Backend.queue
+    .. autoattribute:: frontera.core.components.Backend.queue
 
-    .. attribute:: frontera.core.components.Backend.states
+    .. autoattribute:: frontera.core.components.Backend.states
 
-    .. attribute:: frontera.core.components.Backend.metadata
+    .. autoattribute:: frontera.core.components.Backend.metadata
 
 
-.. class:: frontera.core.components.DistributedBackend
+.. autoclass:: frontera.core.components.DistributedBackend
 
 Inherits all methods of Backend, and has two more class methods, which are called during strategy and db worker
 instantiation.
 
-    .. method:: frontera.core.components.DistributedBackend.strategy_worker
-    .. method:: frontera.core.components.DistributedBackend.db_worker
+    .. automethod:: frontera.core.components.DistributedBackend.strategy_worker
+    .. automethod:: frontera.core.components.DistributedBackend.db_worker
 
 Backend should communicate with low-level storage by means of these classes:
 
 Metadata
 ^^^^^^^^
 
-.. class:: frontera.core.components.Metadata
+.. autoclass:: frontera.core.components.Metadata
 
     **Methods**
 
-    .. method:: frontera.core.components.Metadata.add_seeds
+    .. automethod:: frontera.core.components.Metadata.add_seeds
 
-    .. method:: frontera.core.components.Metadata.request_error
+    .. automethod:: frontera.core.components.Metadata.request_error
 
-    .. method:: frontera.core.components.Metadata.page_crawled
+    .. automethod:: frontera.core.components.Metadata.page_crawled
 
 
 Known implementations are: :class:`MemoryMetadata` and :class:`sqlalchemy.components.Metadata`.
@@ -115,32 +115,32 @@ Known implementations are: :class:`MemoryMetadata` and :class:`sqlalchemy.compon
 Queue
 ^^^^^
 
-.. class:: frontera.core.components.Queue
+.. autoclass:: frontera.core.components.Queue
 
     **Methods**
 
-    .. method:: frontera.core.components.Queue.get_next_requests
+    .. automethod:: frontera.core.components.Queue.get_next_requests
 
-    .. method:: frontera.core.components.Queue.schedule
+    .. automethod:: frontera.core.components.Queue.schedule
 
-    .. method:: frontera.core.components.Queue.count
+    .. automethod:: frontera.core.components.Queue.count
 
 Known implementations are: :class:`MemoryQueue` and :class:`sqlalchemy.components.Queue`.
 
 States
 ^^^^^^
 
-.. class:: frontera.core.components.States
+.. autoclass:: frontera.core.components.States
 
     **Methods**
 
-    .. method:: frontera.core.components.States.update_cache
+    .. automethod:: frontera.core.components.States.update_cache
 
-    .. method:: frontera.core.components.States.set_states
+    .. automethod:: frontera.core.components.States.set_states
 
-    .. method:: frontera.core.components.States.flush
+    .. automethod:: frontera.core.components.States.flush
 
-    .. method:: frontera.core.components.States.fetch
+    .. automethod:: frontera.core.components.States.fetch
 
 
 Known implementations are: :class:`MemoryStates` and :class:`sqlalchemy.components.States`.
@@ -172,7 +172,7 @@ storage engines.
 All these backend variations are using the same :class:`CommonBackend <frontera.contrib.backends.CommonBackend>` class
 implementing one-time visit crawling policy with priority queue.
 
-.. class:: frontera.contrib.backends.CommonBackend
+.. autoclass:: frontera.contrib.backends.CommonBackend
 
 
 .. _frontier-backends-memory:
@@ -274,7 +274,7 @@ there are no documents available for crawling, but there are documents waiting f
 HBase backend
 ^^^^^^^^^^^^^
 
-.. class:: frontera.contrib.backends.hbase.HBaseBackend
+.. autoclass:: frontera.contrib.backends.hbase.HBaseBackend
 
 Is more suitable for large scale web crawlers. Settings reference can be found here :ref:`hbase-settings`. Consider
 tunning a block cache to fit states within one block for average size website. To achieve this it's recommended to use

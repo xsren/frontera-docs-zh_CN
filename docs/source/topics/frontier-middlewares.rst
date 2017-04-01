@@ -1,52 +1,60 @@
 .. _frontier-middlewares:
 
 ===========
-Middlewares（中间件）
+Middlewares
 ===========
 
-Frontier :class:`Middleware <frontera.core.components.Middleware>` 位于
-:class:`FrontierManager <frontera.core.manager.FrontierManager>` 和
-:class:`Backend <frontera.core.components.Backend>` objects 之间, 根据 :ref:`frontier data flow <frontier-data-flow>` 的流程，处理 :class:`Request <frontera.core.models.Request>` 和 :class:`Response <frontera.core.models.Response>`。
+Frontier :class:`Middleware <frontera.core.components.Middleware>` sits between
+:class:`FrontierManager <frontera.core.manager.FrontierManager>` and
+:class:`Backend <frontera.core.components.Backend>` objects, using hooks for
+:class:`Request <frontera.core.models.Request>`
+and :class:`Response <frontera.core.models.Response>` processing according to
+:ref:`frontier data flow <frontier-data-flow>`.
 
-Middlewares 是一个轻量级、低层次的系统，可以用来过滤和更改 Frontier 的 requests 和 responses。
+It’s a light, low-level system for filtering and altering Frontier’s requests and responses.
 
 .. _frontier-activating-middleware:
 
-激活一个 middleware
+Activating a middleware
 =======================
 
-要激活 :class:`Middleware <frontera.core.components.Middleware>` component, 需要添加它到
-:setting:`MIDDLEWARES` setting（这是一个列表，包含类的路径或者一个 :class:`Middleware <frontera.core.components.Middleware>` 对象）。
+To activate a :class:`Middleware <frontera.core.components.Middleware>` component, add it to the
+:setting:`MIDDLEWARES` setting, which is a list whose values can be class paths or instances of
+:class:`Middleware <frontera.core.components.Middleware>` objects.
 
-这是一个例子::
+Here’s an example::
 
     MIDDLEWARES = [
         'frontera.contrib.middlewares.domain.DomainMiddleware',
     ]
 
-Middlewares按照它们在列表中定义的相同顺序进行调用，根据你自己的需要安排顺序。 该顺序很重要，因为每个中间件执行不同的操作，并且您的中间件可能依赖于一些先前（或后续的）执行的中间件。
+Middlewares are called in the same order they've been defined in the list, to decide which order to assign to your
+middleware pick a value according to where you want to insert it. The order does matter because each middleware
+performs a different action and your middleware could depend on some previous (or subsequent) middleware being applied.
 
-最后，记住一些 middlewares 需要通过特殊的 setting。详细请参考 :ref:`each middleware documentation <frontier-built-in-middleware>` 。
+Finally, keep in mind that some middlewares may need to be enabled through a particular setting. See
+:ref:`each middleware documentation <frontier-built-in-middleware>` for more info.
 
 .. _frontier-writing-middleware:
 
-写你自己的 middleware
+Writing your own middleware
 ===========================
 
 
-写自己的 Frontera middleware 是很简单的。每个 :class:`Middleware <frontera.core.components.Middleware>` 是一个继承 :class:`Component <frontera.core.components.Component>` 的 Python 类。
+Writing your own frontier middleware is easy. Each :class:`Middleware <frontera.core.components.Middleware>`
+component is a single Python class inherited from :class:`Component <frontera.core.components.Component>`.
 
 
-:class:`FrontierManager <frontera.core.manager.FrontierManager>` 会通过下面的方法和所有激活的 middlewares 通信。
+:class:`FrontierManager <frontera.core.manager.FrontierManager>` will communicate with all active middlewares
+through the methods described below.
 
-
-.. class:: frontera.core.components.Middleware
+.. autoclass:: frontera.core.components.Middleware
 
     **Methods**
 
-    .. method:: frontera.core.components.Middleware.frontier_start
-    .. method:: frontera.core.components.Middleware.frontier_stop
-    .. method:: frontera.core.components.Middleware.add_seeds
+    .. automethod:: frontera.core.components.Middleware.frontier_start
+    .. automethod:: frontera.core.components.Middleware.frontier_stop
+    .. automethod:: frontera.core.components.Middleware.add_seeds
 
         :return: :class:`Request <frontera.core.models.Request>` object list or ``None``
 
@@ -103,12 +111,14 @@ Middlewares按照它们在列表中定义的相同顺序进行调用，根据你
 
 .. _frontier-built-in-middleware:
 
-内置 middleware 参考
+Built-in middleware reference
 =============================
 
-这篇文章描述了 Frontera 所有的 :class:`Middleware <frontera.core.components.Middleware>` 组件。如何使用和写自己的 middleware，请参考 :ref:`middleware usage guide. <frontier-writing-middleware>`。
+This page describes all :class:`Middleware <frontera.core.components.Middleware>` components that come with Frontera.
+For information on how to use them and how to write your own middleware, see the
+:ref:`middleware usage guide. <frontier-writing-middleware>`.
 
-有关默认启用的组件列表（及其顺序），请参阅 MIDDLEWARES 设置。
+For a list of the components enabled by default (and their orders) see the :setting:`MIDDLEWARES` setting.
 
 
 .. _frontier-domain-middleware:

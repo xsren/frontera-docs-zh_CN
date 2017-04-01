@@ -276,5 +276,3 @@ else:
 # -- Options for autoclass ------------------------------------------------
 # Use class and init docstrings for autoclass directive
 autoclass_content = 'both'
-
-locale_dirs = ['locale/']
