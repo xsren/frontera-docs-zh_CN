@@ -13,6 +13,7 @@ Canonical URL Solver
 
 - 同一份文件可以通过多个不同的URL访问。
 
+
 精心设计的系统具有自己的稳定算法，为每个文档选择正确的 URL。另见 `Canonical link element`_ 。
 
 规范 URL 解算器在Frontera Manager初始化期间使用 :setting:`CANONICAL_SOLVER` 设置中的类来实例化。
