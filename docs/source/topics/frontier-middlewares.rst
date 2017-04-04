@@ -68,7 +68,7 @@ Middlewares按照它们在列表中定义的相同顺序进行调用，根据你
 
         如果返回 :class:`Response <frontera.core.models.Response>`，它将会被传给下个中间件。这个过程会在每个激活的中间件重复，直到它到达 :class:`Backend <frontera.core.components.Backend>`。
 
-        如果要过滤页面，只需返回None。
+        如果要过滤页面，只需返回 None。
 
     .. automethod:: frontera.core.components.Middleware.request_error
 
@@ -81,7 +81,7 @@ Middlewares按照它们在列表中定义的相同顺序进行调用，根据你
 
         如果返回一个 :class:`Response <frontera.core.models.Request>` 对象，它将会被传给下个中间件。这个过程会在每个激活的中间件重复，直到它到达 :class:`Backend <frontera.core.components.Backend>`。
 
-        If you want to filter a page error, just return None.
+        如果要过滤页面错误，只需返回 None。
 
     **Class Methods**
 
