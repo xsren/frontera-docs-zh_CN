@@ -74,13 +74,12 @@ Frontier :class:`Backend <frontera.core.components.Backend>` 是抓取逻辑/策
 
 .. class:: frontera.core.components.DistributedBackend
 
-Inherits all methods of Backend, and has two more class methods, which are called during strategy and db worker
-instantiation.
+继承 Backend 的所有方法，并且还有两个类方法，它们在 strategy worker 和 db worker 实例化期间被调用。
 
     .. automethod:: frontera.core.components.DistributedBackend.strategy_worker
     .. automethod:: frontera.core.components.DistributedBackend.db_worker
 
-Backend should communicate with low-level storage by means of these classes:
+Backend 应通过这些类与低级存储进行通信：
 
 Metadata
 ^^^^^^^^
@@ -96,7 +95,8 @@ Metadata
     .. automethod:: frontera.core.components.Metadata.page_crawled
 
 
-Known implementations are: :class:`MemoryMetadata` and :class:`sqlalchemy.components.Metadata`.
+已知的实现是: :class:`MemoryMetadata` 和 :class:`sqlalchemy.components.Metadata`。
+
 
 Queue
 ^^^^^
@@ -111,7 +111,7 @@ Queue
 
     .. automethod:: frontera.core.components.Queue.count
 
-Known implementations are: :class:`MemoryQueue` and :class:`sqlalchemy.components.Queue`.
+已知的实现是: :class:`MemoryQueue` 和 :class:`sqlalchemy.components.Queue`。
 
 States
 ^^^^^^
@@ -129,45 +129,41 @@ States
     .. automethod:: frontera.core.components.States.fetch
 
 
-Known implementations are: :class:`MemoryStates` and :class:`sqlalchemy.components.States`.
+已知的实现是: :class:`MemoryStates` 和 :class:`sqlalchemy.components.States`。
 
 
 .. _frontier-built-in-backend:
 
-Built-in backend reference
+内置后端引用
 ==========================
 
-This article describes all backend components that come bundled with Frontera.
+本文介绍了与 Frontera 捆绑在一起的所有后端组件。
 
-To know the default activated :class:`Backend <frontera.core.components.Backend>` check the
-:setting:`BACKEND` setting.
+要知道默认激活的 :class:`Backend <frontera.core.components.Backend>` 请看 :setting:`BACKEND` 设置。
 
 
 .. _frontier-backends-basic-algorithms:
 
-Basic algorithms
+基本算法
 ^^^^^^^^^^^^^^^^
-Some of the built-in :class:`Backend <frontera.core.components.Backend>` objects implement basic algorithms as
-as `FIFO`_/`LIFO`_ or `DFS`_/`BFS`_ for page visit ordering.
 
-Differences between them will be on storage engine used. For instance,
-:class:`memory.FIFO <frontera.contrib.backends.memory.FIFO>` and
-:class:`sqlalchemy.FIFO <frontera.contrib.backends.sqlalchemy.FIFO>` will use the same logic but with different
-storage engines.
+一些内置的 :class:`Backend <frontera.core.components.Backend>` 对象实现基本算法，如 `FIFO`_/`LIFO`_ or `DFS`_/`BFS`_，用于页面访问排序。
 
-All these backend variations are using the same :class:`CommonBackend <frontera.contrib.backends.CommonBackend>` class
-implementing one-time visit crawling policy with priority queue.
+它们之间的差异将在使用的存储引擎上。例如，:class:`memory.FIFO <frontera.contrib.backends.memory.FIFO>` 和
+:class:`sqlalchemy.FIFO <frontera.contrib.backends.sqlalchemy.FIFO>` 将使用相同的逻辑，但使用不同的存储引擎。
+
+所有这些后端变体都使用相同的 :class:`CommonBackend <frontera.contrib.backends.CommonBackend>` 类实现具有优先级队列的一次访问爬网策略。
+
 
 .. class:: frontera.contrib.backends.CommonBackend
 
 
 .. _frontier-backends-memory:
 
-Memory backends
+内存后端
 ^^^^^^^^^^^^^^^
 
-This set of :class:`Backend <frontera.core.components.Backend>` objects will use an `heapq`_ module as queue and native
-dictionaries as storage for :ref:`basic algorithms <frontier-backends-basic-algorithms>`.
+这组 :class:`Backend <frontera.core.components.Backend>` 对象将使用 `heapq`_ 模块作为队列和本机字典作为 :ref:`basic algorithms <frontier-backends-basic-algorithms>` 的存储。
 
 
 .. class:: frontera.contrib.backends.memory.BASE
@@ -198,22 +194,18 @@ dictionaries as storage for :ref:`basic algorithms <frontier-backends-basic-algo
 
 .. _frontier-backends-sqlalchemy:
 
-SQLAlchemy backends
+SQLAlchemy 后端
 ^^^^^^^^^^^^^^^^^^^
 
-This set of :class:`Backend <frontera.core.components.Backend>` objects will use `SQLAlchemy`_ as storage for
-:ref:`basic algorithms <frontier-backends-basic-algorithms>`.
+这组 :class:`Backend <frontera.core.components.Backend>` 对象将使用 `SQLAlchemy`_ 作为 :ref:`basic algorithms <frontier-backends-basic-algorithms>` 的存储。
 
-By default it uses an in-memory SQLite database as a storage engine, but `any databases supported by SQLAlchemy`_ can
-be used.
+默认情况下，它使用内存模式的 SQLite 数据库作为存储引擎，但可以使用 `any databases supported by SQLAlchemy`_ 。
 
+如果你想使用你自己的 `declarative sqlalchemy models`_ ，你可以使用 :setting:`SQLALCHEMYBACKEND_MODELS` 设置。
 
-If you need to use your own `declarative sqlalchemy models`_, you can do it by using the
-:setting:`SQLALCHEMYBACKEND_MODELS` setting.
+这个 setting 使用一个字典，其中 ``key`` 代表要定义的模型的名称，``value`` 代表了这个模型。
 
-This setting uses a dictionary where ``key`` represents the name of the model to define and ``value`` the model to use.
-
-For a complete list of all settings used for SQLAlchemy backends check the :doc:`settings <frontera-settings>` section.
+有关用于 SQLAlchemy 后端的所有 settings，请查看 :doc:`settings <frontera-settings>` 。
 
 .. class:: frontera.contrib.backends.sqlalchemy.BASE
 
@@ -257,7 +249,7 @@ there are no documents available for crawling, but there are documents waiting f
     Base class for SQLAlchemy :class:`Backend <frontera.core.components.Backend>` implementation of revisiting back-end.
 
 
-HBase backend
+HBase 后端
 ^^^^^^^^^^^^^
 
 .. class:: frontera.contrib.backends.hbase.HBaseBackend
