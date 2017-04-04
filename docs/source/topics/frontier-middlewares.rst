@@ -50,48 +50,36 @@ Middlewares按照它们在列表中定义的相同顺序进行调用，根据你
 
         :return: :class:`Request <frontera.core.models.Request>` object list or ``None``
 
-        Should either return ``None`` or a list of :class:`Request <frontera.core.models.Request>` objects.
+        应该返回 ``None`` 或者 :class:`Request <frontera.core.models.Request>` 的列表。
 
-        If it returns ``None``, :class:`FrontierManager <frontera.core.manager.FrontierManager>` won't continue
-        processing any other middleware and seed will never reach the
-        :class:`Backend <frontera.core.components.Backend>`.
+        如果返回 ``None`` ， :class:`FrontierManager <frontera.core.manager.FrontierManager>` 将不会处理任何中间件，并且种子也不会到达 :class:`Backend <frontera.core.components.Backend>` 。
 
-        If it returns a list of :class:`Request <frontera.core.models.Request>` objects, this will be passed to
-        next middleware. This process will repeat for all active middlewares until result is finally passed to the
-        :class:`Backend <frontera.core.components.Backend>`.
+        如果返回 :class:`Request <frontera.core.models.Request>` 列表，该列表将会传给下个中间件。这个过程会在每个激活的中间件重复，直到它到达 :class:`Backend <frontera.core.components.Backend>`。
 
-        If you want to filter any seed, just don't include it in the returned object list.
+        如果要过滤任何种子，请不要将其包含在返回的对象列表中。
 
     .. automethod:: frontera.core.components.Middleware.page_crawled
 
         :return: :class:`Response <frontera.core.models.Response>` or ``None``
 
-        Should either return ``None`` or a :class:`Response <frontera.core.models.Response>` object.
+        应该返回 ``None`` 或者一个 :class:`Response <frontera.core.models.Response>` 对象。
 
-        If it returns ``None``, :class:`FrontierManager <frontera.core.manager.FrontierManager>` won't continue
-        processing any other middleware and :class:`Backend <frontera.core.components.Backend>` will never be
-        notified.
+        如果返回 ``None`` ，:class:`FrontierManager <frontera.core.manager.FrontierManager>` 将不会处理任何中间件，并且 :class:`Backend <frontera.core.components.Backend>` 不会被通知。
 
-        If it returns a :class:`Response <frontera.core.models.Response>` object, this will be passed to
-        next middleware. This process will repeat for all active middlewares until result is finally passed to the
-        :class:`Backend <frontera.core.components.Backend>`.
+        如果返回 :class:`Response <frontera.core.models.Response>`，它将会被传给下个中间件。这个过程会在每个激活的中间件重复，直到它到达 :class:`Backend <frontera.core.components.Backend>`。
 
-        If you want to filter a page, just return None.
+        如果要过滤页面，只需返回None。
 
     .. automethod:: frontera.core.components.Middleware.request_error
 
 
         :return: :class:`Request <frontera.core.models.Request>` or ``None``
 
-        Should either return ``None`` or a :class:`Request <frontera.core.models.Request>` object.
+        应该返回 ``None`` 或者一个 :class:`Request <frontera.core.models.Request>` 对象。
 
-        If it returns ``None``, :class:`FrontierManager <frontera.core.manager.FrontierManager>` won't continue
-        processing any other middleware and :class:`Backend <frontera.core.components.Backend>` will never be
-        notified.
+        如果返回 ``None``，:class:`FrontierManager <frontera.core.manager.FrontierManager>` 将不会和其他任何中间件通信，并且 :class:`Backend <frontera.core.components.Backend>` 不会被通知。
 
-        If it returns a :class:`Response <frontera.core.models.Request>` object, this will be passed to
-        next middleware. This process will repeat for all active middlewares until result is finally passed to the
-        :class:`Backend <frontera.core.components.Backend>`.
+        如果返回一个 :class:`Response <frontera.core.models.Request>` 对象，它将会被传给下个中间件。这个过程会在每个激活的中间件重复，直到它到达 :class:`Backend <frontera.core.components.Backend>`。
 
         If you want to filter a page error, just return None.
 
