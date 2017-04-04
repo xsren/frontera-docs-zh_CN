@@ -44,9 +44,9 @@ Middlewares按照它们在列表中定义的相同顺序进行调用，根据你
 
     **Methods**
 
-    .. method:: frontera.core.components.Middleware.frontier_start
-    .. method:: frontera.core.components.Middleware.frontier_stop
-    .. method:: frontera.core.components.Middleware.add_seeds
+    .. automethod:: frontera.core.components.Middleware.frontier_start
+    .. automethod:: frontera.core.components.Middleware.frontier_stop
+    .. automethod:: frontera.core.components.Middleware.add_seeds
 
         :return: :class:`Request <frontera.core.models.Request>` object list or ``None``
 

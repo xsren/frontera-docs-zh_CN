@@ -2,80 +2,66 @@
 后端
 ========
 
-Frontier :class:`Backend <frontera.core.components.Backend>` is where the crawling logic/policies lies, essentially a
-brain of your crawler. :class:`Queue <frontera.core.components.Queue>`,
-:class:`Metadata <frontera.core.components.Metadata>` and :class:`States <frontera.core.components.States>` are classes
-where all low level code is meant to be placed, and
-Backend opposite, operates on a higher levels. Frontera is bundled with database and in-memory implementations of
-Queue, Metadata and States which can be combined in your custom backends or used standalone by directly
-instantiating :class:`FrontierManager <frontera.core.manager.FrontierManager>` and Backend.
+Frontier :class:`Backend <frontera.core.components.Backend>` 是抓取逻辑/策略所在的地方，本质上是你的爬虫的大脑。 :class:`Queue <frontera.core.components.Queue>`, :class:`Metadata <frontera.core.components.Metadata>` 和 :class:`States <frontera.core.components.States>`是为了放置低级代码的类，相反，后端类运行更高级的代码。Frontera 内置了内存或数据库方式实现的 Queue, Metadata 和 States，它们可以在你自定义的后端类中使用或者实例化 :class:`FrontierManager <frontera.core.manager.FrontierManager>` 和后端独立使用。
 
-Backend methods are called by the FrontierManager after
-:class:`Middleware <frontera.core.components.Middleware>`, using hooks for
-:class:`Request <frontera.core.models.Request>` and :class:`Response <frontera.core.models.Response>` processing
-according to :ref:`frontier data flow <frontier-data-flow>`.
+后端方法在 :class:`Middleware <frontera.core.components.Middleware>` 之后被 FrontierManager 调用，根据 :ref:`frontier data flow <frontier-data-flow>` 使用 hooks 处理 class:`Request <frontera.core.models.Request>` 和 :class:`Response <frontera.core.models.Response>` 。
 
-Unlike Middleware, that can have many different instances activated, only one Backend can be used per
-frontier.
-
+与中间件可以激活许多不同的实例不同，每个 Frontera 只能使用一种后端。
 
 .. _frontier-activating-backend:
 
-Activating a backend
+激活一个后端
 ====================
 
-To activate the frontier backend component, set it through the :setting:`BACKEND` setting.
+要激活 Frontera 后端组件，请通过  :setting:`BACKEND` 设置进行设置。
 
-Here’s an example::
+这是一个例子 ::
 
     BACKEND = 'frontera.contrib.backends.memory.FIFO'
 
-Keep in mind that some backends may need to be additionally configured through a particular setting. See
-:ref:`backends documentation <frontier-built-in-backend>` for more info.
+请记住，某些后端可能需要额外配置其他 settings。 更多信息，请参阅 :ref:`backends documentation <frontier-built-in-backend>` 。
 
 .. _frontier-writing-backend:
 
-Writing your own backend
+写你自己的后端
 ========================
 
-Each backend component is a single Python class inherited from :class:`Backend <frontera.core.components.Backend>` or
-:class:`DistributedBackend <frontera.core.components.DistributedBackend>` and using one or all of
-:class:`Queue`, :class:`Metadata` and :class:`States`.
+每个后端组件是一个 Python 类，它继承自 :class:`Backend <frontera.core.components.Backend>` 或
+:class:`DistributedBackend <frontera.core.components.DistributedBackend>` ，且使用 :class:`Queue`, :class:`Metadata` 和 :class:`States` 中的一个或多个。
 
-:class:`FrontierManager` will communicate with active backend through the methods described below.
-
+:class:`FrontierManager` 将通过下列方法与激活的后端通信。
 
 .. class:: frontera.core.components.Backend
 
     **Methods**
 
-    .. method:: frontera.core.components.Backend.frontier_start
+    .. automethod:: frontera.core.components.Backend.frontier_start
 
         :return: None.
 
-    .. method:: frontera.core.components.Backend.frontier_stop
+    .. automethod:: frontera.core.components.Backend.frontier_stop
 
         :return: None.
 
-    .. method:: frontera.core.components.Backend.finished
+    .. automethod:: frontera.core.components.Backend.finished
 
-    .. method:: frontera.core.components.Backend.add_seeds
-
-        :return: None.
-
-    .. method:: frontera.core.components.Backend.page_crawled
+    .. automethod:: frontera.core.components.Backend.add_seeds
 
         :return: None.
 
-    .. method:: frontera.core.components.Backend.request_error
+    .. automethod:: frontera.core.components.Backend.page_crawled
 
         :return: None.
 
-    .. method:: frontera.core.components.Backend.get_next_requests
+    .. automethod:: frontera.core.components.Backend.request_error
+
+        :return: None.
+
+    .. automethod:: frontera.core.components.Backend.get_next_requests
 
     **Class Methods**
 
-    .. method:: frontera.core.components.Backend.from_manager
+    .. automethod:: frontera.core.components.Backend.from_manager
 
     **Properties**
 
@@ -91,8 +77,8 @@ Each backend component is a single Python class inherited from :class:`Backend <
 Inherits all methods of Backend, and has two more class methods, which are called during strategy and db worker
 instantiation.
 
-    .. method:: frontera.core.components.DistributedBackend.strategy_worker
-    .. method:: frontera.core.components.DistributedBackend.db_worker
+    .. automethod:: frontera.core.components.DistributedBackend.strategy_worker
+    .. automethod:: frontera.core.components.DistributedBackend.db_worker
 
 Backend should communicate with low-level storage by means of these classes:
 
@@ -103,11 +89,11 @@ Metadata
 
     **Methods**
 
-    .. method:: frontera.core.components.Metadata.add_seeds
+    .. automethod:: frontera.core.components.Metadata.add_seeds
 
-    .. method:: frontera.core.components.Metadata.request_error
+    .. automethod:: frontera.core.components.Metadata.request_error
 
-    .. method:: frontera.core.components.Metadata.page_crawled
+    .. automethod:: frontera.core.components.Metadata.page_crawled
 
 
 Known implementations are: :class:`MemoryMetadata` and :class:`sqlalchemy.components.Metadata`.
@@ -119,11 +105,11 @@ Queue
 
     **Methods**
 
-    .. method:: frontera.core.components.Queue.get_next_requests
+    .. automethod:: frontera.core.components.Queue.get_next_requests
 
-    .. method:: frontera.core.components.Queue.schedule
+    .. automethod:: frontera.core.components.Queue.schedule
 
-    .. method:: frontera.core.components.Queue.count
+    .. automethod:: frontera.core.components.Queue.count
 
 Known implementations are: :class:`MemoryQueue` and :class:`sqlalchemy.components.Queue`.
 
@@ -134,13 +120,13 @@ States
 
     **Methods**
 
-    .. method:: frontera.core.components.States.update_cache
+    .. automethod:: frontera.core.components.States.update_cache
 
-    .. method:: frontera.core.components.States.set_states
+    .. automethod:: frontera.core.components.States.set_states
 
-    .. method:: frontera.core.components.States.flush
+    .. automethod:: frontera.core.components.States.flush
 
-    .. method:: frontera.core.components.States.fetch
+    .. automethod:: frontera.core.components.States.fetch
 
 
 Known implementations are: :class:`MemoryStates` and :class:`sqlalchemy.components.States`.
