@@ -233,19 +233,18 @@ SQLAlchemy 后端
     algorithm.
 
 
-Revisiting backend
+定时重爬后端
 ^^^^^^^^^^^^^^^^^^
 
-Based on custom SQLAlchemy backend, and queue. Crawling starts with seeds. After seeds are crawled, every new
-document will be scheduled for immediate crawling. On fetching every new document will be scheduled for recrawling
-after fixed interval set by :setting:`SQLALCHEMYBACKEND_REVISIT_INTERVAL`.
+基于自定义 SQLAlchemy 后端和队列。从种子开始抓取。种子被抓取后，每一个新的
+文件将被安排立即抓取。每个文档被抓取之后，将会在由 :setting:`SQLALCHEMYBACKEND_REVISIT_INTERVAL` 设置的时间间隔后再次抓取。
 
-Current implementation of revisiting backend has no prioritization. During long term runs spider could go idle, because
-there are no documents available for crawling, but there are documents waiting for their scheduled revisit time.
-
+定时重爬后端当前没有实现优先级。 在长时间运行时，爬虫可能会闲置，因为
+没有可用的抓取任务，但有任务等待他们的预定的访问时间。
 
 .. class:: frontera.contrib.backends.sqlalchemy.revisiting.Backend
 
+    实现定时重爬后端的 SQLAlchemy :class:`Backend <frontera.core.components.Backend>` 基类。
     Base class for SQLAlchemy :class:`Backend <frontera.core.components.Backend>` implementation of revisiting back-end.
 
 
@@ -254,12 +253,8 @@ HBase 后端
 
 .. class:: frontera.contrib.backends.hbase.HBaseBackend
 
-Is more suitable for large scale web crawlers. Settings reference can be found here :ref:`hbase-settings`. Consider
-tunning a block cache to fit states within one block for average size website. To achieve this it's recommended to use
-:attr:`hostname_local_fingerprint <frontera.utils.fingerprint.hostname_local_fingerprint>`
+更适合大规模抓取。设置请参考 :ref:`hbase-settings` 。请考虑调整块缓存以适应平均网页块的大小。要实现这一点，建议使用 :attr:`hostname_local_fingerprint <frontera.utils.fingerprint.hostname_local_fingerprint>` ，可以让相同域名的网页放在一起。这个函数可以通过 :setting:`URL_FINGERPRINT_FUNCTION` 设置。
 
-to achieve documents closeness within the same host. This function can be selected with :setting:`URL_FINGERPRINT_FUNCTION`
-setting.
 
 ..  TODO: document details of block cache tuning,
     BC* settings and queue get operation concept,
