@@ -2,9 +2,9 @@
 后端
 ========
 
-Frontier :class:`Backend <frontera.core.components.Backend>` 是抓取逻辑/策略所在的地方，本质上是你的爬虫的大脑。 :class:`Queue <frontera.core.components.Queue>`, :class:`Metadata <frontera.core.components.Metadata>` 和 :class:`States <frontera.core.components.States>`是为了放置低级代码的类，相反，后端类运行更高级的代码。Frontera 内置了内存或数据库方式实现的 Queue, Metadata 和 States，它们可以在你自定义的后端类中使用或者实例化 :class:`FrontierManager <frontera.core.manager.FrontierManager>` 和后端独立使用。
+Frontier :class:`Backend <frontera.core.components.Backend>` 是抓取逻辑/策略所在的地方，本质上是你的爬虫的大脑。 :class:`Queue <frontera.core.components.Queue>`, :class:`Metadata <frontera.core.components.Metadata>` 和 :class:`States <frontera.core.components.States>` 是为了放置低级代码的类，相反，后端类运行更高级的代码。Frontera 内置了内存或数据库方式实现的 Queue, Metadata 和 States，它们可以在你自定义的后端类中使用或者实例化 :class:`FrontierManager <frontera.core.manager.FrontierManager>` 和后端独立使用。
 
-后端方法在 :class:`Middleware <frontera.core.components.Middleware>` 之后被 FrontierManager 调用，根据 :ref:`frontier data flow <frontier-data-flow>` 使用 hooks 处理 class:`Request <frontera.core.models.Request>` 和 :class:`Response <frontera.core.models.Response>` 。
+后端方法在 :class:`Middleware <frontera.core.components.Middleware>` 之后被 FrontierManager 调用，根据 :ref:`frontier data flow <frontier-data-flow>` 使用 hooks 处理 :class:`Request <frontera.core.models.Request>` 和 :class:`Response <frontera.core.models.Response>` 。
 
 与中间件可以激活许多不同的实例不同，每个 Frontera 只能使用一种后端。
 
