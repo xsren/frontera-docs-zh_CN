@@ -1,54 +1,50 @@
 ===========
-Message bus
+消息总线
 ===========
 
-Message bus ss the transport layer abstraction mechanism. Frontera provides interface and several implementations.
-Only one message bus can be used in crawler at the time, and it's selected with :setting:`MESSAGE_BUS` setting.
+消息总线是传输层抽象机制。Frontera 提供了接口和几个实现。同一时间只能使用一种类型的消息总线，并通过 :setting:`MESSAGE_BUS` 设置。
 
-Spiders process can use
+爬虫进程可以使用
 
 .. autoclass:: frontera.contrib.backends.remote.messagebus.MessageBusBackend
 
-to communicate using message bus.
+和消息总线进行通信。
 
 
-Built-in message bus reference
+内置消息总线参考
 ==============================
 
 ZeroMQ
 ------
-It's the default option, implemented using lightweight `ZeroMQ`_ library in
+这是默认选项，使用轻量级的 `ZeroMQ`_ 库实现
 
 .. autoclass:: frontera.contrib.messagebus.zeromq.MessageBus
 
-and can be configured using :ref:`zeromq-settings`.
+可以使用 :ref:`zeromq-settings` 配置。
 
-ZeroMQ message bus requires installed ZeroMQ library and running broker process, see :ref:`running_zeromq_broker`.
+ZeroMQ 需要按照 ZeroMQ 库，并且启动broker进程，请参考 :ref:`running_zeromq_broker` 。
 
-Overall ZeroMQ message bus is designed to get a working PoC quickly and smaller deployments. Mainly because it's prone
-to message loss when data flow of components isn't properly adjusted or during startup. Here's the recommended order of
-components startup to avoid message loss:
+总的来说，使用 ZeroMQ 消息总线是为了用最少的部署实现 PoC （Patch Output Converter 成批输出转换程序）。因为它很容易
+在组件的数据流未正确调整或启动过程中发生消息丢失，所以请参照下面的顺序启动组件：
 
 #. :term:`db worker`
 #. :term:`strategy worker`
 #. :term:`spiders`
 
-Unfortunately, it's not possible to avoid message loss when stopping running crawler with unfinished crawl. We recommend
- to use Kafka message bus if your crawler application is sensitive to small message loss.
+不幸的是，停止执行未完成抓取的爬虫时，无法避免消息丢失。如果你的爬虫程序对少量的信息丢失敏感的话，我建议你使用 Kafka。
 
 .. pull-quote::
-    WARNING! ZeroMQ message bus doesn't support yet multiple SW and DB workers, only one instance of each worker
-    type is allowed.
+    警告！ZeroMQ消息总线不支持多个 SW worker 和 DB worker， 每种 woker 只能有一个实例。
 
 Kafka
 -----
-Can be selected with
+使用这个类
 
 .. autoclass:: frontera.contrib.messagebus.kafkabus.MessageBus
 
-and configured using :ref:`kafka-settings`.
+使用 :ref:`kafka-settings` 配置。
 
-Requires running `Kafka`_ service and more suitable for large-scale web crawling.
+需要运行 `Kafka`_ 服务，这个服务更适合大规模采集。
 
 .. _Kafka: http://kafka.apache.org/
 .. _ZeroMQ: http://zeromq.org/
@@ -56,14 +52,12 @@ Requires running `Kafka`_ service and more suitable for large-scale web crawling
 
 .. _message_bus_protocol:
 
-Protocol
+协议
 ========
 
-Depending on stream Frontera is using several message types to code it's messages. Every message is a python native
-object serialized using `msgpack`_ or JSON. The codec module can be selected using :setting:`MESSAGE_BUS_CODEC`, and
-it's required to export ``Encoder`` and ``Decoder`` classes.
+根据数据流，Frontera 使用几种消息类型来编码它的消息。每种消息是用 `msgpack`_ 或 JSON 序列化的 python 对象。可以使用 :setting:`MESSAGE_BUS_CODEC` 选择编解码器模块，并且需要导出编码器和解码器类。
 
-Here are the classes needed to subclass to implement own codec:
+以下是子类实现自己的编解码器所需的类:
 
 .. autoclass:: frontera.core.codec.BaseEncoder
 
@@ -81,7 +75,7 @@ Here are the classes needed to subclass to implement own codec:
     .. automethod:: frontera.core.codec.BaseDecoder.decode_request
 
 
-Available codecs
+可用的编解码器
 ================
 
 MsgPack
