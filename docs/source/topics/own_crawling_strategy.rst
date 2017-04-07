@@ -1,9 +1,10 @@
 =================
-Crawling strategy
+抓取策略
 =================
 
-Use ``cluster`` example and ``frontera.worker.strategies.bfs`` module for reference. In general, you need to write a
-crawling strategy class by subclassing:
+使用 ``cluster`` 例子和 ``frontera.worker.strategies.bfs`` 模型进行参考。
+Use ``cluster`` example and ``frontera.worker.strategies.bfs`` module for reference. 一般来说，你需要写一个
+抓取策略子类，参照:
 
 .. autoclass:: frontera.worker.strategies.BaseCrawlingStrategy
 
@@ -17,10 +18,6 @@ crawling strategy class by subclassing:
     .. automethod:: frontera.worker.strategies.BaseCrawlingStrategy.close
 
 
-The class can be put in any module and passed to :term:`strategy worker` using command line option or
-:setting:`CRAWLING_STRATEGY` setting on startup.
+该类可以放在任何模块中，并在启动时使用命令行选项或 :setting:`CRAWLING_STRATEGY` 设置传递给 :term:`strategy worker`。
 
-The strategy class instantiated in strategy worker, and can use it's own storage or any other kind of resources. All
-items from :term:`spider log` will be passed through these methods. Scores returned doesn't have to be the same as in
-method arguments. Periodically ``finished()`` method is called to check if crawling goal is achieved.
-
+这个策略类在 strategy worker 中实例化，可以使用自己的存储或任何其他类型的资源。所有来着 :term:`spider log` 的都会传给这些方法。返回的分数不一定与方法参数相同。``finished()`` 方法会被周期性的调用来检测抓取目标是否达到了。
