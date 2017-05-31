@@ -3,12 +3,12 @@
 ==============================
 
 
-Scrapy 中使用 Frontera 非常简单，它包含一组 `Scrapy middlewares`_ 和 Scrapy 调度程序，封装了 Frontera 的功能 ，可以使用`Scrapy settings`_轻松配置。
+Scrapy 中使用 Frontera 非常简单，它包含一组 `Scrapy middlewares`_ 和 Scrapy 调度程序，封装了 Frontera 的功能 ，可以使用 `Scrapy settings`_ 轻松配置。
 
 激活 frontier
 =======================
 
-Frontera 使用两种不同的中间件：``SchedulerSpiderMiddleware`` and ``SchedulerDownloaderMiddleware``和自己的调度程序 ``FronteraScheduler``。
+Frontera 使用两种不同的中间件：``SchedulerSpiderMiddleware`` and ``SchedulerDownloaderMiddleware`` 和自己的调度程序 ``FronteraScheduler``。
 
 要在你的 Scrapy 项目中激活 Frontera，只要把它们加入到 `SPIDER_MIDDLEWARES`_,
 `DOWNLOADER_MIDDLEWARES`_ 和 `SCHEDULER`_ settings::
