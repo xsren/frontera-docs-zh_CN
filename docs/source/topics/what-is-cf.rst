@@ -1,37 +1,27 @@
 .. _crawl-frontier:
 
 =========================
-What is a Crawl Frontier?
+什么是 Crawl Frontier?
 =========================
 
-Frontera is a crawl frontier framework, the part of a crawling system that decides the logic and policies to follow
-when a crawler is visiting websites (what pages should be crawled next, priorities and ordering, how often pages are
-revisited, etc).
+Frontera 一个实现 crawl frontier 的框架。crawler frontier 是爬虫系统的一部分，它决定了爬虫抓取网页时候的逻辑和策略（哪些页面应该被抓取，优先级和排序，页面被重新抓取的频率等）。
 
-A usual crawl frontier scheme is:
+通常的 crawl frontier 方案是：
 
 .. image:: _images/frontier_01.png
    :width: 300px
    :height: 178px
 
 
-The frontier is initialized with a list of start URLs, that we call the seeds. Once the frontier is initialized
-the crawler asks it what pages should be visited next. As the crawler starts to visit the pages and obtains
-results, it will inform the frontier of each page response and also of the extracted hyperlinks contained within the
-page. These links are added by the frontier as new requests to visit according to the frontier policies.
+frontier 以 URL 列表初始化，我们称之为种子。 一旦边界初始化，爬虫程序会询问下一步应该访问哪些页面。 当爬虫开始访问页面并获取结果时，它将通知 frontier 每个页面响应以及页面中包含的超链接。 这些链接被 frontier 当做新的请求加入，安装抓取策略进行抓取。
 
-This process (ask for new requests/notify results) is repeated until the end condition for the crawl is reached. Some
-crawlers may never stop, that's what we call continuous crawls.
+这个过程（请求新的任务/通知结果）会一直重复直到达到爬虫的结束条件。一些爬虫可能不会停止，我们称之为永久爬虫。
 
-Frontier policies can be based on almost any logic. Common use cases are usually based on scores/priorities,
-computed from one or many page attributes (freshness, update times, content relevance for certain terms, etc).
-They can also be based in really simple logic as `FIFO`_/`LIFO`_ or `DFS`_/`BFS`_ page visit ordering.
+Frontier 抓取策略几乎可以基于任何的逻辑。常见情况是基于得分/优先级，它们通过一个或多个页面的属性（新鲜度，更新时间，某些条款的内容相关性等）计算得来。也可以基于很简单的逻辑，比如 `FIFO`_/`LIFO`_ 或 `DFS`_/`BFS`_ 。
 
-Depending on frontier logic, a persistent storage system may be needed to store, update or query information
-about the pages. Other systems can be 100% volatile and not share any information at all between different crawls.
+根据 frontier 的逻辑，可能需要持久存储系统来存储，更新或查询页面信息。 其他系统可能是100％不稳定的，并且不会在不同爬虫之间共享任何信息。
 
-Please refer for further crawl frontier theory at `URL frontier`_ article of Introduction to Information Retrieval book
-by Christopher D. Manning, Prabhakar Raghavan & Hinrich Schütze.
+更多 crawl frontier 理论请参照 Christopher D. Manning, Prabhakar Raghavan & Hinrich Schütze 写的 `URL frontier`_ 文章。
 
 .. _FIFO: http://en.wikipedia.org/wiki/FIFO
 .. _LIFO: http://en.wikipedia.org/wiki/LIFO_(computing)

@@ -9,7 +9,7 @@ Frontera settings 允许你定制所有的组件，包括
 
 settings 提供了键值映射的全局命名空间可以用来获取配置值。可以通过不同的机制填充设置，如下所述。
 
-内置的配置请查看: :ref:`Built-in settings reference <frontier-built-in-frontier-settings>`.
+内置的配置请查看: :ref:`Built-in settings reference <frontier-built-in-frontier-settings>`。
 
 设计 settings
 ========================
