@@ -2,25 +2,21 @@
 Settings
 ========
 
-The Frontera settings allows you to customize the behaviour of all components, including the
+Frontera settings 允许你定制所有的组件，包括
 :class:`FrontierManager <frontera.core.manager.FrontierManager>`,
 :class:`Middleware <frontera.core.components.Middleware>` and
 :class:`Backend <frontera.core.components.Backend>` themselves.
 
-The infrastructure of the settings provides a global namespace of key-value mappings that can be used to pull
-configuration values from. The settings can be populated through different mechanisms, which are described below.
+settings 提供了键值映射的全局命名空间可以用来获取配置值。可以通过不同的机制填充设置，如下所述。
 
-For a list of available built-in settings see: :ref:`Built-in settings reference <frontier-built-in-frontier-settings>`.
+内置的配置请查看: :ref:`Built-in settings reference <frontier-built-in-frontier-settings>`.
 
-Designating the settings
+设计 settings
 ========================
 
-When you use Frontera, you have to tell it which settings you’re using. As
-:class:`FrontierManager <frontera.core.manager.FrontierManager>` is the main entry point to Frontier usage,
-you can do this by using the method described in the :ref:`Loading from settings <frontier-loading-from-settings>`
-section.
+当你使用 Frontera 的时候，你需要告诉它你在用什么配置。因为 :class:`FrontierManager <frontera.core.manager.FrontierManager>` 是 Frontier 使用的入口，你可以使用 :ref:`Loading from settings <frontier-loading-from-settings>` 来进行配置。
 
-When using a string path pointing to a settings file for the frontier we propose the following directory structure::
+当使用一个字符串路径指向配置文件的时候，我们建议下面这种文件结构::
 
     my_project/
         frontier/
@@ -30,19 +26,19 @@ When using a string path pointing to a settings file for the frontier we propose
             backends.py
         ...
 
-These are basically:
+这些都是基本的:
 
-- ``frontier/settings.py``: the frontier settings file.
-- ``frontier/middlewares.py``: the middlewares used by the frontier.
-- ``frontier/backends.py``: the backend(s) used by the frontier.
+- ``frontier/settings.py``: frontier settings 文件。
+- ``frontier/middlewares.py``: frontier 使用的中间件。
+- ``frontier/backends.py``: frontier 使用的后端。
 
 
-How to access settings
+如何访问 settings
 ======================
-:class:`Settings <frontera.settings.Settings>` can be accessed through the
-:attr:`FrontierManager.settings <frontera.core.manager.FrontierManager.settings>` attribute, that is passed to
-:attr:`Middleware.from_manager <frontera.core.components.Middleware.from_manager>` and
-:attr:`Backend.from_manager <frontera.core.components.Backend.from_manager>` class methods::
+:class:`Settings <frontera.settings.Settings>` 可以通过
+:attr:`FrontierManager.settings <frontera.core.manager.FrontierManager.settings>` 属性访问, 它传给了
+:attr:`Middleware.from_manager <frontera.core.components.Middleware.from_manager>` 和
+:attr:`Backend.from_manager <frontera.core.components.Backend.from_manager>` 类方法::
 
     class MyMiddleware(Component):
 
@@ -52,40 +48,38 @@ How to access settings
             if settings.TEST_MODE:
                 print "test mode is enabled!"
 
-In other words, settings can be accessed as attributes of the
-:class:`Settings <frontera.settings.Settings>` object.
+换句话说， settings 可以通过 :class:`Settings <frontera.settings.Settings>` 访问.
 
-Settings class
+Settings 类
 ==============
 
 .. class:: frontera.settings.Settings
 
 .. _frontier-built-in-frontier-settings:
 
-Built-in frontier settings
+内置 frontier settings
 ==========================
 
-Here’s a list of all available Frontera settings, in alphabetical order, along with their default values and the
-scope where they apply.
+下面是所以可用的 Frontera settings，以字母顺序排序，以及它们的默认值和适用范围。
 
 .. setting:: AUTO_START
 
 AUTO_START
 ----------
 
-Default: ``True``
+默认: ``True``
 
-Whether to enable frontier automatic start. See :ref:`Starting/Stopping the frontier <frontier-start-stop>`
+是否允许 frontier 自动启动。参考 :ref:`Starting/Stopping the frontier <frontier-start-stop>`
 
 .. setting:: BACKEND
 
 BACKEND
 -------
 
-Default: ``'frontera.contrib.backends.memory.FIFO'``
+默认: ``'frontera.contrib.backends.memory.FIFO'``
 
-The :class:`Backend <frontera.core.components.Backend>` to be used by the frontier. For more info see
-:ref:`Activating a backend <frontier-activating-backend>`.
+:class:`Backend <frontera.core.components.Backend>` 使用的后端。详情参考
+:ref:`Activating a backend <frontier-activating-backend>`。
 
 
 .. setting:: BC_MIN_REQUESTS
@@ -93,160 +87,137 @@ The :class:`Backend <frontera.core.components.Backend>` to be used by the fronti
 BC_MIN_REQUESTS
 ---------------
 
-Default: ``64``
+默认: ``64``
 
-Broad crawling queue get operation will keep retrying until specified number of requests is collected. Maximum number
-of retries is hard-coded to 3.
+广泛的抓取队列的获取操作将继续重试，直到收集到指定的请求数。最大重试次数硬编码为3。
 
 .. setting:: BC_MIN_HOSTS
 
 BC_MIN_HOSTS
 ------------
 
-Default: ``24``
+默认: ``24``
 
-Keep retyring when getting requests from queue, until there are requests for specified minimum number of hosts
-collected. Maximum number of retries is hard-coded and equals 3.
+持续从队列中获取请求任务，直到请求的 host 种类到达最小值。最大重试次数硬编码为3。
 
 .. setting:: BC_MAX_REQUESTS_PER_HOST
 
 BC_MAX_REQUESTS_PER_HOST
 ------------------------
 
-Default:: ``128``
+默认:: ``128``
 
-Don't include (if possible) batches of requests containing requests for specific host if there are already more then
-specified count of maximum requests per host. This is a suggestion for broad crawling queue get algorithm.
+如果某个 host 的请求数已经到达单 host 请求的上限，将不包括这些请求。这是针对广泛抓取获取任务数量的建议。
 
 .. setting:: CANONICAL_SOLVER
 
 CANONICAL_SOLVER
 ----------------
 
-Default: ``frontera.contrib.canonicalsolvers.Basic``
+默认: ``frontera.contrib.canonicalsolvers.Basic``
 
-The :class:`CanonicalSolver <frontera.core.components.CanonicalSolver>` to be used by the frontier for resolving
-canonical URLs. For more info see :ref:`Canonical URL Solver <canonical-url-solver>`.
+:class:`CanonicalSolver <frontera.core.components.CanonicalSolver>` 被用来解析规划网址。详情参考 :ref:`Canonical URL Solver <canonical-url-solver>`.
 
 .. setting:: SPIDER_LOG_CONSUMER_BATCH_SIZE
 
 SPIDER_LOG_CONSUMER_BATCH_SIZE
 ------------------------------
 
-Default: ``512``
+默认: ``512``
 
-This is a batch size used by strategy and db workers for consuming of spider log stream. Increasing it
-will cause worker to spend more time on every task, but processing more items per task, therefore leaving less time for
-other tasks during some fixed time interval. Reducing it will result to running several tasks within the same time
-interval, but with less overall efficiency. Use it when your consumers too slow, or too fast.
+这是 strategy worker 和 db worker 消费 spider log 流时的批量大小。增加它将使 worker 在每个任务上花更多的时间，但是每个任务处理更多的 item，因此在一段时间内给其它任务留下了更少的时间。减少它将导致在同一时间段内运行多个任务，但总体效率较低。 当你的消费者太快或者太慢的时候使用这个选项。
 
 .. setting:: SCORING_LOG_CONSUMER_BATCH_SIZE
 
 SCORING_LOG_CONSUMER_BATCH_SIZE
 -------------------------------
 
-Default: ``512``
+默认: ``512``
 
-This is a batch size used by db worker for consuming of scoring log stream. Use it when you need to adjust scoring log
-consumption speed.
-
+这是 db worker 消费 scoring log 流时的批量大小。当你需要调整 scoring log 消费速度的时候使用这个选项。
 
 .. setting:: CRAWLING_STRATEGY
 
 CRAWLING_STRATEGY
 -----------------
 
-Default: ``None``
+默认: ``None``
 
-The path to crawling strategy class, instantiated and used in :term:`strategy worker` to prioritize and stop crawling in
-distributed run mode.
+抓取策略类的路径，在 :term:`strategy worker` 中实例化并使用，用来在分布式模式中设置抓取优先级和停止抓取。
 
 .. setting:: DELAY_ON_EMPTY
 
 DELAY_ON_EMPTY
 --------------
 
-Default: ``5.0``
+默认: ``5.0``
 
-Delay between calls to backend for new batches in Scrapy scheduler, when queue size is getting below
-``CONCURRENT_REQUESTS``. When backend has no requests to fetch, this delay helps to exhaust the rest of the buffer
-without hitting backend on every request. Increase it if calls to your backend is taking too long, and decrease
-if you need a fast spider bootstrap from seeds.
+当队列大小小于 ``CONCURRENT_REQUESTS`` 时，向调度器发送请求时的延迟时间。当后端没有请求的时候，这个延迟帮助消耗掉剩余的缓存而无需每次请求都去请求后端。如果对后端的调用花费的时间过长，则增加它，如果你需要更快从种子启动爬虫，则减少它。
 
 .. setting:: KAFKA_GET_TIMEOUT
 
 KAFKA_GET_TIMEOUT
 -----------------
 
-Default: ``5.0``
+默认: ``5.0``
 
-Time process should block until requested amount of data will be received from message bus. This is a general
-message bus setting with obsolete Kafka-related name.
+从 Kafka 中获取数据的超时时间。
 
 .. setting:: LOGGING_CONFIG
 
 LOGGING_CONFIG
 --------------
 
-Default: ``logging.conf``
+默认: ``logging.conf``
 
-The path to a file with logging module configuration. See
-https://docs.python.org/2/library/logging.config.html#logging-config-fileformat If file is absent, the logging system
-will be initialized with ``logging.basicConfig()`` and CONSOLE handler will be used. This option is used only in
-:term:`db worker` and :term:`strategy worker`.
+logging 模块的路径。参考 https://docs.python.org/2/library/logging.config.html#logging-config-fileformat 如果文件不存在，日志将使用 ``logging.basicConfig()`` 实例化，将在 CONSOLE 输出日志。这个选项只在 :term:`db worker` 和 :term:`strategy worker` 中使用。
+The path to a file with logging module configuration.
 
 .. setting:: MAX_NEXT_REQUESTS
 
 MAX_NEXT_REQUESTS
 -----------------
 
-Default: ``64``
+默认: ``64``
 
-The maximum number of requests returned by
-:attr:`get_next_requests <frontera.core.manager.FrontierManager.get_next_requests>` API method. In distributed context
-it could be amount of requests produced per spider by :term:`db worker` or count of requests read from message bus per
-attempt to fill the spider queue. In single process it's the count of requests to get from backend per one call to
-``get_next_requests`` method.
-
+:attr:`get_next_requests <frontera.core.manager.FrontierManager.get_next_requests>` API 返回的最大请求数量。在分布式模式中，它应该是 :term:`db worker` 为每个爬虫生成的请求数或者是每次从消息总线中获取的请求数。在单进程模式下，它应该是每次调用 ``get_next_requests`` 获取的请求数量。
 
 .. setting:: MAX_REQUESTS
 
 MAX_REQUESTS
 ------------
 
-Default: ``0``
+默认: ``0``
 
-Maximum number of returned requests after which Frontera is finished.
-If value is 0 (default), the frontier will continue indefinitely. See :ref:`Finishing the frontier <frontier-finish>`.
+Frontera完成之后返回的最大请求数总量。如果是0（默认值），frontier 将一直运行。详情参考： :ref:`Finishing the frontier <frontier-finish>`.
 
 .. setting:: MESSAGE_BUS
 
 MESSAGE_BUS
 -----------
 
-Default: ``frontera.contrib.messagebus.zeromq.MessageBus``
+默认: ``frontera.contrib.messagebus.zeromq.MessageBus``
 
-Points Frontera to :term:`message bus` implementation. Defaults to ZeroMQ.
+指向 :term:`message bus` 的实现。默认是 ZeroMQ。
 
 .. setting:: MESSAGE_BUS_CODEC
 
 MESSAGE_BUS_CODEC
 -----------------
 
-Default: ``frontera.contrib.backends.remote.codecs.msgpack``
+默认: ``frontera.contrib.backends.remote.codecs.msgpack``
 
-Points Frontera to :term:`message bus` codec implementation. Here is the :ref:`codec interface description <message_bus_protocol>`.
-Defaults to MsgPack.
+指向 :term:`message bus` 编码实现。参考 :ref:`codec interface description <message_bus_protocol>`。
+默认是 MsgPack。
 
 .. setting:: MIDDLEWARES
 
 MIDDLEWARES
 -----------
 
-A list containing the middlewares enabled in the frontier. For more info see
-:ref:`Activating a middleware <frontier-activating-middleware>`.
+包含在 frontier 中启用的中间件的列表。详情参考 :ref:`Activating a middleware <frontier-activating-middleware>`
 
-Default::
+默认::
 
     [
         'frontera.contrib.middlewares.fingerprint.UrlFingerprintMiddleware',
@@ -257,96 +228,88 @@ Default::
 NEW_BATCH_DELAY
 ---------------
 
-Default: ``30.0``
+默认: ``30.0``
 
-Used in DB worker, and it's a time interval between production of new batches for all partitions. If partition is busy,
-it will be skipped.
+在 DB worker 中使用，它是为所有分区产生任务集合的时间间隔。如果分区很忙，它将被忽略掉。
 
 .. setting:: OVERUSED_SLOT_FACTOR
 
 OVERUSED_SLOT_FACTOR
 --------------------
 
-Default: ``5.0``
+默认: ``5.0``
 
-(in progress + queued requests in that slot) / max allowed concurrent downloads per slot before slot is considered
-overused. This affects only Scrapy scheduler."
+（某个 slot 中进行中+队列中的请求）/ （每个slot允许的最大并发送）称作 overused。它只影响 Scrapy scheduler。
 
 .. setting:: REQUEST_MODEL
 
 REQUEST_MODEL
 -------------
 
-Default: ``'frontera.core.models.Request'``
+默认: ``'frontera.core.models.Request'``
 
-The :class:`Request <frontera.core.models.Request>` model to be used by the frontier.
-
+frontier 使用的 :class:`Request <frontera.core.models.Request>` 模型。
 
 .. setting:: RESPONSE_MODEL
 
 RESPONSE_MODEL
 --------------
 
-Default: ``'frontera.core.models.Response'``
+默认: ``'frontera.core.models.Response'``
 
-The :class:`Response <frontera.core.models.Response>` model to be used by the frontier.
-
+frontier 使用的 :class:`Response <frontera.core.models.Response>` 模型。
 
 .. setting:: SCORING_PARTITION_ID
 
 SCORING_PARTITION_ID
 --------------------
 
-Default: ``0``
+默认: ``0``
 
-Used by strategy worker, and represents partition startegy worker assigned to.
-
+被 strategy worker 使用，代表 strategy worker 被分配的分区。
 
 .. setting:: SPIDER_LOG_PARTITIONS
 
 SPIDER_LOG_PARTITIONS
 ---------------------
 
-Default: ``1``
+默认: ``1``
 
-Number of :term:`spider log` stream partitions. This affects number of required :term:`strategy worker` (s),
-each strategy worker assigned to it's own partition.
+:term:`spider log` 分区的数量。这个参数影响 :term:`strategy worker` (s) 的数量，每个 strategy worker 被分配到自己的分区。
 
 .. setting:: SPIDER_FEED_PARTITIONS
 
 SPIDER_FEED_PARTITIONS
 ----------------------
 
-Default: ``1``
+默认: ``1``
 
-Number of :term:`spider feed` partitions. This directly affects number of spider processes running. Every spider is
-assigned to it's own partition.
-
+:term:`spider feed` 分区的数量。这个参数影响爬虫进程数量。每个爬虫被分配到了自己的分区。
 
 .. setting:: SPIDER_PARTITION_ID
 
 SPIDER_PARTITION_ID
 -------------------
 
-Default: ``0``
+默认: ``0``
 
-Per-spider setting, pointing spider to it's assigned partition.
+每个爬虫的配置，将爬虫指向分配给自己的分区。
 
 .. setting:: STATE_CACHE_SIZE
 
 STATE_CACHE_SIZE
 ----------------
 
-Default: ``1000000``
+默认: ``1000000``
 
-Maximum count of elements in state cache before it gets clear.
+在被清除之前状态缓存的最大数量。
 
 .. setting:: STORE_CONTENT
 
 STORE_CONTENT
 -------------
 
-Default: ``False``
+默认: ``False``
 
 Determines if content should be sent over the message bus and stored in the backend: a serious performance killer.
 
@@ -355,18 +318,16 @@ Determines if content should be sent over the message bus and stored in the back
 TEST_MODE
 ---------
 
-Default: ``False``
+默认: ``False``
 
-Whether to enable frontier test mode. See :ref:`Frontier test mode <frontier-test-mode>`
-
-
+是否开启 frontier 的测试模式。 参考 :ref:`Frontier test mode <frontier-test-mode>`
 
 
-Built-in fingerprint middleware settings
+
+内置指纹中间件设置
 ========================================
 
-Settings used by the :ref:`UrlFingerprintMiddleware <frontier-url-fingerprint-middleware>` and
-:ref:`DomainFingerprintMiddleware <frontier-domain-fingerprint-middleware>`.
+设置被 :ref:`UrlFingerprintMiddleware <frontier-url-fingerprint-middleware>` 和 :ref:`DomainFingerprintMiddleware <frontier-domain-fingerprint-middleware>` 使用。
 
 .. _frontier-default-settings:
 
@@ -375,9 +336,9 @@ Settings used by the :ref:`UrlFingerprintMiddleware <frontier-url-fingerprint-mi
 URL_FINGERPRINT_FUNCTION
 ------------------------
 
-Default: ``frontera.utils.fingerprint.sha1``
+默认: ``frontera.utils.fingerprint.sha1``
 
-The function used to calculate the ``url`` fingerprint.
+用来计算 ``url`` 指纹的函数。
 
 
 .. setting:: DOMAIN_FINGERPRINT_FUNCTION
@@ -385,9 +346,9 @@ The function used to calculate the ``url`` fingerprint.
 DOMAIN_FINGERPRINT_FUNCTION
 ---------------------------
 
-Default: ``frontera.utils.fingerprint.sha1``
+默认: ``frontera.utils.fingerprint.sha1``
 
-The function used to calculate the ``domain`` fingerprint.
+用来计算 ``domain`` 指纹的函数。
 
 
 .. setting:: TLDEXTRACT_DOMAIN_INFO
@@ -395,16 +356,14 @@ The function used to calculate the ``domain`` fingerprint.
 TLDEXTRACT_DOMAIN_INFO
 ----------------------
 
-Default: ``False``
+默认: ``False``
 
-If set to ``True``, will use `tldextract`_ to attach extra domain information
-(second-level, top-level and subdomain) to meta field (see :ref:`frontier-objects-additional-data`).
-
+如果设置为 ``True`` ，将使用 `tldextract`_ 附加额外的域信息（二级，顶级和子域名）到 meta 字段（参考 :ref:`frontier-objects-additional-data` ）。
 
 .. _tldextract: https://pypi.python.org/pypi/tldextract
 
 
-Built-in backends settings
+内置后端配置
 ==========================
 
 SQLAlchemy
@@ -415,20 +374,18 @@ SQLAlchemy
 SQLALCHEMYBACKEND_CACHE_SIZE
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Default: ``10000``
+默认: ``10000``
 
-SQLAlchemy Metadata LRU Cache size. It's used for caching objects, which are requested from DB every time already known,
-documents are crawled. This is mainly saves DB throughput, increase it if you're experiencing problems with too high
-volume of SELECT's to Metadata table, or decrease if you need to save memory.
+SQLAlchemy 元数据的 LRU 缓存大小。它用来缓存对象，这些对象从数据库获得，还缓存抓取的文档。它主要节约了数据库的吞吐量，如果你面临从数据库获得太多数据的问题增加它，如果你想节约内存就减少它。
 
 .. setting:: SQLALCHEMYBACKEND_CLEAR_CONTENT
 
 SQLALCHEMYBACKEND_CLEAR_CONTENT
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Default: ``True``
+默认: ``True``
 
-Set to ``False`` if you need to disable table content clean up on backend instantiation (e.g. every Scrapy spider run).
+如果你想禁止每次后端初始化的时候清理表数据则将之设为 ``False`` （例如每次启动 Scrapy 爬虫的时候）。
 
 
 .. setting:: SQLALCHEMYBACKEND_DROP_ALL_TABLES
@@ -436,34 +393,34 @@ Set to ``False`` if you need to disable table content clean up on backend instan
 SQLALCHEMYBACKEND_DROP_ALL_TABLES
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Default: ``True``
+默认: ``True``
 
-Set to ``False`` if you need to disable dropping of DB tables on backend instantiation (e.g. every Scrapy spider run).
+如果你想禁止每次后端初始化的时候删除数据库表则将之设为 ``False`` （例如每次启动 Scrapy 爬虫的时候）。
 
 .. setting:: SQLALCHEMYBACKEND_ENGINE
 
 SQLALCHEMYBACKEND_ENGINE
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-Default:: ``sqlite:///:memory:``
+默认:: ``sqlite:///:memory:``
 
-SQLAlchemy database URL. Default is set to memory.
+SQLAlchemy 数据库 URL。 默认使用内存。
 
 .. setting:: SQLALCHEMYBACKEND_ENGINE_ECHO
 
 SQLALCHEMYBACKEND_ENGINE_ECHO
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Default: ``False``
+默认: ``False``
 
-Turn on/off SQLAlchemy verbose output. Useful for debugging SQL queries.
+打开/关闭 SQLAlchemy 的冗余输出。调试 SQL 语句的时候有用。
 
 .. setting:: SQLALCHEMYBACKEND_MODELS
 
 SQLALCHEMYBACKEND_MODELS
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-Default::
+默认::
 
     {
         'MetadataModel': 'frontera.contrib.backends.sqlalchemy.models.MetadataModel',
@@ -471,10 +428,10 @@ Default::
         'QueueModel': 'frontera.contrib.backends.sqlalchemy.models.QueueModel'
     }
 
-This is mapping with SQLAlchemy models used by backends. It is mainly used for customization.
+用来设置后端使用的 SQLAlchemy 模型。主要用来定制化。
 
 
-Revisiting backend
+重新抓取后端
 ------------------
 
 .. setting:: SQLALCHEMYBACKEND_REVISIT_INTERVAL
@@ -482,15 +439,14 @@ Revisiting backend
 SQLALCHEMYBACKEND_REVISIT_INTERVAL
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Default: ``timedelta(days=1)``
+默认: ``timedelta(days=1)``
 
-Time between document visits, expressed in ``datetime.timedelta`` objects. Changing of this setting will only affect
-documents scheduled after the change. All previously queued documents will be crawled with old periodicity.
+重新访问网页的时间，使用 ``datetime.timedelta` 表示。它会影响网页的定期抓取。之前抓取的网页还是使用旧的时间间隔。
 
 
 .. _hbase-settings:
 
-HBase backend
+HBase 后端
 -------------
 
 .. setting:: HBASE_BATCH_SIZE
@@ -498,189 +454,185 @@ HBase backend
 HBASE_BATCH_SIZE
 ^^^^^^^^^^^^^^^^
 
-Default: ``9216``
+默认: ``9216``
 
-Count of accumulated PUT operations before they sent to HBase.
+在发送到HBase之前累计的PUT操作的数量。
 
 .. setting:: HBASE_DROP_ALL_TABLES
 
 HBASE_DROP_ALL_TABLES
 ^^^^^^^^^^^^^^^^^^^^^
 
-Default: ``False``
+默认: ``False``
 
-Enables dropping and creation of new HBase tables on worker start.
+允许在 worker 启动的时候删除并重建 Hbase 表格。
 
 .. setting:: HBASE_METADATA_TABLE
 
 HBASE_METADATA_TABLE
 ^^^^^^^^^^^^^^^^^^^^
 
-Default: ``metadata``
+默认: ``metadata``
 
-Name of the documents metadata table.
+网页元数据表格的名字。
 
 .. setting:: HBASE_NAMESPACE
 
 HBASE_NAMESPACE
 ^^^^^^^^^^^^^^^
 
-Default: ``crawler``
+默认: ``crawler``
 
-Name of HBase namespace where all crawler related tables will reside.
+所有爬虫程序相关表在 HBase 命名空间的名称。
 
 .. setting:: HBASE_QUEUE_TABLE
 
 HBASE_QUEUE_TABLE
 ^^^^^^^^^^^^^^^^^
 
-Default: ``queue``
+默认: ``queue``
 
-Name of HBase priority queue table.
+Hbase 中队列优先级表。
 
 .. setting:: HBASE_STATE_CACHE_SIZE_LIMIT
 
 HBASE_STATE_CACHE_SIZE_LIMIT
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Default: ``3000000``
+默认: ``3000000``
 
-Number of items in the :term:`state cache` of :term:`strategy worker`, before it get's flushed to HBase and cleared.
+在写入 HBase 和清除之前 :term:`strategy worker` 中 :term:`state cache` 的最多数量。
 
 .. setting:: HBASE_THRIFT_HOST
 
 HBASE_THRIFT_HOST
 ^^^^^^^^^^^^^^^^^
 
-Default: ``localhost``
+默认: ``localhost``
 
-HBase Thrift server host.
+HBase Thrift server 主机
 
 .. setting:: HBASE_THRIFT_PORT
 
 HBASE_THRIFT_PORT
 ^^^^^^^^^^^^^^^^^
 
-Default: ``9090``
+默认: ``9090``
 
-HBase Thrift server port
+HBase Thrift server 端口
 
 .. setting:: HBASE_USE_FRAMED_COMPACT
 
 HBASE_USE_FRAMED_COMPACT
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-Default: ``False``
+默认: ``False``
 
-Enabling this option dramatically reduces transmission overhead, but the server needs to be properly configured to use
-Thrifts framed transport and compact protocol.
+启用此选项可大大降低传输开销，但是服务器需要正确配置才能使用节俭框架运输和紧凑协议。
 
 .. setting:: HBASE_USE_SNAPPY
 
 HBASE_USE_SNAPPY
 ^^^^^^^^^^^^^^^^
 
-Default: ``False``
+默认: ``False``
 
-Whatever to compress content and metadata in HBase using Snappy. Decreases amount of disk and network IO within HBase,
-lowering response times. HBase have to be properly configured to support Snappy compression.
+是否在 Hbase 中使用 snappy 压缩内容和元数据。在HBase中减少磁盘和网络IO的数量，降低响应时间。 HBase必须正确配置以支持Snappy压缩。
 
 .. _zeromq-settings:
 
-ZeroMQ message bus settings
+ZeroMQ 消息总线设置
 ===========================
 
-The message bus class is ``distributed_frontera.messagebus.zeromq.MessageBus``
+消息总线类是 ``distributed_frontera.messagebus.zeromq.MessageBus``
 
 .. setting:: ZMQ_ADDRESS
 
 ZMQ_ADDRESS
 -----------
 
-Default: ``127.0.0.1``
+默认: ``127.0.0.1``
 
-Defines where the ZeroMQ socket should bind or connect. Can be a hostname or an IP
-address. Right now ZMQ has only been properly tested with IPv4. Proper IPv6
-support will be added in the near future.
+定义 ZeroMQ 套接字应该绑定或连接的位置。可以是主机名或IP地址。现在，ZMQ 只有通过 IPv4进行了测试。IPv6在不久的将来会增加支持。
 
 .. setting:: ZMQ_BASE_PORT
 
 ZMQ_BASE_PORT
 -------------
 
-Default: ``5550``
+默认: ``5550``
 
-The base port for all ZeroMQ sockets. It uses 6 sockets overall and port starting from base with step 1. Be sure that
-interval [base:base+5] is available.
+所有 ZeroMQ 的基本端口。 它使用6个 sockets ，且6个端口是顺序的.确保[base：base + 5]所表示的端口都是可用的。
+
 
 .. _kafka-settings:
 
-Kafka message bus settings
+Kafka 消息总线配置
 ==========================
 
-The message bus class is ``frontera.contrib.messagebus.kafkabus.MessageBus``
+这个消息总线的类是 ``frontera.contrib.messagebus.kafkabus.MessageBus``
 
 .. setting:: KAFKA_LOCATION
 
 KAFKA_LOCATION
 --------------
 
-Hostname and port of kafka broker, separated with :. Can be a string with hostname:port pair separated with commas(,).
+kafka 代理的主机名和端口号，以 :分割。可以是主机名:端口的字符串对，用逗号（,）分隔。
 
 .. setting:: KAFKA_CODEC
 
 KAFKA_CODEC
 -----------
 
-Default: ``None``
+默认: ``None``
 
-Kafka-python 1.0.x version compression codec to use, is a string or None and could be one of ``snappy``, ``gzip`` or
-``lz4``.
+Kafka-python 1.0.x 版本使用的压缩方式, 它应该是 None 或者 ``snappy``, ``gzip`` 和
+``lz4``中的一个。
 
 .. setting:: SPIDER_LOG_DBW_GROUP
 
 SPIDER_LOG_DBW_GROUP
 --------------------
 
-Default: ``dbw-spider-log``
+默认: ``dbw-spider-log``
 
-Kafka consumer group name, used for :term:`spider log` by :term:`db worker` s.
+Kafka 消费者群组名，被 :term:`db worker` 的 :term:`spider log` 使用。
 
 .. setting:: SPIDER_LOG_SW_GROUP
 
 SPIDER_LOG_SW_GROUP
 -------------------
 
-Default: ``sw-spider-log``
+默认: ``sw-spider-log``
 
-Kafka consumer group name, used for :term:`spider log` by :term:`strategy worker` (s).
+Kafka 消费者群组名，被 :term:`strategy worker` 的 :term:`spider log` 使用。
 
 .. setting:: SCORING_LOG_DBW_GROUP
 
 SCORING_LOG_DBW_GROUP
 ---------------------
 
-Default: ``dbw-scoring-log``
+默认: ``dbw-scoring-log``
 
-Kafka consumer group name, used for :term:`scoring log` by :term:`db worker` (s).
+Kafka 消费者群组名，被 :term:`db worker` 的 :term:`scoring log` 使用。
 
 .. setting:: SPIDER_FEED_GROUP
 
 SPIDER_FEED_GROUP
 -----------------
 
-Default: ``fetchers-spider-feed``
+默认: ``fetchers-spider-feed``
 
-Kafka consumer group name, used for :term:`spider feed` by :term:`spider` (s).
+Kafka 消费者群组名，被 :term:`spider` 的 :term:`spider feed` 使用。
 
 .. setting:: SPIDER_LOG_TOPIC
 
 SPIDER_LOG_TOPIC
 ----------------
 
-Default: ``frontier-done``
+默认: ``frontier-done``
 
-:term:`spider log` stream topic name.
+:term:`spider log` 数据流的 topic 名字。
 
 
 .. setting:: SPIDER_FEED_TOPIC
@@ -688,23 +640,22 @@ Default: ``frontier-done``
 SPIDER_FEED_TOPIC
 -----------------
 
-Default: ``frontier-todo``
+默认: ``frontier-todo``
 
-:term:`spider feed` stream topic name.
+:term:`spider feed` 数据流的 topic 名字。
 
 .. setting:: SCORING_LOG_TOPIC
 
 SCORING_LOG_TOPIC
 -----------------
 
-Kafka topic used for :term:`scoring log` stream.
+:term:`scoring log` 数据流的 topic 名字。
 
 
 Default settings
 ================
 
-If no settings are specified, frontier will use the built-in default ones. For a complete list of default values see:
-:ref:`Built-in settings reference <frontier-built-in-frontier-settings>`. All default settings can be overridden.
+如果没有指定设置，frontier 将使用内置的默认设置。有关默认值的完整列表，请参见 :ref:`Built-in settings reference <frontier-built-in-frontier-settings>` 。所有默认设置都可以被覆盖。
 
 
 .. _`kafka-python documentation`: http://kafka-python.readthedocs.io/en/1.1.1/apidoc/KafkaProducer.html
