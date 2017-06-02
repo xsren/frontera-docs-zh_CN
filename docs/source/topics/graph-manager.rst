@@ -2,38 +2,32 @@
 Graph Manager
 =============
 
-The Graph Manager is a tool to represent web sitemaps as a graph.
+Graph Manager 是一种将网站地图表示为图形的工具。
 
-It can easily be used to test frontiers. We can "fake" crawler request/responses by querying pages to the graph manager,
-and also know the links extracted for each one without using a crawler at all. You can make your own fake tests or use
-the :doc:`Frontier Tester tool <frontier-tester>`.
+它可以很容易地用于测试 frontier。我们可以向 graph manager 查询页面来伪造爬虫的请求/响应，并且不使用爬虫就可以知道每个页面的提取链接。你可以使用你的伪造测试或者  :doc:`Frontier Tester tool <frontier-tester>` 。
 
-You can use it by defining your own sites for testing or use the  :doc:`Scrapy Recorder <scrapy-recorder>` to record
-crawlings that can be reproduced later.
+你可以用它来定义你自己的网站，用来测试或者使用 :doc:`Scrapy Recorder <scrapy-recorder>` 来记录抓取过程并可以在之后重现。
 
 
-Defining a Site Graph
+定义一个网站图
 =====================
 
-Pages from a web site and its links can be easily defined as a directed graph, where each node represents a page and
-the edges the links between them.
+网站的页面及其链接可以轻松定义为有向图，其中每个节点表示页面边缘之间的链接。
 
-Let's use a really simple site representation with a starting page `A` that have links inside to tree pages `B, C, D`.
-We can represent the site with this graph:
+我们使用一个非常简单的站点表示，一个起始页面 `A` 里面有一个链接到 `B, C, D` 里面的链接。
+我们可以用这个图表来表示网站：
 
 .. image:: _images/site_01.png
    :width: 200px
    :height: 179px
 
-
-We use a list to represent the different site pages and one tuple to define the page and its links, for the previous
-example::
+我们使用列表来表示不同的网站页面和元组来定义页面及其链接，上面的例子 ::
 
     site = [
         ('A', ['B', 'C', 'D']),
     ]
 
-Note that we don't need to define pages without links, but we can also use it as a valid representation::
+请注意，我们不需要定义没有链接的页面，但是我们也可以将其用作有效的表示 ::
 
     site = [
         ('A', ['B', 'C', 'D']),
@@ -42,22 +36,22 @@ Note that we don't need to define pages without links, but we can also use it as
         ('D', []),
     ]
 
-A more complex site:
+一个更复杂的网站:
 
 .. image:: _images/site_02.png
    :width: 220px
    :height: 272px
 
-Can be represented as::
+可以表示为::
 
     site = [
         ('A', ['B', 'C', 'D']),
         ('D', ['A', 'D', 'E', 'F']),
     ]
 
-Note that `D` is linking to itself and to his parent `A`.
+注意 `D` 链接到自己和它的父节点 `A` 。
 
-In the same way, a page can have several parents:
+同样的，一个页面可以有多个父节点:
 
 .. image:: _images/site_03.png
    :width: 160px
@@ -71,8 +65,7 @@ In the same way, a page can have several parents:
         ('D', ['C']),
     ]
 
-In order to simplify examples we're not using urls for page representation, but of course urls are the intended use
-for site graphs:
+为了简化示例，我们不使用网址表示，但当然url是可以用于网站图:
 
 .. image:: _images/site_04.png
    :width: 400px
@@ -85,35 +78,34 @@ for site graphs:
     ]
 
 
-Using the Graph Manager
+使用 Graph Manager
 =======================
 
-Once we have defined our site represented as a graph, we can start using it with the Graph Manager.
+一旦我们将我们的站点定义为一个图表，我们就可以开始使用 Graph Manager 了。
 
-We must first create our graph manager::
+我们必须先创建我们的图表管理器 ::
 
     >>> from frontera.utils import graphs
     >>> g = graphs.Manager()
 
-
-And add the site using the `add_site` method::
+使用 `add_site` 方法添加网站 ::
 
     >>> site = [('A', ['B', 'C', 'D'])]
     >>> g.add_site(site)
 
-The manager is now initialized and ready to be used.
+这个管理器现在被初始化并准备好使用。
 
-We can get all the pages in the graph::
+我们可以得到图表中的所有页面 ::
 
     >>> g.pages
     [<1:A*>, <2:B>, <3:C>, <4:D>]
 
-Asterisk represents that the page is a seed, if we want to get just the seeds of the site graph::
+星号表示页面是种子，如果我们想要获取站点图形的种子 ::
 
     >>> g.seeds
     [<1:A*>]
 
-We can get individual pages using `get_page`, if a page does not exists None is returned
+我们可以用 `get_page` 获取一个单独页面, 如果页面不存在就返回 None
 
     >>> g.get_page('A')
     <1:A*>
@@ -121,44 +113,44 @@ We can get individual pages using `get_page`, if a page does not exists None is 
     >>> g.get_page('F')
     None
 
-CrawlPage objects
+CrawlPage 对象
 =================
-Pages are represented as a :class:`CrawlPage` object:
+页面使用 :class:`CrawlPage` 对象表示：
 
 
 .. class:: CrawlPage()
 
-    A :class:`CrawlPage` object represents an Graph Manager page, which is usually generated in the Graph Manager.
+   :class:`CrawlPage` 对象表示一个 Graph Manager 页面，且该页面通常在 Graph Manager 生成。
 
     .. attribute:: id
 
-            Autonumeric page id.
+            自动页面 id。
 
     .. attribute:: url
 
-             The url of the page.
+             页面 url。
 
     .. attribute:: status
 
-            Represents the HTTP code status of the page.
+            代表页面状态码。
 
     .. attribute:: is_seed
 
-            Boolean value indicating if the page is seed or not.
+            布尔值表示页面是不是种子页面
 
     .. attribute:: links
 
-            List of pages the current page links to.
+            当前页面链接到的页面列表。
 
     .. attribute:: referers
 
-            List of pages that link to the current page.
+            链接到当前页面的页面列表。
 
 
 
 
 
-In our example::
+例子::
 
     >>> p = g.get_page('A')
     >>> p.id
@@ -183,11 +175,9 @@ In our example::
     [<1:A*>]
 
 
-Adding pages and Links
+添加页面和链接
 ======================
-
-Site graphs can be also defined adding pages and links individually, the same graph from our example can be defined
-this way::
+网站图也可以定义为单独添加页面和链接，我们可以用这种方式定义相同的图形::
 
     >>> g = graphs.Manager()
     >>> a = g.add_page(url='A', is_seed=True)
@@ -195,7 +185,7 @@ this way::
     >>> c = g.add_link(page=a, url='C')
     >>> d = g.add_link(page=a, url='D')
 
-`add_page` and `add_link` can be combined with `add_site` and used anytime::
+`add_page` 和 `add_link` 可以随时和 `add_site` 配合使用::
 
 
     >>> site = [('A', ['B', 'C', 'D'])]
@@ -204,10 +194,10 @@ this way::
     >>> d = g.get_page('D')
     >>> g.add_link(d, 'E')
 
-Adding multiple sites
+添加多个网站
 =====================
 
-Multiple sites can be added to the manager::
+多个网站可以加入管理器::
 
     >>> site1 = [('A1', ['B1', 'C1', 'D1'])]
     >>> site2 = [('A2', ['B2', 'C2', 'D2'])]
@@ -222,7 +212,7 @@ Multiple sites can be added to the manager::
     >>> g.seeds
     [<1:A1*>, <5:A2*>]
 
-Or as a list of sites with `add_site_list` method::
+或者使用 `add_site_list` 方法 ::
 
     >>> site_list = [
         [('A1', ['B1', 'C1', 'D1'])],
@@ -234,19 +224,18 @@ Or as a list of sites with `add_site_list` method::
 
 .. _graph-manager-database:
 
-Graphs Database
+Graphs 数据库
 ===============
 
-Graph Manager uses `SQLAlchemy`_ to store and represent graphs.
+Graph Manager 使用 `SQLAlchemy`_ 来存储和重现图。
 
-By default it uses an in-memory SQLite database as a storage engine, but `any databases supported by SQLAlchemy`_ can
-be used.
+默认使用 SQLite 内存模式当成数据库引擎，但是 `any databases supported by SQLAlchemy`_ 中提到的都可以支持。
 
-An example using SQLite::
+使用 SQLite 的例子 ::
 
     >>> g = graphs.Manager(engine='sqlite:///graph.db')
 
-Changes are committed with every new add by default, graphs can be loaded later::
+默认情况下，每个新添加都会进行更改，稍后可以加载图 ::
 
     >>> graph = graphs.Manager(engine='sqlite:///graph.db')
     >>> graph.add_site(('A', []))
@@ -255,21 +244,21 @@ Changes are committed with every new add by default, graphs can be loaded later:
     >>> another_graph.pages
     [<1:A1*>]
 
-A database content reset can be done using `clear_content` parameter::
+可以使用 `clear_content` 参数重置数据库 ::
 
     >>> g = graphs.Manager(engine='sqlite:///graph.db', clear_content=True)
 
-Using graphs with status codes
+使用状态码
 ==============================
 
-In order to recreate/simulate crawling using graphs, HTTP response codes can be defined for each page.
+为了使用图重新创建/模拟爬虫，可以为每个页面定义HTTP响应代码。
 
-Example for a 404 error::
+一个404错误的例子 ::
 
     >>> g = graphs.Manager()
     >>> g.add_page(url='A', status=404)
 
-Status codes can be defined for sites in the following way using a list of tuples::
+可以使用元组列表以下列方式为站点定义状态代码::
 
     >>> site_with_status_codes = [
         ((200, "A"), ["B", "C"]),
@@ -280,14 +269,13 @@ Status codes can be defined for sites in the following way using a list of tuple
     >>> g.add_site(site_with_status_codes)
 
 
-Default status code value is 200 for new pages.
+新页面的默认状态码值为200。
 
 
-A simple crawl faking example
+一个简单的伪造爬虫例子
 =============================
 
-Frontier tests can better be done using the :doc:`Frontier Tester tool <frontier-tester>`, but here's an example of
-how fake a crawl with a frontier::
+使用 :doc:`Frontier Tester tool <frontier-tester>` 能更好的完成 Frontier 的测试，但这里就是一个例子，说明如何伪造 frontier::
 
     from frontera import FrontierManager, Request, Response
     from frontera.utils import graphs
@@ -325,20 +313,19 @@ how fake a crawl with a frontier::
 
 
 
-Rendering graphs
+渲染图
 ================
 
-Graphs can be rendered to png files::
+图可以被渲染成 png 文件::
 
     >>> g.render(filename='graph.png', label='A simple Graph')
 
-Rendering graphs uses `pydot`_, a Python interface to `Graphviz`_'s Dot language.
+渲染图使用的是 `pydot`_,  `Graphviz`_'s 点语言的 python 接口。
 
-How to use it
+如何使用
 =============
 
-Graph Manager can be used to test frontiers in conjunction with :doc:`Frontier Tester <frontier-tester>` and also
-with :doc:`Scrapy Recordings <scrapy-recorder>`.
+Graph Manager 可以结合 :doc:`Frontier Tester <frontier-tester>` 测试 frontiers，也可以结合 :doc:`Scrapy Recordings <scrapy-recorder>` 。
 
 .. _SQLAlchemy: http://www.sqlalchemy.org/
 .. _any databases supported by SQLAlchemy: http://docs.sqlalchemy.org/en/rel_0_9/dialects/index.html
