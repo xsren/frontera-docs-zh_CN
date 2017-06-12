@@ -1,21 +1,18 @@
 ===========
-DNS Service
+DNS 服务
 ===========
 
-Along with what was mentioned in :ref:`basic_requirements` you may need also a dedicated DNS Service with caching.
-Especially, if your crawler is expected to generate substantial number of DNS queries. It is true for breadth-first
-crawling, or any other strategies, implying accessing large number of websites, within short period of time.
+除了提到的 :ref:`basic_requirements` 你可能还需要一个专用的 DNS 服务。特别是在你的爬虫会产生大量 DNS 请求的情况下。在广度优先抓取或者其他短时间内访问大量网站的情况下，使用专用的 DNS 服务都是正确的。
 
-Because of huge load DNS service may get blocked by your network provider eventually.
+由于负载巨大，DNS 服务最终可能会被您的网络提供商阻止。
 
-There are two options for DNS strategy:
+DNS策略有两种选择：
 
-* Recursive DNS resolution,
-* using upstream servers (massive DNS caches like OpenDNS or Verizon).
+* 递归DNS解析，
+* 利用上游服务器（大规模的DNS缓存像OpenDNS或Verizon）。
 
-The second is still prone to blocking.
+第二个仍然容易阻塞。
 
-There is good DNS server software https://www.unbound.net/ released by NLnet Labs. It allows to choose one of above
-mentioned strategies and maintain your local DNS cache.
+NLnet 实验室发布的 DNS 服务软件很好用 https://www.unbound.net/ 。它允许选择上述策略之一，并维护本地DNS缓存。
 
-Have a look at Scrapy options ``REACTOR_THREADPOOL_MAXSIZE`` and ``DNS_TIMEOUT``.
+请查看 Scrapy 选项 ``REACTOR_THREADPOOL_MAXSIZE`` 和 ``DNS_TIMEOUT`` 。
