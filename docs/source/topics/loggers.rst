@@ -2,13 +2,12 @@
 Logging
 =======
 
-Frontera is using Python native logging system. This allows a user to manage logged messages by writing a logger
-configuration file (see :setting:`LOGGING_CONFIG`) or configuring logging system during runtime.
+Frontera 使用 Python 原生日志系统。这允许用户通过配置文件（参考 :setting:`LOGGING_CONFIG` ）或者在运行时配置 logger。
 
-Logger configuration syntax is here
+Logger 配置语法在这里
 https://docs.python.org/2/library/logging.config.html
 
-Loggers used
+使用的Loggers
 ============
 
 * kafka
