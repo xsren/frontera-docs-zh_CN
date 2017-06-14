@@ -1,36 +1,30 @@
 ========
-Glossary
+术语表
 ========
 
 
 .. glossary::
     spider log
-        A stream of encoded messages from spiders. Each message is product of extraction from document content. Most of
-        the time it is links, scores, classification results.
+        来自爬虫的编码消息流。每个消息都是从文档中提取，通常是链接，分数，分类结果。
 
     scoring log
-        Contains score updating events and scheduling flag (if link needs to be scheduled for download) going from
-        strategy worker to db worker.
+        从 strategy worker 到 db worker，包含更新事件和调度标志（如果链接需要调度下载）的分数。
 
     spider feed
-        A stream of messages from :term:`db worker` to spiders containing new batches of documents to crawl.
+        从 :term:`db worker` 到爬虫，包含新的一批需要抓取的文档。
 
     strategy worker
-        Special type of worker, running the crawling strategy code: scoring the links, deciding if link needs to be
-        scheduled (consults :term:`state cache`) and when to stop crawling. That type of worker is sharded.
+        一种特殊的 worker，运行抓取策略代码：为链接评分，决定链接是否需要被调度（查询 :term:`state cache` ）和合适停止抓取。这种 worker 是分片的。
 
     db worker
-        Is responsible for communicating with storage DB, and mainly saving metadata and content along with
-        retrieving new batches to download.
+        负责和存储数据库通信，主要存储元数据和内容，同时拉取新的任务去下载。
 
     state cache
-        In-memory data structure containing information about state of documents, whatever they were scheduled or not.
-        Periodically synchronized with persistent storage.
+        内存数据结构，包含文档是否被抓取的状态信息。
+        定期与持久存储同步。
 
     message bus
-        Transport layer abstraction mechanism. Provides interface for transport layer abstraction and several
-        implementations.
+        传输层抽象机制。提供传输层抽象和实现的接口。
 
     spider
-        A process retrieving and extracting content from the Web, using :term:`spider feed` as incoming queue and
-        storing results to :term:`spider log`. In this documentation fetcher is used as synonym.
+        从 Web 检索和提取内容，使用 :term:`spider feed` 作为输入队列，将结果存储到 :term:`spider log` 。在这个文档中，提取器被用作同义词。
