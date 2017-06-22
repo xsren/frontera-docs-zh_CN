@@ -1,48 +1,40 @@
 ===============================
-Fine tuning of Frontera cluster
+Frontera 集群优化
 ===============================
 
 
-Why crawling speed is so low?
+为什么爬行速度如此之低？
 =============================
-Search for a bottleneck.
+寻找瓶颈。
 
-* All requests are targeted towards a few websites.
-* DNS resolution (see :doc:`DNS Service <dns-service>` article),
-* :term:`strategy worker` performance,
-* :term:`db worker` batch generation insufficiency.
-* HBase response times are too high,
-* Network within cluster is overloaded.
+* 所有请求都针对少量的几个网站，
+* DNS 解析（参考 :doc:`DNS Service <dns-service>` ），
+* :term:`strategy worker` 性能问题
+* :term:`db worker` 生成任务不足
+* HBase 相应时间过长
+* 集群内的网络过载。
 
-Tuning HBase
+优化 HBase
 ============
-* Increase block cache in HBase.
-* Put Thrift server on each HBase region server and spread load from SW to Thrift.
-* Enable Snappy compression (see :setting:`HBASE_USE_SNAPPY`).
+* 在 HBase 中增加块缓存。
+* 在每个 HBase 区服务器上部署 Thrift 服务器，并将负载从 SW 传播到 Thrift。
+* 启用 Snappy 压缩 (参照 :setting:`HBASE_USE_SNAPPY`).
 
-Tuning Kafka
+优化 Kafka
 ============
-* Decrease the log size to minimum and optimize the system to avoid storing in Kafka huge volumes of data. Once data
-  was written it should be consumed as fast as possible.
-* Use SSD or even RAM storage for Kafka logs,
-* Enable Snappy compression for Kafka.
+* 将日志大小降至最低，并优化系统以避免在 Kafka 存储大量数据。 一旦写入数据，它应尽可能快地消耗。
+* 使用SSD或甚至RAM存储 Kafka logs，
+* 启用 Snappy 压缩。
 
 
-Flow control between various components
+各种组件之间的流量控制
 =======================================
 
-The :setting:`MAX_NEXT_REQUESTS` is used for controlling the batch size. In spiders config it controls how much items
-will be consumed per one :attr:`get_next_requests <frontera.core.manager.FrontierManager.get_next_requests>` call. At
-the same time in DB worker config it sets count of items to generate per partition. When setting these parameters keep
-in mind:
+:setting:`MAX_NEXT_REQUESTS` 用于控制批量任务大小。 在爬虫配置中，它控制每个 :attr:`get_next_requests <frontera.core.manager.FrontierManager.get_next_requests>` 调用返回多少任务。同时在 DB worker 中配置它，它会设置每个分区生成的任务数。 设置这些参数时要牢记：
 
-* DB worker and spider values have to be consistent to avoid overloading of message bus and loosing messages. In other
-  words, DB worker have to produce slightly more than consumed by spiders, because the spider should still be able to
-  fetch new pages even though the DB worker has not pushed a new batch yet.
-* Spider consumption rate depends on many factors: internet connection latency, amount of spider
-  parsing/scraping work, delays and auto throttling settings, usage of proxies, etc.
-* Keep spider queue always full to prevent spider idling.
-* General recommendation is to set DB worker value 2-4 times bigger than spiders.
-* Batch size shouldn't be big to not generate too much load on backend, and allow system quickly react on queue changes.
-* Watch out warnings about lost messages.
-
+* DB worker 和爬虫值必须保持一致，以避免消息总线过载和消息丢失。 换句话说，DB worker 产生的任务要比爬虫消耗的要少一些，因为即使DB worker还没来得及产生新的任务，蜘蛛应该仍然可以获取新的页面。
+* 爬虫消费率取决于许多因素：互联网连接延迟，蜘蛛解析/抓取工作量，延迟和自动限制设置，代理使用等。
+* 保持爬虫任务队列总是满的，以防止蜘蛛空闲。
+* 一般建议是设置 DB worker值比爬虫大2-4倍。
+* 批量生成任务数量不应太大，这样才不会在后端产生太多的负载，并允许系统对队列更改做出快速反应。
+* 注意有关丢失的消息的警告。
