@@ -1,13 +1,12 @@
 =======================
-Contribution guidelines
+贡献指引
 =======================
 
-* Use `Frontera google group`_ for all questions and discussions.
-* Use `Github repo`_ pull request for submitting patches.
-* Use Github repo issues for issues Frontera could benefit from in the future. Please don't put your own problems running
-  Frontera there, instead use a google group.
+* 所有的问题和讨论请使用 `Frontera google group`_ 。
+* 提交补丁请使用  `Github repo`_ 的 pull request 。
+* Github issues 中请提交 Frontera 将来能受益的问题。请将自己运行 Frontera 的问题提交到 google group 。
 
-We're always happy to accept well-thought solution with documentation and tests.
+我们总是乐意接受有文档和测试的解决方案。
 
 .. _`Frontera google group`: https://groups.google.com/a/scrapinghub.com/forum/#!forum/frontera
 .. _`Github repo`: https://github.com/scrapinghub/frontera
