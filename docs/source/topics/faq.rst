@@ -4,23 +4,11 @@ F.A.Q.
 
 .. _efficient-parallel-downloading:
 
-How to download efficiently in parallel?
+如何并行有效下载？
 ----------------------------------------
 
-Typically the design of URL ordering implies fetching many URLs from the same domain. If crawling process needs to be
-polite it has to preserve some delay and rate of requests. From the other side, there are downloaders which can afford
-downloading many URLs (say 100) at once, in parallel. So, flooding of the URLs from the same domain leads to inefficient
-waste of downloader connection pool resources.
+通常，URL排序的设计意味着从同一个域获取许多URL。 如果抓取过程需要有礼貌，则必须保留一些延迟和请求率。 另一方面，下载器同时可以同时下载许多网址（例如100）。 因此，来自同一域的URL的并发导致下载器连接池资源的低效浪费。
 
-Here is a short example. Imagine, we have a queue of 10K URLs from many different domains. Our task is to fetch it as
-fast as possible. During downloading we want to be polite and limit per host RPS. At the same time we have a
-prioritization which tends to group URLs from the same domain. When crawler will be requesting for batches of URLs to
-fetch, it will be getting hundreds of URLs from the same host. The downloader will not be able to fetch them quickly
-because of RPS limit and delay. Therefore, picking top URLs from the queue leeds us to the time waste, because
-connection pool of downloader most of the time underused.
+这是一个简短的例子。 想像一下，我们有来自许多不同域的10K网址的队列。 我们的任务是尽快取得它。 在下载期间，我们希望对每个主机有礼貌和并限制RPS。 同时，我们有一个优先级，它倾向于对来自同一个域的URL进行分组。 当抓取工具正在请求批量的URL以获取时，将从同一主机获取数百个URL。 由于RPS限制和延迟，下载器将无法快速获取它们。 因此，从队列中挑选统一域的URL可以让我们浪费时间，因为下载器的连接池浪费了大部分时间。
 
-The solution is to supply Frontera backend with hostname/ip (usually, but not necessary) usage in downloader. We
-have a keyword arguments in method :attr:`get_next_requests <frontera.core.components.Backend.get_next_requests>`
-for passing these stats, to the Frontera backend. Information of any kind can be passed there. This arguments are
-usually set outside of Frontera, and then passed to CF via
-:class:`FrontierManagerWrapper <frontera.utils.managers.FrontierManagerWrapper>` subclass to backend.
+解决方案是在下载程序中为 Frontera 后端提供主机名/ ip（通常但不是必需的）使用。 我们在方法 :attr:`get_next_requests <frontera.core.components.Backend.get_next_requests>` 中有一个关键字参数，用于传递这些统计信息到 Fronter a后端。 任何类型的信息都可以通过。 这个参数通常设置在 Frontera 之外，然后通过 :class:`FrontierManagerWrapper <frontera.utils.managers.FrontierManagerWrapper>` 子类传递给CF到后端。
