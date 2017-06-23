@@ -1,126 +1,99 @@
 =====================
-Architecture overview
+架构概述
 =====================
 
-This document describes the Frontera Manager pipeline, distributed components and how they interact.
+本文档介绍了Frontera Manager管道，分布式组件以及它们的交互方式。
 
-Single process
+单进程
 ==============
 
-The following diagram shows an architecture of the Frontera pipeline with its components (referenced by numbers)
-and an outline of the data flow that takes place inside the system. A brief description of the components is included
-below with links for more detailed information about them. The data flow is also described below.
+下图显示了Frontera管道的架构，其组件（由数字引用）和系统内发生的数据流的轮廓。 有关组件的简要说明，请参见以下有关它们的更多详细信息的链接。 数据流也在下面描述。
 
 .. image:: _images/frontier_02.png
    :width: 793px
    :height: 280px
 
-Components
+组件
 ----------
 
 Fetcher
 ^^^^^^^
 
-The Fetcher (2) is responsible for fetching web pages from the sites (1) and feeding them to the frontier which manages
-what pages should be crawled next.
+Fetcher（2）负责从网站（1）中获取网页，并将其提供给管理接下来要抓取哪些页面的 frontier。
 
-Fetcher can be implemented using `Scrapy`_ or any other crawling framework/system as the framework offers a generic
-frontier functionality.
+Fetcher 可以使用 `Scrapy`_ 或任何其他爬虫框架/系统来实现，因为框架提供了通用的 frontier 功能。
 
-In distributed run mode Fetcher is replaced with message bus producer from Frontera Manager side and consumer from
-Fetcher side.
+在分布式运行模式下，Fetcher由Frontera Manager侧的消息总线生产者和Fetcher侧的消费者替代。
 
 Frontera API / Manager
 ^^^^^^^^^^^^^^^^^^^^^^
 
-The main entry point to Frontera API (3) is the :class:`FrontierManager <frontera.core.manager.FrontierManager>` object.
-Frontier users, in our case the Fetcher (2), will communicate with the frontier through it.
+Frontera API（3）的主要入口点是 :class:`FrontierManager <frontera.core.manager.FrontierManager>` 对象。Frontier 用户（在我们的案例中是Fetcher（2））将通过它与 Frontier 进行通信。
 
-For more information see :doc:`frontier-api`.
+更多请参考 :doc:`frontier-api` 。
 
 Middlewares
 ^^^^^^^^^^^
 
-Frontier middlewares (4) are specific hooks that sit between the Manager (3) and the Backend (5). These middlewares
-process :class:`Request <frontera.core.models.Request>` and :class:`Response <frontera.core.models.Response>`
-objects when they pass to and from the Frontier and the Backend. They provide a convenient mechanism for extending
-functionality by plugging custom code. Canonical URL solver is a specific case of middleware responsible for
-substituting non-canonical document URLs wiht canonical ones.
+Frontier middlewares (4) 是位于Manager（3）和Backend（5）之间的特定钩子。 这些中间件在传入和传出 Frontier 和 Backend 时处理 :class:`Request <frontera.core.models.Request>` 和 :class:`Response <frontera.core.models.Response>` 对象。 它们通过插入自定义代码提供了一种方便的扩展功能的机制。 规范URL解算器是一种特殊的中间件，负责替代非规范文档URL。
 
-For more information see :doc:`frontier-middlewares` and :doc:`frontier-canonicalsolvers`
+更改请参考 :doc:`frontier-middlewares` 和 :doc:`frontier-canonicalsolvers` 。
 
 Backend
 ^^^^^^^
 
-The frontier Backend (5) is where the crawling logic/policies lies. It's responsible for receiving all the crawl info
-and selecting the next pages to be crawled. Backend is meant to be operating on higher level, and
-:class:`Queue <frontera.core.components.Queue>`, :class:`Metadata <frontera.core.components.Metadata>` and
-:class:`States <frontera.core.components.States>` objects are responsible for low-level storage communication code.
+frontier Backend（5）是爬行逻辑/策略所在的地方。 它负责接收所有抓取信息并选择接下来要抓取的页面。 Backend 旨在在更高级别上运行，而:class:`Queue <frontera.core.components.Queue>`, :class:`Metadata <frontera.core.components.Metadata>` 和
+:class:`States <frontera.core.components.States>` 对象负责低级存储通信代码。
 
-May require, depending on the logic implemented, a persistent storage (6) to manage
-:class:`Request <frontera.core.models.Request>` and :class:`Response <frontera.core.models.Response>`
-objects info.
+根据实现的逻辑，可能需要一个持久性存储（6）来管理 :class:`Request <frontera.core.models.Request>` 和 :class:`Response <frontera.core.models.Response>` 对象信息。
 
-For more information see :doc:`frontier-backends`.
+更多请参考 :doc:`frontier-backends` 。
 
 .. _frontier-data-flow:
 
-Data Flow
+数据流
 ---------
 
-The data flow in Frontera is controlled by the Frontier Manager, all data passes through the
-manager-middlewares-backend scheme and goes like this:
+Frontera 的数据流由 Frontier Manager 控制，所有数据都通过 manager-middlewares-backend 流程，如下所示：
 
-1. The frontier is initialized with a list of seed requests (seed URLs) as entry point for the crawl.
-2. The fetcher asks for a list of requests to crawl.
-3. Each url is fetched and the frontier is notified back of the crawl result as well of the extracted data the page
-   contains. If anything went wrong during the crawl, the frontier is also informed of it.
+1. frontier初始化为种子请求列表（种子URL）作为爬虫的入口点。
+2. fetcher请求一批任务去抓取。
+3. 每个url都被提取，并且 frontier 被通知回传抓取结果以及页面包含的提取数据。 如果在爬行中出现问题，frontier 也会被通知。
 
-Once all urls have been crawled, steps 2-3 are repeated until crawl of frontier end condition is reached.
-Each loop (steps 2-3) repetition is called a :ref:`frontier iteration <frontier-iterations>`.
+一旦所有 url 被抓取，重复步骤2-3，直到达到 frontier 结束条件。每个循环（步骤2-3）重复被称为 :ref:`frontier 迭代 <frontier-iterations>` 。
 
-
-Distributed
+分布式
 ===========
 
-The same Frontera Manager pipeline is used in all Frontera processes when running in distributed mode.
+在分布式模式下运行时，所有 Frontera 进程都使用相同的 Frontera Manager。
 
-Overall system forms a closed circle and all the components are working as daemons in infinite cycles.
-There is a :term:`message bus` responsible for transmitting messages between components, persistent storage and
-fetchers (when combined with extraction these processes called spiders). There is a transport and storage layer
-abstractions, so one can plug it's own transport. Distributed backend run mode has instances of three types:
+整体系统形成一个封闭的圆圈，所有的组件都在无限循环中作为守护进程工作。 有一个 :term:`message bus` 负责在组件，持久存储和 fetcher（当和提取结合时，fetcher又叫做spider）之间传输消息。 有一个传输和存储层抽象，所以可以插上它自己的实现。 分布式后端运行模式具有三种类型的实例：
 
-- **Spiders** or fetchers, implemented using Scrapy (sharded).
-    Responsible for resolving DNS queries, getting content from the Internet and doing link (or other data) extraction
-    from content.
-- **Strategy workers** (sharded).
-    Run the crawling strategy code: scoring the links, deciding if link needs to be scheduled and when to stop crawling.
-- **DB workers** (sharded).
-    Store all the metadata, including scores and content, and generating new batches for downloading by spiders.
+- **Spiders** 或者 fetchers，使用Scrapy（分片）实现。
+   负责解决DNS查询，从互联网获取内容并从内容中进行链接（或其他数据）提取。
 
-Where *sharded* means component consumes messages of assigned partition only, e.g. processes certain share of the
-stream, and *replicated* is when components consume stream regardless of partitioning.
+- **Strategy workers** (分片)。
+   运行爬网策略代码：为链接链接，决定链接是否需要被抓取，以及何时停止抓取。
 
-Such design allows to operate online. Crawling strategy can be changed without having to stop the crawl. Also
-:doc:`crawling strategy <own_crawling_strategy>` can be implemented as a separate module; containing logic
-for checking the crawling stopping condition, URL ordering, and scoring model.
+- **DB workers** (分片)。
+   存储所有元数据，包括分数和内容，并生成新的批量任务以供爬虫下载。
 
-Frontera is polite to web hosts by design and each host is downloaded by no more than one spider process.
-This is achieved by stream partitioning.
+*分片*意味着组件仅消耗分配的分区的消息，例如处理数据流的某些共享。*复制*是组件消耗数据流，而不管分区。
+
+这样的设计允许在线操作。可以更改抓取策略，而无需停止抓取。 :doc:`爬虫策略 <own_crawling_strategy>` 也可以作为单独的模块实现; 包含用于检查爬网停止条件，URL排序和评分模型的逻辑。
+
+Frontera 的设计是对Web友好的，每个主机由不超过一个的爬虫进程下载。这是通过数据流分区实现的。
 
 .. image:: _images/frontera-design.png
 
-Data flow
+数据流
 ---------
 
-Let’s start with spiders. The seed URLs defined by the user inside spiders are propagated to strategy workers and DB
-workers by means of :term:`spider log` stream. Strategy workers decide which pages to crawl using state
-cache, assigns a score to each page and sends the results to the :term:`scoring log` stream.
+我们从爬虫开始吧。爬虫内的用户定义的种子URL通过 :term:`spider log` 流发送给 strategy workers 和 DB
+workers。strategy workers 使用状态缓存决定抓取哪些页面，为每个页面分配一个分数，并将结果发送到 :term:`scoring log` 流。
 
-DB Worker stores all kinds of metadata, including content and scores. Also DB worker checks for the spider’s consumers
-offsets and generates new batches if needed and sends them to :term:`spider feed` stream. Spiders consume these batches,
-downloading each page and extracting links from them. The links are then sent to the ‘Spider Log’ stream where they are
-stored and scored. That way the flow repeats indefinitely.
+DB Worker存储各种元数据，包括内容和分数。另外 DB Worker 检查爬虫消费者的偏移量，并在需要时生成新的任务，并将其发送到 :term:`spider feed` 流。爬虫消耗这些任务，下载每个页面并从中提取链接。然后将链接发送到 ‘Spider Log’ 流，并将其存储和记分。 这样，流量将无限期地重复。
+
 
 .. _`Kafka`: http://kafka.apache.org/
 .. _`ZeroMQ`: http://zeromq.org/
