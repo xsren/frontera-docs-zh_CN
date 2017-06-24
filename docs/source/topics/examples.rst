@@ -1,8 +1,8 @@
 ========
-Examples
+例子
 ========
 
-The project repo includes an ``examples`` folder with some scripts and projects using Frontera::
+这个项目包含了 ``examples`` 文件夹，其中有使用 Frontera 的代码 ::
 
     examples/
         requests/
@@ -12,15 +12,15 @@ The project repo includes an ``examples`` folder with some scripts and projects 
 
 
 - **requests**: Example script with `Requests`_ library.
-- **general-spider**: Scrapy integration example project.
-- **scrapy_recording**: Scrapy Recording example project.
-- **scripts**: Some simple scripts.
+- **general-spider**: Scrapy 整合示例项目。
+- **scrapy_recording**: Scrapy 记录示例项目。
+- **scripts**: 一些简单的脚本。
 
 .. note::
 
-    **This examples may need to install additional libraries in order to work**.
+    **这个例子可能需要安装额外的库才能工作**.
 
-    You can install them using pip::
+    你可以使用 pip 来安装它们::
 
 
         pip install -r requirements/examples.txt
@@ -29,9 +29,9 @@ The project repo includes an ``examples`` folder with some scripts and projects 
 requests
 ========
 
-A simple script that follow all the links from a site using `Requests`_ library.
+一个使用 `Requests`_ 库，抓取一个网站所有链接的脚本。
 
-How to run it::
+运行::
 
     python links_follower.py
 
@@ -39,25 +39,21 @@ How to run it::
 general-spider
 ==============
 
-A simple Scrapy spider that follows all the links from the seeds. Contains configuration files for single process,
-distributed spider and backends run modes.
+一个简单的 Scrapy 爬虫，执行所有的种子任务。包含单进程，分布式爬虫和后端运行模式的配置文件。
 
-See :doc:`quick-start-distributed` for how to run it.
+查看 :doc:`quick-start-distributed` 如何运行。
 
 cluster
 =======
 
-Is a large scale crawling application for performing broad crawls with number of pages per host limit. It preserves
-each host state in HBase and uses it when schedule new requests for downloading. Designed for running in distributed
-backend run mode using HBase.
-
+是一个大型可扩展爬虫程序，用于抓取每个域有限制的大量网站。它在HBase中保留每个域的状态，并在安排新的下载请求时使用它。设计用于使用 HBase 在分布式后端运行模式下运行。
 
 scrapy_recording
 ================
 
-A simple script with a spider that follows all the links for a site, recording crawling results.
+一个带有爬虫的简单脚本，可以跟踪站点的所有链接，记录抓取结果。
 
-How to run it::
+运行::
 
     scrapy crawl recorder
 
@@ -65,7 +61,7 @@ How to run it::
 scripts
 =======
 
-Some sample scripts on how to use different frontier components.
+一些关于如何使用不同 frontier 组件的示例脚本。
 
 
 .. _Requests: http://docs.python-requests.org/en/latest/
