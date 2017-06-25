@@ -1,18 +1,15 @@
 ================================
-Using the Frontier with Requests
+Frontier + Requests
 ================================
 
-To integrate frontier with `Requests`_ library, there is a ``RequestsFrontierManager`` class available.
+为了结合 frontier 和 `Requests`_ ，提供了 ``RequestsFrontierManager`` 类。
 
-This class is just a simple :class:`FrontierManager <frontera.core.manager.FrontierManager>` wrapper that uses
-`Requests`_ objects (``Request``/``Response``) and converts them from and to frontier ones for you.
+这个类是一个简单的 :class:`FrontierManager <frontera.core.manager.FrontierManager>` 封装，它使用 `Requests`_ 对象 (``Request``/``Response``)，将他们和 frontier 相互转换。
 
 
-Use it in the same way that :class:`FrontierManager <frontera.core.manager.FrontierManager>`, initialize it with
-your settings and use `Requests`_ ``Request`` and ``Response`` objects.
-``get_next_requests`` method will return a `Requests`_ ``Request`` object.
+和 :class:`FrontierManager <frontera.core.manager.FrontierManager>` 一样使用，使用你的 settings 初始化它。 ``get_next_requests`` 将返回 `Requests`_ ``Request`` 对象。
 
-An example::
+一个例子::
 
     import re
 
