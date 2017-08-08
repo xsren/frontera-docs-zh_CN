@@ -19,7 +19,7 @@
 单进程
 ==============
 
-Frontera 与 fetcherz 在相同的过程中实例化（例如在 Scrapy 中）。要实现这个，需要设置 :setting:`BACKEND` 为 :class:`Backend <frontera.core.components.Backend>` 的子类。这种模式适合那种少量文档并且时间要求不紧的应用。
+Frontera 与 fetcher 在相同的过程中实例化（例如在 Scrapy 中）。要实现这个，需要设置 :setting:`BACKEND` 为 :class:`Backend <frontera.core.components.Backend>` 的子类。这种模式适合那种少量文档并且时间要求不紧的应用。
 
 分布式爬虫
 ===================
