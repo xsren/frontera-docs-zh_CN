@@ -2,32 +2,31 @@
 Tests
 =====
 
-Frontera tests are implemented using the `pytest`_ tool.
+Frontera 测试使用 `pytest`_ 工具实现。
 
-You can install `pytest`_ and the additional required libraries used in the tests using pip::
+您可以使用pip安装 `pytest`_ 和测试中使用的附加必需库::
 
     pip install -r requirements/tests.txt
 
 
-Running tests
+运行 tests
 =============
 
-To run all tests go to the root directory of source code and run::
+要运行所有测试，请转到源代码的根目录并运行::
 
     py.test
 
 
-Writing tests
+写 tests
 =============
 
-All functionality (including new features and bug fixes) must include a test case to check that it works as expected,
-so please include tests for your patches if you want them to get accepted sooner.
+所有功能（包括新功能和错误修复）都必须包含一个测试用例，以检查它是否按预期工作，所以如果你希望他们能够早点上线，请尽快写好相关的测试。
 
 
-Backend testing
+后端 testing
 ===============
 
-A base `pytest`_ class for :class:`Backend <frontera.core.components.Backend>` testing is provided:
+有一个继承 `pytest`_ 的类用来测试 :class:`Backend <frontera.core.components.Backend>`:
 :class:`BackendTest <tests.backends.BackendTest>`
 
 .. autoclass:: tests.backends.BackendTest
@@ -38,8 +37,7 @@ A base `pytest`_ class for :class:`Backend <frontera.core.components.Backend>` t
     .. automethod:: tests.backends.BackendTest.teardown_backend
 
 
-Let's say for instance that you want to test to your backend ``MyBackend`` and create a new frontier instance for each
-test method call, you can define a test class like this::
+比方说，你想测试你的后端  ``MyBackend`` 并为每个测试方法调用创建一个新的 frontier 实例，你可以定义一个这样的测试类::
 
 
     class TestMyBackend(backends.BackendTest):
@@ -57,7 +55,7 @@ test method call, you can define a test class like this::
         ...
 
 
-And let's say too that it uses a database file and you need to clean it before and after each test::
+如果它使用一个数据库文件，你需要在每次测试之前和之后进行清理::
 
 
     class TestMyBackend(backends.BackendTest):
@@ -87,11 +85,10 @@ And let's say too that it uses a database file and you need to clean it before a
         ...
 
 
-Testing backend sequences
+测试后端执行顺序
 =========================
 
-To test :class:`Backend <frontera.core.components.Backend>` crawling sequences you can use the
-:class:`BackendSequenceTest <tests.backends.BackendSequenceTest>` class.
+为了测试 :class:`Backend <frontera.core.components.Backend>` 抓取顺序你可以使用 :class:`BackendSequenceTest <tests.backends.BackendSequenceTest>` 类。
 
 .. autoclass:: tests.backends.BackendSequenceTest
 
@@ -99,11 +96,9 @@ To test :class:`Backend <frontera.core.components.Backend>` crawling sequences y
     .. automethod:: tests.backends.BackendSequenceTest.assert_sequence
 
 
-:class:`BackendSequenceTest <tests.backends.BackendSequenceTest>` class will run a complete crawl of the passed
-site graphs and return the sequence used by the backend for visiting the different pages.
+:class:`BackendSequenceTest <tests.backends.BackendSequenceTest>`将依据传过来的网站图进行一遍完整的抓取，并返回后端访问网页的顺序。
 
-Let's say you want to test to a backend that sort pages using alphabetic order.
-You can define the following test::
+比如你想测试一个按照字母顺序抓取网页的后端。你可以这样写测试::
 
 
     class TestAlphabeticSortBackend(backends.BackendSequenceTest):
@@ -133,11 +128,10 @@ You can define the following test::
         ...
 
 
-Testing basic algorithms
+测试基本算法
 ========================
 
-If your backend uses any of the :ref:`basic algorithms logics <frontier-backends-basic-algorithms>`, you can just
-inherit the correponding test base class for each logic and sequences will be automatically tested for it::
+如果你的后端使用 :ref:`基本算法逻辑 <frontier-backends-basic-algorithms>` 中的一个，你可以继承对应的测试类，之后顺序会被自动测试::
 
     from tests import backends
 
