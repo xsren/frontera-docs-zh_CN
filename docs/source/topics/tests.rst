@@ -96,7 +96,7 @@ Frontera 测试使用 `pytest`_ 工具实现。
     .. automethod:: tests.backends.BackendSequenceTest.assert_sequence
 
 
-:class:`BackendSequenceTest <tests.backends.BackendSequenceTest>`将依据传过来的网站图进行一遍完整的抓取，并返回后端访问网页的顺序。
+:class:`BackendSequenceTest <tests.backends.BackendSequenceTest>` 将依据传过来的网站图进行一遍完整的抓取，并返回后端访问网页的顺序。
 
 比如你想测试一个按照字母顺序抓取网页的后端。你可以这样写测试::
 
