@@ -76,7 +76,7 @@ Frontier Manager
 启动/停止 frontier
 ==============================
 
-有时，frontier 组件需要执行初始化和最终化操作。frontier 通过 :attr:`start() <frontera.core.manager.FrontierManager.start>` 和 attr:`stop() <frontera.core.manager.FrontierManager.stop>` 方法去通知不同组件启动或者停止。
+有时，frontier 组件需要执行初始化和最终化操作。frontier 通过 :attr:`start() <frontera.core.manager.FrontierManager.start>` 和 :attr:`stop() <frontera.core.manager.FrontierManager.stop>` 方法去通知不同组件启动或者停止。
 
 默认 :attr:`auto_start <frontera.core.manager.FrontierManager.auto_start>` 值是激活的，这意味着在创建 :class:`FrontierManager <frontera.core.manager.FrontierManager>` 对象后，组件将被通知。如果您需要对初始化不同组件时进行更精细的控制，请停用 :attr:`auto_start <frontera.core.manager.FrontierManager.auto_start>` 并手动调用frontier API :attr:`start() <frontera.core.manager.FrontierManager.start>` 和 :attr:`stop() <frontera.core.manager.FrontierManager.stop>` 方法。
 
@@ -99,7 +99,7 @@ Frontier 迭代
 结束 frontier
 ======================
 
-抓取过程可以被爬虫程序或者 Frontera 停止。当返回最大页数时，Frontera 将结束。此限制由 :attr:`max_requests <frontera.core.manager.FrontierManager.max_requests>` 属性控制（ :setting:`MAX_REQUESTS`设置）。
+抓取过程可以被爬虫程序或者 Frontera 停止。当返回最大页数时，Frontera 将结束。此限制由 :attr:`max_requests <frontera.core.manager.FrontierManager.max_requests>` 属性控制（ :setting:`MAX_REQUESTS` 设置）。
 
 如果  :attr:`max_requests <frontera.core.manager.FrontierManager.max_requests>`  设置为0，那么 frontier 会无限抓取下去。
 
